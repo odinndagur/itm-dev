@@ -8,8 +8,6 @@ module.exports = {
       'Cross-Origin-Opener-Policy': 'same-origin',
       'Cross-Origin-Embedder-Policy': 'require-corp'
     },
-    disableHostCheck: true,
-    host: '0.0.0.0',
     port:8083,
   },
   entry: './src/index.js',
@@ -23,4 +21,33 @@ module.exports = {
     }
   },
   plugins: [new HtmlWebpackPlugin({ template: './src/index.html' })]
+};
+
+module.exports = {
+  entry: "./src/index.ts",
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: "ts-loader",
+        exclude: /node_modules/,
+      },
+    ],
+  },
+  resolve: {
+    extensions: [".tsx", ".ts", ".js"],
+  },
+  output: {
+    filename: "sql-httpvfs.js",
+    library: {
+      type: "module" // output a JavaScript module
+    },
+    module: true, // truly
+  },
+  experiments: {
+    outputModule: true  // yes, we really want one
+  },
+  optimization: {
+    minimize: true
+  },
 };

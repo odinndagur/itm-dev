@@ -42,6 +42,11 @@ async function run() {
     //   db.exec('select * from sign limit 5')
     // } catch (error) {
       let initDB = false
+      try {
+        db.exec('select * from sign_fts limit 5')
+      } catch (error) {
+        initDB = true
+      }
       if(initDB){
         for await (let line of splitTextFileBySemicolon('signfts.txt')) {
           // console.log(line)
@@ -108,7 +113,7 @@ async function run() {
     if(!query.data){
       stmt = db.prepare(`select * from sign`)
     } else {
-      stmt = db.prepare(`select * from sign_fts where sign_fts match "${query.data}*"`)
+      stmt = db.prepare(`select * from sign join sign_fts on sign.id = sign_fts.id where sign_fts match "${query.data}*" order by rank, phrase asc`)
     }
     // let stmt = db.prepare(`select * from sign where phrase like "%${query.data}%"`)
 
