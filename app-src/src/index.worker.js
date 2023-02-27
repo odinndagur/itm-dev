@@ -110,10 +110,23 @@ async function run() {
     // run()
     console.log(query.data)
     let stmt;
-    if(!query.data){
-      stmt = db.prepare(`select * from sign`)
-    } else {
-      stmt = db.prepare(`select * from sign join sign_fts on sign.id = sign_fts.id where sign_fts match "${query.data}*" order by rank, phrase asc`)
+    // if(!query.data){
+    //   stmt = db.prepare(`select * from sign`)
+    // } else {
+    //   stmt = db.prepare(`select * from sign join sign_fts on sign.id = sign_fts.id where sign_fts match "${query.data}*" order by rank, phrase asc`)
+    // }
+    let searchValue = query.data
+
+    if(!searchValue){
+        stmt = db.prepare(`select * from sign order by phrase asc`)
+    } if (searchValue[0] === '*'){
+        stmt = db.prepare(`select * from sign where phrase like "%${searchValue.substring(1)}%" order by phrase asc`)
+    } 
+    if(searchValue && searchValue[0] != '*') {
+        if(searchValue[searchValue.length-1] != '*'){
+            searchValue = searchValue + '*'
+        }
+        stmt = db.prepare(`select * from sign_fts join sign on sign.id = sign_fts.id where sign_fts match "${searchValue}" order by rank, phrase asc`)
     }
     // let stmt = db.prepare(`select * from sign where phrase like "%${query.data}%"`)
 
