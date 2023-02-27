@@ -31,27 +31,3 @@ CREATE TABLE IF NOT EXISTS "sign" (
 	"youtube_link"	TEXT,
 	PRIMARY KEY("id")
 );
-CREATE INDEX idx_sign_phrase ON sign(phrase);
-CREATE INDEX idx_sign_youtube_id ON sign(youtube_id)
-;
-CREATE INDEX idx_sign_id ON sign(id);
-CREATE INDEX idx_sign_related_sign_id ON sign_related(sign_id);
-CREATE INDEX idx_sign_related_related_id ON sign_related(related_id);
-CREATE INDEX idx_sign_collection_sign_id ON sign_collection(sign_id);
-CREATE INDEX idx_sign_collection_collection_id ON sign_collection(collection_id);
-CREATE INDEX idx_sign_related_sign_id_related_id ON sign_related(sign_id,related_id);
-CREATE INDEX idx_sign_collection_sign_collection_id ON sign_collection(sign_id,collection_id);
-CREATE INDEX idx_sign_related_related_id_sign_id ON sign_related(related_id,sign_id);
-CREATE INDEX idx_collection_name on collection(name);
-CREATE INDEX idx_collection_name_id on collection(name,id);
-CREATE INDEX idx_collection_id_name on collection(id,name);
-CREATE INDEX idx_multi on sign (phrase, id);
-CREATE INDEX idx_sign on sign (phrase);
-CREATE INDEX idx_sign_all on sign (phrase,id,youtube_id,youtube_link);
-CREATE INDEX idx_sign_yt_id on sign (youtube_id);
-CREATE INDEX idx_sign_yt_link on sign (youtube_link);
-CREATE INDEX idx_sign_phrase_yt_link on sign (phrase,youtube_link);
-CREATE VIRTUAL TABLE sign_phrase_fts USING FTS5(id,phrase)
-/* sign_phrase_fts(id,phrase) */;
-CREATE VIRTUAL TABLE sign_fts USING FTS5(id,phrase,related_signs)
-/* sign_fts(id,phrase,related_signs) */;
