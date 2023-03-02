@@ -1,0 +1,15 @@
+{
+    "name": "Íslenskt táknmál",
+    "short_name": "ÍTM",
+    "start_url": "/itm-dev/",
+    "display": "standalone",
+    "theme_color": "#FFFFFF",
+    "background_color": "#FFFFFF",
+    "icons": [
+      {
+        "src": "/itm-dev/icons",
+        "sizes": "512",
+        "type": "image/png"
+      }
+    ]
+  }
