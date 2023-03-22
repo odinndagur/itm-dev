@@ -9,11 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "@jlongster/sql.js": "^1.6.7",
     "absurd-sql": "^0.0.46",
-    "promise-worker": "^2.0.1"
+    "express": "^4.18.2",
+    "promise-worker": "^2.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
