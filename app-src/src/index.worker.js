@@ -47,7 +47,7 @@ async function run() {
     initDB = true
   }
   if(initDB){
-    for await (let line of splitTextFileBySemicolon('/signfts.txt')) {
+    for await (let line of splitTextFileBySemicolon('/itm-dev/signfts.txt')) {
       // console.log(line)
       try {
         db.exec(line);
@@ -55,7 +55,7 @@ async function run() {
         console.error(error)
       }
     }
-    for await (let line of splitTextFileBySemicolon('/signftsdata.txt')) {
+    for await (let line of splitTextFileBySemicolon('/itm-dev/signftsdata.txt')) {
         // console.log(line)
         try{
           db.exec(line);
@@ -63,7 +63,7 @@ async function run() {
           console.error(error)
         }
       }
-    for await (let line of splitTextFileBySemicolon('/signftstableftsdata.txt')) {
+    for await (let line of splitTextFileBySemicolon('/itm-dev/signftstableftsdata.txt')) {
       // console.log(line)
       try{
         db.exec(line);
