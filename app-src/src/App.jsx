@@ -8,8 +8,8 @@ function App() {
 
 
   useEffect(() => {
+    const msCount = 1000
     const timer = setTimeout(() => {
-      const msCount = 1000
       console.log(`This will run after ${msCount}ms!`)
       window.promiseWorker.postMessage({
         type:'searchValue',

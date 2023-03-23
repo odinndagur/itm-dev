@@ -6,6 +6,7 @@ import registerPromiseWorker from 'promise-worker/register'
 async function run() {
   console.log('yo')
   let SQL = await initSqlJs({ locateFile: file => `${import.meta.env.BASE_URL}/assets/${file}` });
+  // let SQL = await initSqlJs({ locateFile: file => `/assets/${file}` });
   let sqlFS = new SQLiteFS(SQL.FS, new IndexedDBBackend());
   SQL.register_for_idb(sqlFS);
 
