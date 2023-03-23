@@ -87,7 +87,7 @@ registerPromiseWorker( async function (message) {
   }
 
   if(message.type === 'getDefaultUserCollection'){
-      let stmt = db.prepare(`SELECT sign.phrase as sign_phrase, sign.youtube_id as sign_youtube_id, sign.id as sign_id, collection.id as collection_id FROM sign JOIN sign_collection ON sign_collection.collection_id = collection.id JOIN collection WHERE collection.name = "default_collection"`)
+      let stmt = db.prepare(`SELECT * from sign where sign.id in (select sign_collection.sign_id from sign_collection where sign_collection.collection_id = 3)`)
       let user_collection = []
       while (stmt.step()){user_collection.push(stmt.getAsObject())}
       console.log(user_collection)
