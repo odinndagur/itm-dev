@@ -52,14 +52,16 @@ async function run() {
         }
       }
     }
-  } 
+    db.exec('INSERT INTO user(name, id) VALUES("default_user",3);')
+    db.exec('INSERT INTO collection(id,user_id,name) VALUES(3,3,"default_collection");')
+  }
 
 registerPromiseWorker( async function (message) {
   // console.log(message)
   let stmt;
   if(message.type == 'signSearch'){
     // let searchValue = message.searchValue
-    let { query } = message
+    let query  = message.query.trim()
     if(!query){
         stmt = db.prepare(`select * from sign order by phrase asc limit 500`)
     } if (query[0] === '*'){
@@ -84,17 +86,18 @@ registerPromiseWorker( async function (message) {
     return res
   }
 
-  // if(message.type === 'getMainUserCollection'){
-  //     try {
-  //       db.exec(`SELECT * FROM user WHERE NAME = "default_user"`)
-  //     } catch (error) {
-  //       console.error(error)
-  //     }
-  //     let stmt = db.prepare(`SELECT * FROM collection WHERE user_id IN (select id from user where user.name = "default_user")`)
-  //     let user_collections = []
-  //     while (stmt.step()){user_collections.push(stmt.getAsObject())}
+  if(message.type === 'getDefaultUserCollection'){
+      let stmt = db.prepare(`SELECT sign.phrase as sign_phrase, sign.youtube_id as sign_youtube_id, sign.id as sign_id, collection.id as collection_id FROM sign JOIN sign_collection ON sign_collection.collection_id = collection.id JOIN collection WHERE collection.name = "default_collection"`)
+      let user_collection = []
+      while (stmt.step()){user_collection.push(stmt.getAsObject())}
+      console.log(user_collection)
+      return user_collection
+  }
 
-  // }
+  if(message.type === 'addToDefaultUserCollection'){
+    db.exec(`INSERT INTO sign_collection(sign_id,collection_id) VALUES(${message.query},3)`)
+    console.log(message.query)
+  }
 
   // if(message.type === 'user-collections'){
   //   try {
