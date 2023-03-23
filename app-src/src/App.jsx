@@ -12,8 +12,8 @@ function App() {
     const timer = setTimeout(() => {
       console.log(`This will run after ${msCount}ms!`)
       window.promiseWorker.postMessage({
-        type:'searchValue',
-        searchValue:searchValue
+        type:'signSearch',
+        query:searchValue
       }).then(searchResults => {
         setSigns(searchResults)
       })
@@ -23,8 +23,8 @@ function App() {
 
   useEffect(() => {
     window.promiseWorker.postMessage({
-      type:'searchValue',
-      searchValue:searchValue
+      type:'signSearch',
+      query:searchValue
     }).then(searchResults => {
       setSigns(searchResults)
     })

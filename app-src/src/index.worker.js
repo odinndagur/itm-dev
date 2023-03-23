@@ -5,14 +5,17 @@ import registerPromiseWorker from 'promise-worker/register'
 
 async function run() {
   console.log('yo')
-  let SQL = await initSqlJs({ locateFile: file => `${import.meta.env.BASE_URL}/assets/${file}` });
-  // let SQL = await initSqlJs({ locateFile: file => `/assets/${file}` });
+  let SQL
+  if(import.meta.env.MODE === 'development'){
+    SQL = await initSqlJs({ locateFile: file => `/assets/${file}` });
+  } else {
+    SQL = await initSqlJs({ locateFile: file => `${import.meta.env.BASE_URL}/assets/${file}` });
+  }
   let sqlFS = new SQLiteFS(SQL.FS, new IndexedDBBackend());
   SQL.register_for_idb(sqlFS);
 
   SQL.FS.mkdir('/sql');
   SQL.FS.mount(sqlFS, {}, '/sql');
-
   const path = '/sql/sign.sqlite';
   if (typeof SharedArrayBuffer === 'undefined') {
     let stream = SQL.FS.open(path, 'a+');
@@ -34,7 +37,11 @@ async function run() {
     initDB = true
   }
   if(initDB){
-    const filepaths = ['/assets/signfts.txt','/assets/signftsdata.txt','/assets/signftstableftsdata.txt']
+    const filepaths = [
+      '/assets/signfts.txt',
+      '/assets/signftsdata.txt',
+      '/assets/signftstableftsdata.txt'
+    ]
     for(let filepath of filepaths){
       for await (let line of splitTextFileBySemicolon(filepath)){
         // console.log(line)
@@ -45,48 +52,24 @@ async function run() {
         }
       }
     }
-    // for await (let line of splitTextFileBySemicolon('/assets/signfts.txt')) {
-    //   // console.log(line)
-    //   try {
-    //     db.exec(line);
-    //   } catch (error) {
-    //     console.error(error)
-    //   }
-    // }
-    // for await (let line of splitTextFileBySemicolon('/assets/signftsdata.txt')) {
-    //     // console.log(line)
-    //     try{
-    //       db.exec(line);
-    //     } catch (error) {
-    //       console.error(error)
-    //     }
-    //   }
-    // for await (let line of splitTextFileBySemicolon('/assets/signftstableftsdata.txt')) {
-    //   // console.log(line)
-    //   try{
-    //     db.exec(line);
-    //   } catch (error) {
-    //     console.error(error)
-    //   }
-    // }
   } 
 
 registerPromiseWorker( async function (message) {
   // console.log(message)
   let stmt;
-  if(message.type == 'searchValue'){
+  if(message.type == 'signSearch'){
     // let searchValue = message.searchValue
-    let { searchValue } = message
-    if(!searchValue){
+    let { query } = message
+    if(!query){
         stmt = db.prepare(`select * from sign order by phrase asc limit 500`)
-    } if (searchValue[0] === '*'){
-        stmt = db.prepare(`select * from sign where phrase like "%${searchValue.substring(1)}%" order by phrase asc`)
+    } if (query[0] === '*'){
+        stmt = db.prepare(`select * from sign where phrase like "%${query.substring(1)}%" order by phrase asc`)
     } 
-    if(searchValue && searchValue[0] != '*') {
-        if(searchValue[searchValue.length-1] != '*'){
-            searchValue = searchValue + '*'
+    if(query && query[0] != '*') {
+        if(query[query.length-1] != '*'){
+            query = query + '*'
         }
-        stmt = db.prepare(`select * from sign_fts join sign on sign.id = sign_fts.id where sign_fts match "${searchValue}" order by rank, phrase asc`)
+        stmt = db.prepare(`select * from sign_fts join sign on sign.id = sign_fts.id where sign_fts match "${query}" order by rank, phrase asc`)
     }
     let result = []
     while (stmt.step()) result.push(stmt.getAsObject());
@@ -94,40 +77,51 @@ registerPromiseWorker( async function (message) {
     return result
   }
 
-  if(message.type === 'exec'){
-    stmt = db.prepare(message.command)
+  if(message.type === 'sql'){
+    stmt = db.prepare(message.query)
     let res = []
     while (stmt.step()){res.push(stmt.getAsObject())}
     return res
   }
 
-  if(message.type === 'user-collections'){
-    try {
-      db.exec(`SELECT * FROM user WHERE NAME = "default_user"`)
-    } catch (error) {
-      console.error(error)
-    }
-    let stmt = db.prepare(`SELECT * FROM collection WHERE user_id IN (select id from user where user.name = "default_user")`)
-    let user_collections = []
-    while (stmt.step()){user_collections.push(stmt.getAsObject())}
-    // postMessage({type:'user-collections',user_collections})
-  }
+  // if(message.type === 'getMainUserCollection'){
+  //     try {
+  //       db.exec(`SELECT * FROM user WHERE NAME = "default_user"`)
+  //     } catch (error) {
+  //       console.error(error)
+  //     }
+  //     let stmt = db.prepare(`SELECT * FROM collection WHERE user_id IN (select id from user where user.name = "default_user")`)
+  //     let user_collections = []
+  //     while (stmt.step()){user_collections.push(stmt.getAsObject())}
 
-  if(message.type === 'new-collection'){
-    try {
-      db.exec(`INSERT INTO collection (name, user_id) SELECT "${message.newCollectionName}", id from (select id from user where name = "default_user")`)
-    } catch (error) {
-      console.error(error)
-    }
-    let stmt = db.prepare(`SELECT * FROM collection WHERE user_id IN (select id from user where user.name = "default_user")`)
-    let user_collections = []
-    while (stmt.step()){user_collections.push(stmt.getAsObject())}
-    // stmt.step()
-    // user_collections.push(stmt.getAsObject());
-    // postMessage({type:'user-collection',user_collections:user_collections})
-    return user_collections
-  }
-  // return 'pong';
+  // }
+
+  // if(message.type === 'user-collections'){
+  //   try {
+  //     db.exec(`SELECT * FROM user WHERE NAME = "default_user"`)
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  //   let stmt = db.prepare(`SELECT * FROM collection WHERE user_id IN (select id from user where user.name = "default_user")`)
+  //   let user_collections = []
+  //   while (stmt.step()){user_collections.push(stmt.getAsObject())}
+  //   // postMessage({type:'user-collections',user_collections})
+  // }
+
+  // if(message.type === 'new-collection'){
+  //   try {
+  //     db.exec(`INSERT INTO collection (name, user_id) SELECT "${message.newCollectionName}", id from (select id from user where name = "default_user")`)
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  //   let stmt = db.prepare(`SELECT * FROM collection WHERE user_id IN (select id from user where user.name = "default_user")`)
+  //   let user_collections = []
+  //   while (stmt.step()){user_collections.push(stmt.getAsObject())}
+  //   // stmt.step()
+  //   // user_collections.push(stmt.getAsObject());
+  //   // postMessage({type:'user-collection',user_collections:user_collections})
+  //   return user_collections
+  // }
 });
 }
 
