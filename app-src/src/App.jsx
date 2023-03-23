@@ -9,14 +9,15 @@ function App() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      console.log('This will run after 250ms!')
+      const msCount = 1000
+      console.log(`This will run after ${msCount}ms!`)
       window.promiseWorker.postMessage({
         type:'searchValue',
         searchValue:searchValue
       }).then(searchResults => {
         setSigns(searchResults)
       })
-    }, 250);
+    }, msCount);
     return () => clearTimeout(timer);
   }, []);
 
