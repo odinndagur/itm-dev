@@ -5,7 +5,7 @@ import registerPromiseWorker from 'promise-worker/register'
 
 async function run() {
   console.log('yo')
-  let SQL = await initSqlJs({ locateFile: file => `${file}` });
+  let SQL = await initSqlJs({ locateFile: file => `/assets/${file}` });
   let sqlFS = new SQLiteFS(SQL.FS, new IndexedDBBackend());
   SQL.register_for_idb(sqlFS);
 
@@ -33,30 +33,41 @@ async function run() {
     initDB = true
   }
   if(initDB){
-    for await (let line of splitTextFileBySemicolon(new URL('./signfts.txt', import.meta.url))) {
-      // console.log(line)
-      try {
-        db.exec(line);
-      } catch (error) {
-        console.error(error)
-      }
-    }
-    for await (let line of splitTextFileBySemicolon(new URL('./signftsdata.txt', import.meta.url))) {
+    const filepaths = ['/assets/signfts.txt','/assets/signftsdata.txt','/assets/signftstableftsdata.txt']
+    for(let filepath of filepaths){
+      for await (let line of splitTextFileBySemicolon(filepath)){
         // console.log(line)
-        try{
+        try {
           db.exec(line);
         } catch (error) {
           console.error(error)
         }
       }
-    for await (let line of splitTextFileBySemicolon(new URL('./signftstableftsdata.txt', import.meta.url))) {
-      // console.log(line)
-      try{
-        db.exec(line);
-      } catch (error) {
-        console.error(error)
-      }
     }
+    // for await (let line of splitTextFileBySemicolon('/assets/signfts.txt')) {
+    //   // console.log(line)
+    //   try {
+    //     db.exec(line);
+    //   } catch (error) {
+    //     console.error(error)
+    //   }
+    // }
+    // for await (let line of splitTextFileBySemicolon('/assets/signftsdata.txt')) {
+    //     // console.log(line)
+    //     try{
+    //       db.exec(line);
+    //     } catch (error) {
+    //       console.error(error)
+    //     }
+    //   }
+    // for await (let line of splitTextFileBySemicolon('/assets/signftstableftsdata.txt')) {
+    //   // console.log(line)
+    //   try{
+    //     db.exec(line);
+    //   } catch (error) {
+    //     console.error(error)
+    //   }
+    // }
   } 
 
 registerPromiseWorker( async function (message) {

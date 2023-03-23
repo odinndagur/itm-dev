@@ -1,12 +1,24 @@
 import { useState, useEffect } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-import './App.css'
+import Sign from './Sign';
 
 function App() {
-  const [count, setCount] = useState(0)
   const [searchValue, setSearchValue] = useState('')
   const [signs, setSigns] = useState([])
+
+
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      console.log('This will run after 250ms!')
+      window.promiseWorker.postMessage({
+        type:'searchValue',
+        searchValue:searchValue
+      }).then(searchResults => {
+        setSigns(searchResults)
+      })
+    }, 250);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     window.promiseWorker.postMessage({
@@ -24,7 +36,7 @@ function App() {
         <input value={searchValue} onChange={e => setSearchValue(e.target.value)}/>
       </header>
       {signs.map(sign => {
-        return <div key={sign.id}>{sign.phrase}</div>
+        return <Sign key={sign.id} sign={sign}/>
       })}
     </div>
   )

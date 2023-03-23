@@ -1,7 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import './index.css'
+// import './index.css'
+// import './App.css'
 import { initBackend } from 'absurd-sql/dist/indexeddb-main-thread';
 import PromiseWorker from 'promise-worker'
 let worker = new Worker(new URL('./index.worker.js', import.meta.url),{
