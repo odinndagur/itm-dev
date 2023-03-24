@@ -57,69 +57,131 @@ async function run() {
   }
 
 registerPromiseWorker( async function (message) {
-  // console.log(message)
-  let stmt;
-  if(message.type == 'signSearch'){
-    // let searchValue = message.searchValue
-    let query  = message.query.trim()
-    if(!query){
-        stmt = db.prepare(`select * from sign order by phrase asc limit 500`)
-    } if (query[0] === '*'){
-        stmt = db.prepare(`select * from sign where phrase like "%${query.substring(1)}%" order by phrase asc`)
-    } 
-    if(query && query[0] != '*') {
-        if(query[query.length-1] != '*'){
-            query = query + '*'
-        }
-        stmt = db.prepare(`select * from sign_fts join sign on sign.id = sign_fts.id where sign_fts match "${query}" order by rank, phrase asc`)
-    }
-    let result = []
-    while (stmt.step()) result.push(stmt.getAsObject());
-    // postMessage({type:'signs',signs:result})
-    return result
-  }
-
-  if(message.type === 'sql'){
-    stmt = db.prepare(message.query)
-    let res = []
-    while (stmt.step()){res.push(stmt.getAsObject())}
-    return res
-  }
-
-  if(message.type === 'listCollections'){
-    let stmt = db.prepare(`select collection.id as collection_id,
+  let stmt
+  let user_collection
+  switch(message.type){
+    case 'signSearch':
+      // let searchValue = message.searchValue
+      let query  = message.query.trim()
+      if(!query){
+          stmt = db.prepare(`select * from sign order by phrase asc limit 500`)
+      } if (query[0] === '*'){
+          stmt = db.prepare(`select * from sign where phrase like "%${query.substring(1)}%" order by phrase asc`)
+      } 
+      if(query && query[0] != '*') {
+          if(query[query.length-1] != '*'){
+              query = query + '*'
+          }
+          stmt = db.prepare(`select * from sign_fts join sign on sign.id = sign_fts.id where sign_fts match "${query}" order by rank, phrase asc`)
+      }
+      let result = []
+      while (stmt.step()) result.push(stmt.getAsObject());
+      // postMessage({type:'signs',signs:result})
+      return result     
+      break
+    
+    case 'sql':
+      stmt = db.prepare(message.query)
+      let res = []
+      while (stmt.step()){res.push(stmt.getAsObject())}
+      return res
+      break
+    
+    case 'listCollections':
+      stmt = db.prepare(`select collection.id as collection_id,
                           user.id as user_id,
                           collection.name as collection_name,
                           user.name as user_name 
                           from collection
                           join user
                           on collection.user_id = user.id`)
-    let all_collections = []
-    while (stmt.step()){all_collections.push(stmt.getAsObject())}
-    console.log(all_collections)
-    return all_collections
-  }
-
-  if(message.type === 'getDefaultUserCollection'){
-      let stmt = db.prepare(`SELECT * from sign where sign.id in (select sign_collection.sign_id from sign_collection where sign_collection.collection_id = 3)`)
-      let user_collection = []
+      let all_collections = []
+      while (stmt.step()){all_collections.push(stmt.getAsObject())}
+      console.log(all_collections)
+      return all_collections
+      break
+    
+    case 'getCollectionById':
+      stmt = db.prepare(`SELECT * from sign where sign.id in (select sign_collection.sign_id from sign_collection where sign_collection.collection_id = ${message.collectionId})`)
+      user_collection = []
       while (stmt.step()){user_collection.push(stmt.getAsObject())}
       console.log(user_collection)
       return user_collection
-  }
 
-  if(message.type === 'addToDefaultUserCollection'){
-    db.exec(`INSERT INTO sign_collection(sign_id,collection_id) VALUES(${message.query},3)`)
-    console.log(message.query)
+    case 'getDefaultUserCollection':
+        stmt = db.prepare(`SELECT * from sign where sign.id in (select sign_collection.sign_id from sign_collection where sign_collection.collection_id = 3)`)
+        user_collection = []
+        while (stmt.step()){user_collection.push(stmt.getAsObject())}
+        console.log(user_collection)
+        return user_collection
+        break
+    case 'addToDefaultUserCollection':
+      db.exec(`INSERT INTO sign_collection(sign_id,collection_id) VALUES(${message.query},3)`)
+      console.log(message.query)
   }
+  // console.log(message)
+  // let stmt;
+  // if(message.type == 'signSearch'){
+  //   // let searchValue = message.searchValue
+  //   let query  = message.query.trim()
+  //   if(!query){
+  //       stmt = db.prepare(`select * from sign order by phrase asc limit 500`)
+  //   } if (query[0] === '*'){
+  //       stmt = db.prepare(`select * from sign where phrase like "%${query.substring(1)}%" order by phrase asc`)
+  //   } 
+  //   if(query && query[0] != '*') {
+  //       if(query[query.length-1] != '*'){
+  //           query = query + '*'
+  //       }
+  //       stmt = db.prepare(`select * from sign_fts join sign on sign.id = sign_fts.id where sign_fts match "${query}" order by rank, phrase asc`)
+  //   }
+  //   let result = []
+  //   while (stmt.step()) result.push(stmt.getAsObject());
+  //   // postMessage({type:'signs',signs:result})
+  //   return result
+  // }
 
-  if(message.type === 'getCollectionById'){
-      let stmt = db.prepare(`SELECT * from sign where sign.id in (select sign_collection.sign_id from sign_collection where sign_collection.collection_id = ${message.collectionId})`)
-      let user_collection = []
-      while (stmt.step()){user_collection.push(stmt.getAsObject())}
-      console.log(user_collection)
-      return user_collection
-  }
+  // if(message.type === 'sql'){
+  //   stmt = db.prepare(message.query)
+  //   let res = []
+  //   while (stmt.step()){res.push(stmt.getAsObject())}
+  //   return res
+  // }
+
+  // if(message.type === 'listCollections'){
+  //   let stmt = db.prepare(`select collection.id as collection_id,
+  //                         user.id as user_id,
+  //                         collection.name as collection_name,
+  //                         user.name as user_name 
+  //                         from collection
+  //                         join user
+  //                         on collection.user_id = user.id`)
+  //   let all_collections = []
+  //   while (stmt.step()){all_collections.push(stmt.getAsObject())}
+  //   console.log(all_collections)
+  //   return all_collections
+  // }
+
+  // if(message.type === 'getDefaultUserCollection'){
+  //     let stmt = db.prepare(`SELECT * from sign where sign.id in (select sign_collection.sign_id from sign_collection where sign_collection.collection_id = 3)`)
+  //     let user_collection = []
+  //     while (stmt.step()){user_collection.push(stmt.getAsObject())}
+  //     console.log(user_collection)
+  //     return user_collection
+  // }
+
+  // if(message.type === 'addToDefaultUserCollection'){
+  //   db.exec(`INSERT INTO sign_collection(sign_id,collection_id) VALUES(${message.query},3)`)
+  //   console.log(message.query)
+  // }
+
+  // if(message.type === 'getCollectionById'){
+  //     let stmt = db.prepare(`SELECT * from sign where sign.id in (select sign_collection.sign_id from sign_collection where sign_collection.collection_id = ${message.collectionId})`)
+  //     let user_collection = []
+  //     while (stmt.step()){user_collection.push(stmt.getAsObject())}
+  //     console.log(user_collection)
+  //     return user_collection
+  // }
 
   // if(message.type === 'user-collections'){
   //   try {
