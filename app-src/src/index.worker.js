@@ -3,6 +3,7 @@ import { SQLiteFS } from 'absurd-sql';
 import IndexedDBBackend from 'absurd-sql/dist/indexeddb-backend';
 import registerPromiseWorker from 'promise-worker/register'
 
+
 async function run() {
   console.log('yo')
   let SQL
@@ -37,10 +38,14 @@ async function run() {
     initDB = true
   }
   if(initDB){
+    let filepathPrefix = ''
+    if(import.meta.env.MODE != 'development'){
+      filepathPrefix = `${import.meta.env.BASE_URL}`
+    }
     const filepaths = [
-      '/assets/signfts.txt',
-      '/assets/signftsdata.txt',
-      '/assets/signftstableftsdata.txt'
+      `${filepathPrefix}/assets/signfts.txt`,
+      `${filepathPrefix}/assets/signftsdata.txt`,
+      `${filepathPrefix}/assets/signftstableftsdata.txt`
     ]
     for(let filepath of filepaths){
       for await (let line of splitTextFileBySemicolon(filepath)){
