@@ -86,6 +86,20 @@ registerPromiseWorker( async function (message) {
     return res
   }
 
+  if(message.type === 'listCollections'){
+    let stmt = db.prepare(`select collection.id as collection_id,
+                          user.id as user_id,
+                          collection.name as collection_name,
+                          user.name as user_name 
+                          from collection
+                          join user
+                          on collection.user_id = user.id`)
+    let all_collections = []
+    while (stmt.step()){all_collections.push(stmt.getAsObject())}
+    console.log(all_collections)
+    return all_collections
+  }
+
   if(message.type === 'getDefaultUserCollection'){
       let stmt = db.prepare(`SELECT * from sign where sign.id in (select sign_collection.sign_id from sign_collection where sign_collection.collection_id = 3)`)
       let user_collection = []
@@ -97,6 +111,14 @@ registerPromiseWorker( async function (message) {
   if(message.type === 'addToDefaultUserCollection'){
     db.exec(`INSERT INTO sign_collection(sign_id,collection_id) VALUES(${message.query},3)`)
     console.log(message.query)
+  }
+
+  if(message.type === 'getCollectionById'){
+      let stmt = db.prepare(`SELECT * from sign where sign.id in (select sign_collection.sign_id from sign_collection where sign_collection.collection_id = ${message.collectionId})`)
+      let user_collection = []
+      while (stmt.step()){user_collection.push(stmt.getAsObject())}
+      console.log(user_collection)
+      return user_collection
   }
 
   // if(message.type === 'user-collections'){

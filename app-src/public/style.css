@@ -75,6 +75,9 @@
     margin: auto;
   }
 
+  .app {
+    margin: auto;
+  }
   
   #search-input {
     background-color: var(--background-color-light);
