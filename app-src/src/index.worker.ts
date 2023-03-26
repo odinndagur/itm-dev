@@ -253,11 +253,6 @@ async function* makeTextFileLineIterator(fileURL:string) {
     yield chunk.substr(startIndex);
   }
 }
-
-function processLine(line){
-  console.log(line)
-}
-
 async function lineDoer(){
   for await (let line of makeTextFileLineIterator('data.txt')) {
     processLine(line);
