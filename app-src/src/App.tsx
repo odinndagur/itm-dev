@@ -4,8 +4,8 @@ import UserCollection from './UserCollection';
 
 function App() {
   const [searchValue, setSearchValue] = useState('')
-  const [signs, setSigns] = useState([])
-  const [allCollections, setAllCollections] = useState([])
+  const [signs, setSigns] = useState<Signs>([])
+  const [allCollections, setAllCollections] = useState<Collections>([])
   const [currentCollection, setCurrentCollection] = useState('')
 
   // timeout to get initial signs, have to wait so the promiseworker is definitely there
@@ -17,7 +17,7 @@ function App() {
       window.promiseWorker.postMessage({
         type:'signSearch',
         query:searchValue
-      }).then(searchResults => {
+      }).then((searchResults:Signs) => {
         console.log(searchResults)
         setSigns(searchResults)
       })
@@ -25,7 +25,7 @@ function App() {
       // get list of collections
       window.promiseWorker.postMessage({
         type:'listCollections'
-      }).then(collections => {
+      }).then((collections: Collections) => {
         setAllCollections(collections)
       })
     }, msCount);
@@ -37,7 +37,7 @@ function App() {
     window.promiseWorker.postMessage({
       type:'signSearch',
       query:searchValue
-    }).then(searchResults => {
+    }).then((searchResults: Signs) => {
       setSigns(searchResults)
     })
   },[searchValue])
@@ -47,7 +47,7 @@ function App() {
     window.promiseWorker.postMessage({
       type:'getCollectionById',
       collectionId:currentCollection
-    }).then(searchResults => {
+    }).then((searchResults: Signs) => {
       console.log(searchResults)
       setSigns(searchResults)
     })
@@ -61,10 +61,9 @@ function App() {
         <h1 className='heading'>ÍTM</h1>
         <input value={searchValue} onChange={e => setSearchValue(e.target.value)}/>
         <div>
-            <select id='currentCollection' onChange={(ev) => setCurrentCollection(ev.target.value)}>
-              <option defaultValue disabled>Select collection: </option>
+            <select id='currentCollection' onChange={(ev) => setCurrentCollection(ev.target.value)} defaultValue={"Select collection: "}>
               {allCollections.map(collection => {
-                return <option key={collection.collection_id} value={collection.collection_id}>{collection.collection_name}</option>
+                return <option key={collection.id} value={collection.id}>{collection.name}</option>
               })}
               </select>
         </div>

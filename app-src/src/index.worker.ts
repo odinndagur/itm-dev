@@ -8,9 +8,9 @@ async function run() {
   console.log('yo')
   let SQL
   if(import.meta.env.MODE === 'development'){
-    SQL = await initSqlJs({ locateFile: file => `/assets/${file}` });
+    SQL = await initSqlJs({ locateFile: (file: String) => `/assets/${file}` });
   } else {
-    SQL = await initSqlJs({ locateFile: file => `${import.meta.env.BASE_URL}/assets/${file}` });
+    SQL = await initSqlJs({ locateFile: (file: String) => `${import.meta.env.BASE_URL}/assets/${file}` });
   }
   let sqlFS = new SQLiteFS(SQL.FS, new IndexedDBBackend());
   SQL.register_for_idb(sqlFS);
@@ -61,7 +61,7 @@ async function run() {
     db.exec('INSERT INTO collection(id,user_id,name) VALUES(3,3,"default_collection");')
   }
 
-registerPromiseWorker( async function (message) {
+registerPromiseWorker( async function (message:absurdSqlPromiseWorkerMessage) {
   let stmt
   let user_collection
   switch(message.type){
@@ -79,7 +79,7 @@ registerPromiseWorker( async function (message) {
           }
           stmt = db.prepare(`select * from sign_fts join sign on sign.id = sign_fts.id where sign_fts match "${query}" order by rank, phrase asc`)
       }
-      let result = []
+      let result:Signs = []
       while (stmt.step()) result.push(stmt.getAsObject());
       // postMessage({type:'signs',signs:result})
       return result     
@@ -93,21 +93,25 @@ registerPromiseWorker( async function (message) {
       break
     
     case 'listCollections':
-      stmt = db.prepare(`select collection.id as collection_id,
+      stmt = db.prepare(`select collection.id as id,
                           user.id as user_id,
-                          collection.name as collection_name,
+                          collection.name as name,
                           user.name as user_name 
                           from collection
                           join user
                           on collection.user_id = user.id`)
-      let all_collections = []
+      let all_collections:Collections = []
       while (stmt.step()){all_collections.push(stmt.getAsObject())}
       console.log(all_collections)
       return all_collections
       break
     
     case 'getCollectionById':
-      stmt = db.prepare(`SELECT * from sign where sign.id in (select sign_collection.sign_id from sign_collection where sign_collection.collection_id = ${message.collectionId})`)
+      stmt = db.prepare(`SELECT * from sign
+                        where sign.id in
+                          (select sign_collection.sign_id
+                            from sign_collection
+                            where sign_collection.collection_id = ${message.collectionId})`)
       user_collection = []
       while (stmt.step()){user_collection.push(stmt.getAsObject())}
       console.log(user_collection)
@@ -219,10 +223,10 @@ registerPromiseWorker( async function (message) {
 
 run()
 
-async function* makeTextFileLineIterator(fileURL) {
+async function* makeTextFileLineIterator(fileURL:string) {
   const utf8Decoder = new TextDecoder("utf-8");
   let response = await fetch(fileURL);
-  let reader = response.body.getReader();
+  let reader = response!.body!.getReader();
   let {value: chunk, done: readerDone} = await reader.read();
   chunk = chunk ? utf8Decoder.decode(chunk, {stream: true}) : "";
 
@@ -262,10 +266,10 @@ async function lineDoer(){
 
 // lineDoer()
 
-async function* splitTextFileBySemicolon(fileURL) {
+async function* splitTextFileBySemicolon(fileURL:string) {
   const utf8Decoder = new TextDecoder("utf-8");
   let response = await fetch(fileURL);
-  let reader = response.body.getReader();
+  let reader = response!.body!.getReader();
   let {value: chunk, done: readerDone} = await reader.read();
   chunk = chunk ? utf8Decoder.decode(chunk, {stream: true}) : "";
 

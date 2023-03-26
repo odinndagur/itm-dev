@@ -6,7 +6,7 @@ import './style.css'
 // import './App.css'
 import { initBackend } from 'absurd-sql/dist/indexeddb-main-thread';
 import PromiseWorker from 'promise-worker'
-let worker = new Worker(new URL('./index.worker.js', import.meta.url),{
+let worker = new Worker(new URL('./index.worker.ts', import.meta.url),{
   type:'module'
 });
 let promiseWorker = new PromiseWorker(worker)
