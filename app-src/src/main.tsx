@@ -16,10 +16,11 @@ window.promiseWorker = promiseWorker
 
 document.addEventListener("keydown", function(e) {
   if (e.code == "Enter") {
-      document.activeElement.click();
+    let element:(HTMLElement) = document!.activeElement! as HTMLElement
+      element.click();
 }});
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document!.getElementById('root')!).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
