@@ -1,12 +1,12 @@
-function Sign(props) {
+function Sign({ sign }) {
     return (
-        <div key={props.sign.id}>
-            {props.sign.phrase}
+        <div key={sign.id}>
+            {sign.phrase}
             <button
                 onClick={() => {
                     window.promiseWorker.postMessage({
                         type: 'addToDefaultUserCollection',
-                        query: props.sign.id,
+                        query: sign.id,
                     })
                 }}
             >

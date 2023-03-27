@@ -13,6 +13,10 @@
             name="viewport"
             content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
         />
+        <meta
+            name="description"
+            content="Rafræn orðabók fyrir íslenskt táknmál"
+        />
 
         <link rel="icon" href="favicon.ico" type="image/x-icon" />
         <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
@@ -289,57 +293,59 @@
     <script src='https://unpkg.com/react-router-dom@5.0.0/umd/react-router-dom.min.js' crossorigin></script> -->
     </head>
     <body>
-        <!-- <script>
-      console.log('fyrir sw')
-      // register ServiceWorker, remember to use absolute path!
-      if (navigator.serviceWorker) {
-          console.log('fyrir registersw')
-          navigator.serviceWorker.register('/sw.js', {scope: '/'})
-        }
-    </script> -->
+        <script>
+            //   console.log('fyrir sw')
+            // register ServiceWorker, remember to use absolute path!
+            // if (navigator.serviceWorker) {
+            //     console.log('fyrir registersw')
+            //     navigator.serviceWorker.register('/sw.js', {
+            //         scope: '/itm-dev/',
+            //     })
+            // }
+        </script>
 
         <div id="root" style="height: 100%"></div>
         <script type="module" src="/src/main.tsx"></script>
     </body>
     <script>
-        let currentSignOffset = 0
-        let signQueryCount = 500
-        // window.addEventListener('scroll', () => {
-        //       // console.log('scroll')
-        //       let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight >= (document.documentElement.offsetHeight - 100)
-        //       if (bottomOfWindow) {
-        //           hitWindowBottom()
-        //       }
-        //       let el = document.getElementById('signs')
-        //       let bottomOfElement = el.scrollHeight - el.scrollTop - el.clientHeight < 1
-        //       if(bottomOfElement){
-        //         hitWindowBottom()
-        //       }
-        //   })
+        // let currentSignOffset = 0
+        // let signQueryCount = 500
+        // // window.addEventListener('scroll', () => {
+        // //       // console.log('scroll')
+        // //       let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight >= (document.documentElement.offsetHeight - 100)
+        // //       if (bottomOfWindow) {
+        // //           hitWindowBottom()
+        // //       }
+        // //       let el = document.getElementById('signs')
+        // //       let bottomOfElement = el.scrollHeight - el.scrollTop - el.clientHeight < 1
+        // //       if(bottomOfElement){
+        // //         hitWindowBottom()
+        // //       }
+        // //   })
 
-        //   function hitWindowBottom() {
-        //   console.log('bottom')
-        //   if(currentSignOffset != 0){
-        //     currentSignOffset += signQueryCount
-        //     updateSearch()
-        //   }
+        // //   function hitWindowBottom() {
+        // //   console.log('bottom')
+        // //   if(currentSignOffset != 0){
+        // //     currentSignOffset += signQueryCount
+        // //     updateSearch()
+        // //   }
+        // // }
+        // function updateSearch() {
+        //     console.log('update')
+        //     if (!window.worker) {
+        //         setTimeout(updateSearch, 150)
+        //         return
+        //     }
+        //     let inp = document.querySelector('#search-input')
+
+        //     window.worker.postMessage({
+        //         type: 'searchValue',
+        //         searchValue: inp.value,
+        //         currentSignOffset,
+        //         signQueryCount,
+        //     })
         // }
-        function updateSearch() {
-            console.log('update')
-            if (!window.worker) {
-                setTimeout(updateSearch, 150)
-                return
-            }
-            let inp = document.querySelector('#search-input')
-
-            window.worker.postMessage({
-                type: 'searchValue',
-                searchValue: inp.value,
-                currentSignOffset,
-                signQueryCount,
-            })
-        }
-        window.updateSearch = updateSearch
+        // window.updateSearch = updateSearch
 
         // updateSearch()
     </script>

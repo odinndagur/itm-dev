@@ -9,5 +9,7 @@ interface absurdSqlPromiseWorkerMessage {
         | 'getDefaultUserCollection'
         | 'addToDefaultUserCollection'
     query: String
-    collectionId: number
+    collectionId?: number
+    signOffset?: number
+    signLimit?: number
 }

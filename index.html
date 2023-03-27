@@ -1,148 +1,354 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link rel="manifest" href="/itm-dev/assets/manifest.webmanifest"/>
-    <link rel='dns-prefetch' href='//youtube.com'/>
-    <link rel='dns-prefetch' href='//youtube-nocookie.com'/>
-    <link rel='preconnect' href='https://youtube.com'/>
-    <link rel='preconnect' href='https://youtube-nocookie.com'/>
-    
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <head>
+        <link rel="manifest" href="/itm-dev/assets/manifest.webmanifest" />
+        <link rel="dns-prefetch" href="//youtube.com" />
+        <link rel="dns-prefetch" href="//youtube-nocookie.com" />
+        <link rel="preconnect" href="https://youtube.com" />
+        <link rel="preconnect" href="https://youtube-nocookie.com" />
 
-    <link rel="icon" href="favicon.ico" type="image/x-icon" />
-    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+        />
+        <meta
+            name="description"
+            content="Rafræn orðabók fyrir íslenskt táknmál"
+        />
 
-    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/itm-dev/assets/apple-touch-icon-57x57.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/itm-dev/assets/apple-touch-icon-114x114.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/itm-dev/assets/apple-touch-icon-72x72.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/itm-dev/assets/apple-touch-icon-144x144.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/itm-dev/assets/apple-touch-icon-60x60.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/itm-dev/assets/apple-touch-icon-120x120.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/itm-dev/assets/apple-touch-icon-76x76.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/itm-dev/assets/apple-touch-icon-152x152.png" />
-    <link rel="icon" type="image/png" href="/itm-dev/assets/favicon-196x196.png" sizes="196x196" />
-    <link rel="icon" type="image/png" href="/itm-dev/assets/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/png" href="/itm-dev/assets/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="/itm-dev/assets/favicon-16x16.png" sizes="16x16" />
-    <link rel="icon" type="image/png" href="/assets/favicon-128.png" sizes="128x128" />
-    <meta name="application-name" content="&nbsp;"/>
-    <meta name="msapplication-TileColor" content="#FFFFFF" />
-    <meta name="msapplication-TileImage" content="/assets/mstile-144x144.png" />
-    <meta name="msapplication-square70x70logo" content="/assets/mstile-70x70.png" />
-    <meta name="msapplication-square150x150logo" content="/assets/mstile-150x150.png" />
-    <meta name="msapplication-wide310x150logo" content="/assets/mstile-310x150.png" />
-    <meta name="msapplication-square310x310logo" content="/assets/mstile-310x310.png" />
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-2048-2732.jpg" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-2732-2048.jpg" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-1668-2388.jpg" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-2388-1668.jpg" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-1536-2048.jpg" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-2048-1536.jpg" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-1668-2224.jpg" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-2224-1668.jpg" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-1620-2160.jpg" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-2160-1620.jpg" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-1290-2796.jpg" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-2796-1290.jpg" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-1179-2556.jpg" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-2556-1179.jpg" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-1284-2778.jpg" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-2778-1284.jpg" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-1170-2532.jpg" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-2532-1170.jpg" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-1125-2436.jpg" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-2436-1125.jpg" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-1242-2688.jpg" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-2688-1242.jpg" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-828-1792.jpg" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-1792-828.jpg" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-1242-2208.jpg" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-2208-1242.jpg" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-750-1334.jpg" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-1334-750.jpg" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-640-1136.jpg" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image" href="/itm-dev/assets/apple-splash-1136-640.jpg" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+        <link rel="icon" href="favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
 
+        <link
+            rel="apple-touch-icon-precomposed"
+            sizes="57x57"
+            href="/itm-dev/assets/apple-touch-icon-57x57.png"
+        />
+        <link
+            rel="apple-touch-icon-precomposed"
+            sizes="114x114"
+            href="/itm-dev/assets/apple-touch-icon-114x114.png"
+        />
+        <link
+            rel="apple-touch-icon-precomposed"
+            sizes="72x72"
+            href="/itm-dev/assets/apple-touch-icon-72x72.png"
+        />
+        <link
+            rel="apple-touch-icon-precomposed"
+            sizes="144x144"
+            href="/itm-dev/assets/apple-touch-icon-144x144.png"
+        />
+        <link
+            rel="apple-touch-icon-precomposed"
+            sizes="60x60"
+            href="/itm-dev/assets/apple-touch-icon-60x60.png"
+        />
+        <link
+            rel="apple-touch-icon-precomposed"
+            sizes="120x120"
+            href="/itm-dev/assets/apple-touch-icon-120x120.png"
+        />
+        <link
+            rel="apple-touch-icon-precomposed"
+            sizes="76x76"
+            href="/itm-dev/assets/apple-touch-icon-76x76.png"
+        />
+        <link
+            rel="apple-touch-icon-precomposed"
+            sizes="152x152"
+            href="/itm-dev/assets/apple-touch-icon-152x152.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            href="/itm-dev/assets/favicon-196x196.png"
+            sizes="196x196"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            href="/itm-dev/assets/favicon-96x96.png"
+            sizes="96x96"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            href="/itm-dev/assets/favicon-32x32.png"
+            sizes="32x32"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            href="/itm-dev/assets/favicon-16x16.png"
+            sizes="16x16"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            href="/assets/favicon-128.png"
+            sizes="128x128"
+        />
+        <meta name="application-name" content="&nbsp;" />
+        <meta name="msapplication-TileColor" content="#FFFFFF" />
+        <meta
+            name="msapplication-TileImage"
+            content="/assets/mstile-144x144.png"
+        />
+        <meta
+            name="msapplication-square70x70logo"
+            content="/assets/mstile-70x70.png"
+        />
+        <meta
+            name="msapplication-square150x150logo"
+            content="/assets/mstile-150x150.png"
+        />
+        <meta
+            name="msapplication-wide310x150logo"
+            content="/assets/mstile-310x150.png"
+        />
+        <meta
+            name="msapplication-square310x310logo"
+            content="/assets/mstile-310x310.png"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-2048-2732.jpg"
+            media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-2732-2048.jpg"
+            media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-1668-2388.jpg"
+            media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-2388-1668.jpg"
+            media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-1536-2048.jpg"
+            media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-2048-1536.jpg"
+            media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-1668-2224.jpg"
+            media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-2224-1668.jpg"
+            media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-1620-2160.jpg"
+            media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-2160-1620.jpg"
+            media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-1290-2796.jpg"
+            media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-2796-1290.jpg"
+            media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-1179-2556.jpg"
+            media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-2556-1179.jpg"
+            media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-1284-2778.jpg"
+            media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-2778-1284.jpg"
+            media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-1170-2532.jpg"
+            media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-2532-1170.jpg"
+            media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-1125-2436.jpg"
+            media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-2436-1125.jpg"
+            media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-1242-2688.jpg"
+            media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-2688-1242.jpg"
+            media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-828-1792.jpg"
+            media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-1792-828.jpg"
+            media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-1242-2208.jpg"
+            media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-2208-1242.jpg"
+            media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-750-1334.jpg"
+            media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-1334-750.jpg"
+            media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-640-1136.jpg"
+            media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            href="/itm-dev/assets/apple-splash-1136-640.jpg"
+            media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+        />
 
-    <meta name="theme-color" content="white"/>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="ÍTM">
+        <meta name="theme-color" content="white" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content="black-translucent"
+        />
+        <meta name="apple-mobile-web-app-title" content="ÍTM" />
 
-    <link rel="stylesheet" href="style.css">
-    <link href='https://fonts.googleapis.com/css?family=Faustina' rel='stylesheet'>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@200" rel="stylesheet" />
-    <title>Íslenskt táknmál</title>
-    <link rel="canonical" href="https://taknmal.github.io/itm-dev/" />
-    <!-- <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+        <!-- <link rel="stylesheet" href="style.css" /> -->
+        <link
+            href="https://fonts.googleapis.com/css?family=Faustina"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@200"
+            rel="stylesheet"
+        />
+        <title>Íslenskt táknmál</title>
+        <link rel="canonical" href="https://taknmal.github.io/itm-dev/" />
+        <!-- <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js" crossorigin></script>
     <script src='https://unpkg.com/react-router-dom@5.0.0/umd/react-router-dom.min.js' crossorigin></script> -->
-    
-  <script type="module" crossorigin src="/itm-dev/assets/index-bf1d168a.js"></script>
-  <link rel="stylesheet" href="/itm-dev/assets/index-3e52eeb4.css">
-</head>
-<body>
-    <!-- <script>
-      console.log('fyrir sw')
-      // register ServiceWorker, remember to use absolute path!
-      if (navigator.serviceWorker) {
-          console.log('fyrir registersw')
-          navigator.serviceWorker.register('/sw.js', {scope: '/'})
-        }
-    </script> -->
+      <script type="module" crossorigin src="/itm-dev/assets/index-2dd8c411.js"></script>
+      <link rel="stylesheet" href="/itm-dev/assets/index-ac0647b0.css">
+    </head>
+    <body>
+        <script>
+            //   console.log('fyrir sw')
+            // register ServiceWorker, remember to use absolute path!
+            // if (navigator.serviceWorker) {
+            //     console.log('fyrir registersw')
+            //     navigator.serviceWorker.register('/sw.js', {
+            //         scope: '/itm-dev/',
+            //     })
+            // }
+        </script>
 
-    <div id="root"></div>
-    
-  
+        <div id="root" style="height: 100%"></div>
+        
+    </body>
+    <script>
+        // let currentSignOffset = 0
+        // let signQueryCount = 500
+        // // window.addEventListener('scroll', () => {
+        // //       // console.log('scroll')
+        // //       let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight >= (document.documentElement.offsetHeight - 100)
+        // //       if (bottomOfWindow) {
+        // //           hitWindowBottom()
+        // //       }
+        // //       let el = document.getElementById('signs')
+        // //       let bottomOfElement = el.scrollHeight - el.scrollTop - el.clientHeight < 1
+        // //       if(bottomOfElement){
+        // //         hitWindowBottom()
+        // //       }
+        // //   })
 
-</body>
-<script>
-  let currentSignOffset = 0
-  let signQueryCount = 500
-  // window.addEventListener('scroll', () => {
-  //       // console.log('scroll')
-  //       let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight >= (document.documentElement.offsetHeight - 100)
-  //       if (bottomOfWindow) {
-  //           hitWindowBottom()
-  //       }
-  //       let el = document.getElementById('signs')
-  //       let bottomOfElement = el.scrollHeight - el.scrollTop - el.clientHeight < 1
-  //       if(bottomOfElement){
-  //         hitWindowBottom()
-  //       }
-  //   })
+        // //   function hitWindowBottom() {
+        // //   console.log('bottom')
+        // //   if(currentSignOffset != 0){
+        // //     currentSignOffset += signQueryCount
+        // //     updateSearch()
+        // //   }
+        // // }
+        // function updateSearch() {
+        //     console.log('update')
+        //     if (!window.worker) {
+        //         setTimeout(updateSearch, 150)
+        //         return
+        //     }
+        //     let inp = document.querySelector('#search-input')
 
-  //   function hitWindowBottom() {
-  //   console.log('bottom')
-  //   if(currentSignOffset != 0){
-  //     currentSignOffset += signQueryCount
-  //     updateSearch()
-  //   }
-// }
-  function updateSearch(){
-    
-    console.log('update')
-    if(!window.worker){
-      setTimeout(updateSearch, 150)
-      return
-    }
-    let inp = document.querySelector('#search-input')
+        //     window.worker.postMessage({
+        //         type: 'searchValue',
+        //         searchValue: inp.value,
+        //         currentSignOffset,
+        //         signQueryCount,
+        //     })
+        // }
+        // window.updateSearch = updateSearch
 
-    window.worker.postMessage({
-      type:'searchValue',
-      searchValue:inp.value,
-      currentSignOffset,
-      signQueryCount
-  })
-  }
-  window.updateSearch = updateSearch
-
-// updateSearch()
-</script>
-  </script>
-
+        // updateSearch()
+    </script>
 </html>

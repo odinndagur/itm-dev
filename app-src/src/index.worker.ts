@@ -6,16 +6,16 @@ import registerPromiseWorker from 'promise-worker/register'
 async function run() {
     console.log('yo')
     let SQL
-    if (import.meta.env.MODE === 'development') {
-        SQL = await initSqlJs({
-            locateFile: (file: String) => `/assets/${file}`,
-        })
-    } else {
-        SQL = await initSqlJs({
-            locateFile: (file: String) =>
-                `${import.meta.env.BASE_URL}/assets/${file}`,
-        })
-    }
+    // if (import.meta.env.MODE === 'development') {
+    //     SQL = await initSqlJs({
+    //         locateFile: (file: String) => `/assets/${file}`,
+    //     })
+    // } else {
+    SQL = await initSqlJs({
+        locateFile: (file: String) =>
+            `${import.meta.env.BASE_URL}assets/${file}`,
+    })
+    // }
     let sqlFS = new SQLiteFS(SQL.FS, new IndexedDBBackend())
     SQL.register_for_idb(sqlFS)
 
@@ -42,14 +42,14 @@ async function run() {
         initDB = true
     }
     if (initDB) {
-        let filepathPrefix = ''
-        if (import.meta.env.MODE != 'development') {
-            filepathPrefix = `${import.meta.env.BASE_URL}`
-        }
+        // let filepathPrefix = ''
+        // if (import.meta.env.MODE != 'development') {
+        let filepathPrefix = `${import.meta.env.BASE_URL}`
+        // }
         const filepaths = [
-            `${filepathPrefix}/assets/signfts.txt`,
-            `${filepathPrefix}/assets/signftsdata.txt`,
-            `${filepathPrefix}/assets/signftstableftsdata.txt`,
+            `${filepathPrefix}assets/signfts.txt`,
+            `${filepathPrefix}assets/signftsdata.txt`,
+            `${filepathPrefix}assets/signftstableftsdata.txt`,
         ]
         for (let filepath of filepaths) {
             for await (let line of splitTextFileBySemicolon(filepath)) {
@@ -74,18 +74,22 @@ async function run() {
         let user_collection
         switch (message.type) {
             case 'signSearch':
+                const offset = message.signOffset || 0
+                const limit = message.signLimit || 500
                 // let searchValue = message.searchValue
                 let query = message.query.trim()
                 if (!query) {
                     stmt = db.prepare(
-                        `select * from sign order by phrase asc limit 500`
+                        `select * from sign order by phrase asc limit ${limit} offset ${offset}`
                     )
                 }
                 if (query[0] === '*') {
                     stmt = db.prepare(
-                        `select * from sign where phrase like "%${query.substring(
-                            1
-                        )}%" order by phrase asc`
+                        `select * from sign
+                        where phrase like "%${query.substring(1)}%"
+                        order by phrase asc
+                        limit ${limit}
+                        offset ${offset}`
                     )
                 }
                 if (query && query[0] != '*') {
@@ -93,7 +97,12 @@ async function run() {
                         query = query + '*'
                     }
                     stmt = db.prepare(
-                        `select * from sign_fts join sign on sign.id = sign_fts.id where sign_fts match "${query}" order by rank, phrase asc`
+                        `select * from sign_fts
+                        join sign on sign.id = sign_fts.id
+                        where sign_fts match "${query}"
+                        order by rank, phrase asc
+                        limit ${limit}
+                        offset ${offset}`
                     )
                 }
                 let result: Signs = []
