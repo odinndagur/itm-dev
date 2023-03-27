@@ -10,6 +10,10 @@ import {
     Switch,
 } from '@mui/material'
 
+import './app.css'
+
+import InfiniteSignList from './InfiniteSignList'
+
 function App() {
     const [searchValue, setSearchValue] = useState('')
     const [signs, setSigns] = useState<Signs>([])
@@ -100,7 +104,11 @@ function App() {
     }
 
     return (
-        <div className="App">
+        <div
+            className="App"
+            style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+        >
+            {/* <h1>lol</h1> */}
             <header>
                 <Button variant="contained">Hello World</Button>
                 <Switch />
@@ -110,20 +118,16 @@ function App() {
                     onChange={(e) => setSearchValue(e.target.value)}
                     type={'search'}
                 />
-                {/* <div>
-            <select id='currentCollection' onChange={(ev) => setCurrentCollection(ev.target.value)} defaultValue={"Select collection: "}>
-              {allCollections.map(collection => {
-                return <option key={collection.id} value={collection.id}>{collection.name}</option>
-              })}
-              </select>
-        </div> */}
             </header>
             {/* <div style={{display:'flex',flexDirection:'row',padding:'0 2rem',margin:'auto',justifyContent:'space-between',width:'100%'}}> */}
             {/* <UserCollection/> */}
             {/* <div> */}
-            {signs.map((sign) => {
+            <div className="signlist">
+                <InfiniteSignList />
+            </div>
+            {/* {signs.map((sign) => {
                 return <Sign key={sign.id} sign={sign} />
-            })}
+            })} */}
             {/* </div> */}
             {/* </div> */}
         </div>

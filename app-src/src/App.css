@@ -1,0 +1,15 @@
+.app {
+    /* display: flex; */
+}
+
+header {
+    /* flex: 0 0 auto; */
+}
+
+.signlist {
+    /* height: 100%; */
+    /* min-height: 50vh; */
+    flex: 1;
+    /* background-color: red; */
+    display: block;
+}
