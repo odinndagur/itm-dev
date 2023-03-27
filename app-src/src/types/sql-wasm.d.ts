@@ -1,1 +1,1 @@
-declare module '@jlongster/sql.js/dist/sql-wasm';
+declare module '@jlongster/sql.js/dist/sql-wasm'

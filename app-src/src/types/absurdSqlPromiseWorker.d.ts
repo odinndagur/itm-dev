@@ -1,9 +1,13 @@
-interface absurdSqlPromiseWorker {
-
-}
+interface absurdSqlPromiseWorker {}
 
 interface absurdSqlPromiseWorkerMessage {
-    type: 'signSearch' | 'sql' | 'listCollections' | 'getCollectionById' | 'getDefaultUserCollection' | 'addToDefaultUserCollection',
-    query: String,
+    type:
+        | 'signSearch'
+        | 'sql'
+        | 'listCollections'
+        | 'getCollectionById'
+        | 'getDefaultUserCollection'
+        | 'addToDefaultUserCollection'
+    query: String
     collectionId: number
 }

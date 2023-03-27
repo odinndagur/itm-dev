@@ -1,1 +1,1 @@
-declare module 'absurd-sql';
+declare module 'absurd-sql'
