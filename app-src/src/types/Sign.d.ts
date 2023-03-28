@@ -1,8 +1,8 @@
 interface Sign {
-    phrase: String
-    id: String
-    youtube_id: String
-    youtube_link: String
+    phrase: string
+    id: string
+    youtube_id: string
+    youtube_link: string
 }
 
 type Signs = Sign[]

@@ -1,9 +1,13 @@
 .app {
     /* display: flex; */
+    /* display: none; */
+    /* background-color: red; */
 }
 
 header {
     /* flex: 0 0 auto; */
+    /* display: none; */
+    /* background-color: blue; */
 }
 
 .signlist {

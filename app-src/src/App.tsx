@@ -1,6 +1,4 @@
 import { useState, useEffect, FormEvent } from 'react'
-import Sign from './Sign'
-import UserCollection from './UserCollection'
 import {
     Button,
     FormControl,
@@ -13,7 +11,12 @@ import {
 
 import './app.css'
 
-import InfiniteSignList from './InfiniteSignList'
+import SignList from './SignList'
+import { blueGrey } from '@mui/material/colors'
+
+function deleteData() {
+    console.log('delete data')
+}
 
 function App() {
     const [searchValue, setSearchValue] = useState('')
@@ -105,10 +108,6 @@ function App() {
     //     console.log(param)
     // }
 
-    function handleSearch(event) {
-        setSearchValue(event.target.value)
-    }
-
     useEffect(() => {
         const intervalID = setInterval(() => {
             console.log('callback yo')
@@ -136,8 +135,7 @@ function App() {
             style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
         >
             <header>
-                {/* <Button variant="contained">Hello World</Button>
-                <Switch /> */}
+                {/* <Switch /> */}
                 <h1 className="heading">ÍTM</h1>
                 {/* <label>
                     Leita að tákni
@@ -151,7 +149,7 @@ function App() {
                 <div className="search">
                     <TextField
                         id="outlined-basic"
-                        onChange={handleSearch}
+                        onChange={(event) => setSearchValue(event.target.value)}
                         variant="outlined"
                         fullWidth
                         label="Search"
@@ -162,8 +160,12 @@ function App() {
             {/* <UserCollection/> */}
             {/* <div> */}
             <div className="signlist">
+                {/* {promiseWorkerLoaded ? <InfiniteSignList /> : ''} */}
                 {promiseWorkerLoaded ? (
-                    <InfiniteSignList searchValue={searchValue} />
+                    <SignList
+                        searchValue={searchValue}
+                        listProps={{ itemSize: 40 }}
+                    />
                 ) : (
                     ''
                 )}
@@ -173,6 +175,8 @@ function App() {
             })} */}
             {/* </div> */}
             {/* </div> */}
+
+            <footer style={{ margin: 'auto' }}></footer>
         </div>
     )
 }
