@@ -16,12 +16,16 @@ const searchSigns = async (searchValue: string) => {
 
 const searchSignsWithCollectionId = async (
     searchValue: string,
-    collectionId: number
+    collectionId: number,
+    limit?: number,
+    offset?: number
 ) => {
     const signs = await window.promiseWorker.postMessage({
         type: 'signSearchWithCollectionId',
         query: searchValue,
         collectionId: collectionId,
+        signLimit: limit ?? undefined,
+        signOffset: offset ?? undefined,
     } satisfies absurdSqlPromiseWorkerMessage)
     // console.log(signs)
     return signs

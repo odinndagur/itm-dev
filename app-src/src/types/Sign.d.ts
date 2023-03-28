@@ -4,5 +4,5 @@ interface Sign {
     youtube_id: string
     youtube_link: string
 }
-
+type Sign = Sign
 type Signs = Sign[]

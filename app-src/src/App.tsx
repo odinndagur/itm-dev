@@ -1,176 +1,30 @@
+//@ts-nocheck
 import { useState, useEffect, FormEvent } from 'react'
-import {
-    Button,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    Switch,
-    TextField,
-} from '@mui/material'
-
-import { getSignById } from './db'
-
+import { TextField } from '@mui/material'
 import './app.css'
-
 import SignList from './SignList'
-import { blueGrey } from '@mui/material/colors'
-
-function deleteData() {
-    console.log('delete data')
-}
+import Sign from './Sign'
+import SignPage from './SignPage'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import CacheRoute, { CacheSwitch } from 'react-router-cache-route'
 
 function App() {
-    const [searchValue, setSearchValue] = useState('')
-    // const [signs, setSigns] = useState<Signs>([])
-    const [allCollections, setAllCollections] = useState<Collections>([])
-    const [currentCollection, setCurrentCollection] = useState('')
-    const [promiseWorkerLoaded, setPromiseWorkerLoaded] = useState(false)
-
-    // timeout to get initial signs, have to wait so the promiseworker is definitely there
-    // useEffect(() => {
-    //     const msCount = 1000
-    //     const timer = setTimeout(() => {
-    //         console.log(`This will run after ${msCount}ms!`)
-    //         // get initial signs
-    //         window.promiseWorker
-    //             .postMessage({
-    //                 type: 'signSearch',
-    //                 query: searchValue,
-    //             })
-    //             .then((searchResults: Signs) => {
-    //                 console.log(searchResults)
-    //                 setSigns(searchResults)
-    //             })
-
-    //         // get list of collections
-    //         window.promiseWorker
-    //             .postMessage({
-    //                 type: 'listCollections',
-    //             })
-    //             .then((collections: Collections) => {
-    //                 setAllCollections(collections)
-    //             })
-    //     }, msCount)
-    //     return () => clearTimeout(timer)
-    // }, [])
-
-    // search everytime the input changes
-    // useEffect(() => {
-    //     searchSigns(searchValue).then((signs) => {
-    //         setSigns(signs)
-    //     })
-    // window.promiseWorker.postMessage({
-    //   type:'signSearch',
-    //   query:searchValue
-    // }).then((searchResults: Signs) => {
-    //   setSigns(searchResults)
-    // })
-    // }, [searchValue])
-
-    // useEffect(() => {
-    //     console.log(currentCollection)
-    //     window.promiseWorker
-    //         .postMessage({
-    //             type: 'getCollectionById',
-    //             collectionId: currentCollection,
-    //         })
-    //         .then((searchResults: Signs) => {
-    //             console.log(searchResults)
-    //             setSigns(searchResults)
-    //         })
-    // }, [currentCollection])
-
-    // function buttonClick() {
-    //     window.promiseWorker
-    //         .postMessage({
-    //             type: 'signSearch',
-    //             query: searchValue,
-    //         })
-    //         .then((searchResults: Signs) => {
-    //             setSigns(searchResults)
-    //         })
-    // }
-
-    async function searchSigns(searchQuery: string) {
-        console.log('searchsigns')
-        const searchResults: Signs = await window.promiseWorker.postMessage({
-            type: 'signSearch',
-            query: searchQuery,
-        })
-        return searchResults
-    }
-
-    // function createNewCollection(event: FormEvent<HTMLFormElement>) {
-    //     event.preventDefault()
-    //     console.log(event.target.collectionName.value)
-    // }
-
-    // function handleChange(param) {
-    //     console.log(param)
-    // }
-
-    useEffect(() => {
-        const intervalID = setInterval(() => {
-            console.log('callback yo')
-            try {
-                window.promiseWorker
-                    .postMessage({
-                        type: 'sql',
-                        query: 'select * from sign limit 5',
-                    } satisfies absurdSqlPromiseWorkerMessage)
-                    .then((res: any) => {
-                        if (res[0]) {
-                            clearInterval(intervalID)
-                            setPromiseWorkerLoaded(true)
-                        }
-                    })
-            } catch (error) {
-                console.error(error)
-            }
-        }, 500)
-    }, [])
-
     return (
-        <div
-            className="App"
-            style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-        >
-            <header>
-                {/* <Switch /> */}
-                <h1 className="heading">ÍTM</h1>
-                {/* <label>
-                    Leita að tákni
-                    <input
-                        value={searchValue}
-                        onChange={handleSearch}
-                        type={'search'}
-                    />
-                </label> */}
-
-                <div className="search">
-                    <TextField
-                        id="outlined-basic"
-                        onChange={(event) => setSearchValue(event.target.value)}
-                        variant="outlined"
-                        fullWidth
-                        label="Search"
-                    />
-                </div>
-            </header>
-
-            <div className="signlist">
-                {promiseWorkerLoaded ? (
-                    <SignList
-                        searchValue={searchValue}
-                        listProps={{ itemSize: 40 }}
-                    />
-                ) : (
-                    ''
-                )}
-            </div>
-            <footer style={{ margin: 'auto' }}></footer>
-        </div>
+        <Router>
+            <Routes>
+                <Route
+                    exact
+                    path={`${import.meta.env.BASE_URL}`}
+                    element={<SignList />}
+                />
+                <Route
+                    exact
+                    path={`${import.meta.env.BASE_URL}signs/:id`}
+                    element={<SignPage />}
+                />
+                <Route render={() => <div>404 Not Found</div>} />
+            </Routes>
+        </Router>
     )
 }
 

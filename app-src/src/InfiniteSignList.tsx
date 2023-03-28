@@ -8,7 +8,7 @@ import { ConditionalWrapper } from './ConditionalWrapper'
 
 import { getSignById } from './db'
 
-const InfiniteSignList = () => {
+const InfiniteSignList = ({ collection }) => {
     const PADDING_SIZE = 40
     const innerElementType = forwardRef(({ style, ...rest }, ref) => (
         <div
@@ -23,7 +23,7 @@ const InfiniteSignList = () => {
     ))
     // console.log(searchValue, 'infinitesignlist')
     const { signs, loadChunkOfData, checkIfSignLoaded, allSignsCount } =
-        useSigns()
+        useSigns({ collection })
 
     const infiniteLoaderRef = useRef<InfiniteLoader>(null)
     const hasMountedRef = useRef(false)

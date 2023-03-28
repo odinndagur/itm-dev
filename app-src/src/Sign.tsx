@@ -2,7 +2,7 @@ import { Button } from '@mui/material'
 import { Add } from '@mui/icons-material'
 import { YoutubeEmbed } from './YoutubeEmbed'
 import { useState } from 'react'
-
+import { Link } from 'react-router-dom'
 function Sign({ sign }: { sign: Sign }) {
     const [youtubeShowing, setYoutubeShowing] = useState(false)
     function showYt() {
@@ -35,7 +35,12 @@ function Sign({ sign }: { sign: Sign }) {
                     <Add />
                 </Button>
             </div>
-            <div style={{ paddingLeft: '2rem' }}>{sign.phrase}</div>
+            <Link
+                to={`${import.meta.env.BASE_URL}signs/${sign.sign_id}`}
+                style={{ paddingLeft: '2rem' }}
+            >
+                {sign.phrase}
+            </Link>
         </div>
 
         // <div className="sign" onClick={() => showYt()} id={sign.id}>

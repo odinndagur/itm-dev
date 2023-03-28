@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-const elementsPerPage = 200
+import { searchSignsWithCollectionId } from './db'
+const elementsPerPage = 300
 
-function useSigns() {
+function useSigns({ collection }) {
     const [isLoading, setIsLoading] = useState(false)
     const [hasNextPage, setHasNextPage] = useState(true)
     const [signs, setSigns] = useState<Signs>([])
@@ -22,14 +23,15 @@ function useSigns() {
         const offset = elementsPerPage * pageNumber
         const limit = elementsPerPage
 
-        window.promiseWorker
-            .postMessage({
-                type: 'signSearch',
-                query: '',
-                signOffset: offset,
-                signLimit: limit,
-            } satisfies absurdSqlPromiseWorkerMessage)
-            .then((signsData: Signs) => {
+        // window.promiseWorker
+        //     .postMessage({
+        //         type: 'signSearch',
+        //         query: '',
+        //         signOffset: offset,
+        //         signLimit: limit,
+        //     } satisfies absurdSqlPromiseWorkerMessage)
+        searchSignsWithCollectionId('', collection, limit, offset).then(
+            (signsData: Signs) => {
                 console.log(signs)
                 console.log({ signsdata: signsData })
                 if (signsData.length < elementsPerPage) {
@@ -41,10 +43,14 @@ function useSigns() {
                 // } else {
                 setSigns([...signs, ...signsData])
                 // }
-            })
+            }
+        )
         // setIsLoading(false)
     }, [isLoading, signs])
 
+    useEffect(() => {
+        setSigns([])
+    }, collection)
     const checkIfSignLoaded = (index: number) => {
         return !hasNextPage || index < signs.length
     }

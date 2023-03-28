@@ -1,3 +1,4 @@
+import './YoutubeEmbed.css'
 export const YoutubeEmbed = ({ embedId }: { embedId: string }) => (
     <div className="video-responsive">
         <iframe
