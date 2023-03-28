@@ -6,6 +6,8 @@ import InfiniteLoader from 'react-window-infinite-loader'
 import { useRef, useEffect, forwardRef } from 'react'
 import { ConditionalWrapper } from './ConditionalWrapper'
 
+import { getSignById } from './db'
+
 const InfiniteSignList = () => {
     const PADDING_SIZE = 40
     const innerElementType = forwardRef(({ style, ...rest }, ref) => (

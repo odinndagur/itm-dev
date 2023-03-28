@@ -3,6 +3,10 @@ import { SQLiteFS } from 'absurd-sql'
 import IndexedDBBackend from 'absurd-sql/dist/indexeddb-backend'
 import registerPromiseWorker from 'promise-worker/register'
 
+function isNumber(n: any) {
+    return !isNaN(parseFloat(n)) && !isNaN(n - 0)
+}
+
 async function run() {
     console.log('yo')
     let SQL
@@ -70,24 +74,42 @@ async function run() {
     registerPromiseWorker(async function (
         message: absurdSqlPromiseWorkerMessage
     ) {
-        let stmt
-        let user_collection
+        let stmt, user_collection, offset, limit, query
+        query = message.query
+        if (!isNumber(query)) {
+            query = message.query.trim()
+        }
+        offset = message.signOffset || 0
+        limit = message.signLimit || 500
+        const collectionId = message.collectionId ?? 3
         switch (message.type) {
             case 'signSearch':
-                const offset = message.signOffset || 0
-                const limit = message.signLimit || 500
                 // let searchValue = message.searchValue
-                let query = message.query.trim()
                 if (!query) {
                     stmt = db.prepare(
-                        `select * from sign order by phrase asc limit ${limit} offset ${offset}`
+                        `select sign.id as sign_id,
+                        sign.phrase as phrase,
+                        sign.youtube_id as youtube_id,
+                        sign_fts.related_signs as related_signs
+                        from sign
+                        join sign_fts
+                        on sign.id = sign_fts.id
+                        order by phrase asc
+                        limit ${limit}
+                        offset ${offset}`
                     )
                 }
                 if (query[0] === '*') {
                     stmt = db.prepare(
-                        `select * from sign
-                        where phrase like "%${query.substring(1)}%"
-                        order by phrase asc
+                        `select sign.id as sign_id,
+                        sign.phrase as phrase,
+                        sign.youtube_id as youtube_id,
+                        sign_fts.related_signs as related_signs
+                        from sign
+                        join sign_fts
+                        on sign.id = sign_fts.id
+                        where sign.phrase like "%${query.substring(1)}%"
+                        order by sign.phrase asc
                         limit ${limit}
                         offset ${offset}`
                     )
@@ -97,10 +119,14 @@ async function run() {
                         query = query + '*'
                     }
                     stmt = db.prepare(
-                        `select * from sign_fts
+                        `select sign.id as sign_id,
+                        sign.phrase as phrase,
+                        sign.youtube_id as youtube_id,
+                        sign_fts.related_signs as related_signs
+                        from sign_fts
                         join sign on sign.id = sign_fts.id
                         where sign_fts match "${query}"
-                        order by rank, phrase asc
+                        order by rank, sign.phrase asc
                         limit ${limit}
                         offset ${offset}`
                     )
@@ -112,7 +138,7 @@ async function run() {
                 break
 
             case 'sql':
-                stmt = db.prepare(message.query)
+                stmt = db.prepare(query)
                 let res = []
                 while (stmt.step()) {
                     res.push(stmt.getAsObject())
@@ -141,7 +167,7 @@ async function run() {
                         where sign.id in
                           (select sign_collection.sign_id
                             from sign_collection
-                            where sign_collection.collection_id = ${message.collectionId})`)
+                            where sign_collection.collection_id = ${collectionId})`)
                 user_collection = []
                 while (stmt.step()) {
                     user_collection.push(stmt.getAsObject())
@@ -162,9 +188,84 @@ async function run() {
                 break
             case 'addToDefaultUserCollection':
                 db.exec(
-                    `INSERT INTO sign_collection(sign_id,collection_id) VALUES(${message.query},3)`
+                    `INSERT INTO sign_collection(sign_id,collection_id) VALUES(${query},3)`
                 )
-                console.log(message.query)
+                console.log(query)
+            case 'signSearchWithCollectionId':
+                // let searchValue = message.searchValue
+                if (!query) {
+                    stmt = db.prepare(
+                        `select sign.id as sign_id,
+                        sign.phrase as phrase,
+                        sign.youtube_id as youtube_id,
+                        sign_fts.related_signs as related_signs,
+                        collection.id as collection_id,
+                        collection.name as collection_name
+                        from sign
+                        join sign_fts
+                        on sign.id = sign_fts.id
+                        left join sign_collection
+                        on sign.id = sign_collection.sign_id
+                        left join collection
+                        on collection.id = sign_collection.collection_id
+                        where collection.id = ${collectionId}
+                        order by sign.phrase asc
+                        limit ${limit}
+                        offset ${offset}`
+                    )
+                }
+                if (query[0] === '*') {
+                    stmt = db.prepare(
+                        `select sign.id as sign_id,
+                        sign.phrase as phrase,
+                        sign.youtube_id as youtube_id,
+                        sign_fts.related_signs as related_signs,
+                        collection.id as collection_id,
+                        collection.name as collection_name
+                        from sign
+                        join sign_fts
+                        on sign.id = sign_fts.id
+                        left join sign_collection
+                        on sign.id = sign_collection.sign_id
+                        left join collection
+                        on collection.id = sign_collection.collection_id
+                        where sign.phrase like "%${query.substring(1)}%"
+                        and collection.id = ${collectionId}
+                        order by sign.phrase asc
+                        limit ${limit}
+                        offset ${offset}`
+                    )
+                }
+                if (query && query[0] != '*') {
+                    if (query[query.length - 1] != '*') {
+                        query = query + '*'
+                    }
+                    stmt = db.prepare(
+                        `select sign.id as sign_id,
+                        sign.phrase as phrase,
+                        sign.youtube_id as youtube_id,
+                        sign_fts.related_signs as related_signs,
+                        collection.id as collection_id,
+                        collection.name as collection_name
+                        from sign_fts
+                        join sign on sign.id = sign_fts.id
+                        left join sign_collection
+                        on sign.id = sign_collection.sign_id
+                        left join collection
+                        on collection.id = sign_collection.collection_id
+                        where sign_fts match "${query}"
+                        and collection.id = ${collectionId}
+                        order by rank, sign.phrase asc
+                        limit ${limit}
+                        offset ${offset}`
+                    )
+                }
+                let signsWithCollectionId: Signs = []
+                while (stmt.step())
+                    signsWithCollectionId.push(stmt.getAsObject())
+                // postMessage({type:'signs',signs:result})
+                return signsWithCollectionId
+                break
         }
         // console.log(message)
         // let stmt;

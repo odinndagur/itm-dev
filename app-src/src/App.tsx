@@ -9,6 +9,8 @@ import {
     TextField,
 } from '@mui/material'
 
+import { getSignById } from './db'
+
 import './app.css'
 
 import SignList from './SignList'
@@ -156,11 +158,8 @@ function App() {
                     />
                 </div>
             </header>
-            {/* <div style={{display:'flex',flexDirection:'row',padding:'0 2rem',margin:'auto',justifyContent:'space-between',width:'100%'}}> */}
-            {/* <UserCollection/> */}
-            {/* <div> */}
+
             <div className="signlist">
-                {/* {promiseWorkerLoaded ? <InfiniteSignList /> : ''} */}
                 {promiseWorkerLoaded ? (
                     <SignList
                         searchValue={searchValue}
@@ -170,12 +169,6 @@ function App() {
                     ''
                 )}
             </div>
-            {/* {signs.map((sign) => {
-                return <Sign key={sign.id} sign={sign} />
-            })} */}
-            {/* </div> */}
-            {/* </div> */}
-
             <footer style={{ margin: 'auto' }}></footer>
         </div>
     )

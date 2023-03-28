@@ -25,7 +25,7 @@ function Sign({ sign }: { sign: Sign }) {
                     onClick={() => {
                         window.promiseWorker.postMessage({
                             type: 'addToDefaultUserCollection',
-                            query: sign.id,
+                            query: sign.sign_id,
                         })
                     }}
                     variant="outlined"

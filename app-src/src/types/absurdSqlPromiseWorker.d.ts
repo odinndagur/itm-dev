@@ -8,6 +8,7 @@ interface absurdSqlPromiseWorkerMessage {
         | 'getCollectionById'
         | 'getDefaultUserCollection'
         | 'addToDefaultUserCollection'
+        | 'signSearchWithCollectionId'
     query: String
     collectionId?: number
     signOffset?: number

@@ -5,6 +5,8 @@ import AutoSizer from 'react-virtualized-auto-sizer'
 import InfiniteLoader from 'react-window-infinite-loader'
 import { useRef, useEffect, useState, forwardRef } from 'react'
 
+import { searchSigns, searchSignsWithCollectionId } from './db'
+
 const SearchableSignList = ({ searchValue }: { searchValue: string }) => {
     // console.log(searchValue, 'infinitesignlist')
     const PADDING_SIZE = 40
@@ -22,14 +24,10 @@ const SearchableSignList = ({ searchValue }: { searchValue: string }) => {
     const [signs, setSigns] = useState<Signs>([])
     useEffect(() => {
         console.log(searchValue)
-        window.promiseWorker
-            .postMessage({
-                type: 'signSearch',
-                query: searchValue,
-            } satisfies absurdSqlPromiseWorkerMessage)
-            .then((signs: Signs) => {
-                setSigns(signs)
-            })
+        searchSignsWithCollectionId(searchValue, 3).then((signs: Signs) => {
+            setSigns(signs)
+            console.log(signs)
+        })
         outerListRef.current &&
             outerListRef.current.scrollTo({
                 left: 0,
