@@ -1,7 +1,7 @@
 interface Collection {
-    id: number,
-    user_id: number,
-    name: string,
+    id: number
+    user_id: number
+    name: string
     user_name?: string
 }
 

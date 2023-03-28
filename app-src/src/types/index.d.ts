@@ -1,8 +1,8 @@
-export {};
+export {}
 
 declare global {
-  interface Window {
-    promiseWorker: any;
-    worker: any;
-  }
+    interface Window {
+        promiseWorker: any
+        worker: any
+    }
 }

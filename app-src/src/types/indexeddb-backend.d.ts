@@ -1,1 +1,1 @@
-declare module 'absurd-sql/dist/indexeddb-backend';
+declare module 'absurd-sql/dist/indexeddb-backend'
