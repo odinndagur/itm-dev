@@ -13,8 +13,9 @@ function ConditionalSignList({
     listProps: {}
     collection?: number
 }) {
+    const userCollection = 3
     return searchValue === '' && collection == 1 ? (
-        <InfiniteSignList collection={collection} {...listProps} />
+        <InfiniteSignList collection={userCollection} {...listProps} />
     ) : (
         <SearchableSignList
             collection={collection}

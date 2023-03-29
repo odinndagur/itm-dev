@@ -5,7 +5,13 @@ import './app.css'
 import SignList from './SignList'
 import Sign from './Sign'
 import SignPage from './SignPage'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import {
+    createBrowserRouter,
+    BrowserRouter as Router,
+    Route,
+    Routes,
+    ScrollRestoration,
+} from 'react-router-dom'
 import CacheRoute, { CacheSwitch } from 'react-router-cache-route'
 
 function App() {
@@ -16,7 +22,7 @@ function App() {
                     exact
                     path={`${import.meta.env.BASE_URL}`}
                     element={<SignList />}
-                />
+                ></Route>
                 <Route
                     exact
                     path={`${import.meta.env.BASE_URL}signs/:id`}

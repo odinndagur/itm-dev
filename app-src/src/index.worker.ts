@@ -37,6 +37,20 @@ async function run() {
     db.exec(`
   PRAGMA journal_mode=MEMORY;
   `)
+
+    function toObjects(res: any) {
+        return res.flatMap((r: any) =>
+            r.values.map((v: any) => {
+                const o: any = {}
+                for (let i = 0; i < r.columns.length; i++) {
+                    o[r.columns[i]] = v[i]
+                }
+                return o
+            })
+        )
+    }
+    db.query = (...args: any[]) => toObjects(db!.exec(...args))
+
     let initDB = false
     try {
         console.log('try')
@@ -76,7 +90,7 @@ async function run() {
     ) {
         let stmt, user_collection, offset, limit, query
         query = message.query
-        if (!isNumber(query)) {
+        if (typeof query === 'string') {
             query = message.query.trim()
         }
         offset = message.signOffset || 0
@@ -84,96 +98,79 @@ async function run() {
         const collectionId = message.collectionId ?? 3
         switch (message.type) {
             case 'signSearch':
+                console.log('signsearch')
                 // let searchValue = message.searchValue
                 if (!query) {
-                    stmt = db.prepare(
-                        `select sign.id as sign_id,
+                    stmt = `select sign.id as sign_id,
                         sign.phrase as phrase,
                         sign.youtube_id as youtube_id,
-                        sign_fts.related_signs as related_signs
+                        sign_fts.related_signs as related_signs,
+                        CASE WHEN sign_collection.collection_id = ${collectionId} THEN true ELSE false END as is_in_collection
                         from sign
                         join sign_fts
                         on sign.id = sign_fts.id
+                        LEFT JOIN sign_collection
+                        ON sign_collection.sign_id = sign.id
+                        group by sign.id
                         order by phrase asc
                         limit ${limit}
                         offset ${offset}`
-                    )
                 }
                 if (query[0] === '*') {
-                    stmt = db.prepare(
-                        `select sign.id as sign_id,
+                    stmt = `select sign.id as sign_id,
                         sign.phrase as phrase,
                         sign.youtube_id as youtube_id,
-                        sign_fts.related_signs as related_signs
+                        sign_fts.related_signs as related_signs,
+                        CASE WHEN sign_collection.collection_id = ${collectionId} THEN true ELSE false END as is_in_collection
                         from sign
                         join sign_fts
                         on sign.id = sign_fts.id
+                        LEFT JOIN sign_collection
+                        ON sign_collection.sign_id = sign.id
                         where sign.phrase like "%${query.substring(1)}%"
+                        group by sign.id
                         order by sign.phrase asc
                         limit ${limit}
                         offset ${offset}`
-                    )
                 }
                 if (query && query[0] != '*') {
                     if (query[query.length - 1] != '*') {
                         query = query + '*'
                     }
-                    stmt = db.prepare(
-                        `select sign.id as sign_id,
+                    stmt = `select sign.id as sign_id,
                         sign.phrase as phrase,
                         sign.youtube_id as youtube_id,
-                        sign_fts.related_signs as related_signs
+                        sign_fts.related_signs as related_signs,
+                        CASE WHEN sign_collection.collection_id = ${collectionId} THEN true ELSE false END as is_in_collection
                         from sign_fts
                         join sign on sign.id = sign_fts.id
+                        LEFT JOIN sign_collection
+                        ON sign_collection.sign_id = sign.id
                         where sign_fts match "${query}"
+                        group by sign.id
                         order by rank, sign.phrase asc
                         limit ${limit}
                         offset ${offset}`
-                    )
                 }
-                let result: Signs = []
-                while (stmt.step()) result.push(stmt.getAsObject())
-                // postMessage({type:'signs',signs:result})
+                let result: Signs = db.query(stmt)
                 return result
                 break
 
             case 'sql':
-                stmt = db.prepare(query)
-                let res = []
-                while (stmt.step()) {
-                    res.push(stmt.getAsObject())
-                }
-                return res
+                return db.query(query)
                 break
 
             case 'listCollections':
-                stmt = db.prepare(`select collection.id as id,
+                stmt = `select collection.id as id,
                           user.id as user_id,
                           collection.name as name,
                           user.name as user_name 
                           from collection
                           join user
-                          on collection.user_id = user.id`)
-                let all_collections: Collections = []
-                while (stmt.step()) {
-                    all_collections.push(stmt.getAsObject())
-                }
-                console.log(all_collections)
+                          on collection.user_id = user.id`
+                let all_collections: Collections = db.query(stmt)
                 return all_collections
                 break
-
-            case 'getCollectionById':
-                stmt = db.prepare(`SELECT * from sign
-                        where sign.id in
-                          (select sign_collection.sign_id
-                            from sign_collection
-                            where sign_collection.collection_id = ${collectionId})`)
-                user_collection = []
-                while (stmt.step()) {
-                    user_collection.push(stmt.getAsObject())
-                }
-                console.log(user_collection)
-                return user_collection
 
             case 'getDefaultUserCollection':
                 stmt = db.prepare(
@@ -191,11 +188,11 @@ async function run() {
                     `INSERT INTO sign_collection(sign_id,collection_id) VALUES(${query},3)`
                 )
                 console.log(query)
-            case 'signSearchWithCollectionId':
+            case 'getCollectionById':
+                console.log('getCollectionById')
                 // let searchValue = message.searchValue
                 if (!query) {
-                    stmt = db.prepare(
-                        `select sign.id as sign_id,
+                    stmt = `select sign.id as sign_id,
                         sign.phrase as phrase,
                         sign.youtube_id as youtube_id,
                         sign_fts.related_signs as related_signs,
@@ -212,11 +209,9 @@ async function run() {
                         order by sign.phrase asc
                         limit ${limit}
                         offset ${offset}`
-                    )
                 }
                 if (query[0] === '*') {
-                    stmt = db.prepare(
-                        `select sign.id as sign_id,
+                    stmt = `select sign.id as sign_id,
                         sign.phrase as phrase,
                         sign.youtube_id as youtube_id,
                         sign_fts.related_signs as related_signs,
@@ -234,14 +229,12 @@ async function run() {
                         order by sign.phrase asc
                         limit ${limit}
                         offset ${offset}`
-                    )
                 }
                 if (query && query[0] != '*') {
                     if (query[query.length - 1] != '*') {
                         query = query + '*'
                     }
-                    stmt = db.prepare(
-                        `select sign.id as sign_id,
+                    stmt = `select sign.id as sign_id,
                         sign.phrase as phrase,
                         sign.youtube_id as youtube_id,
                         sign_fts.related_signs as related_signs,
@@ -258,14 +251,49 @@ async function run() {
                         order by rank, sign.phrase asc
                         limit ${limit}
                         offset ${offset}`
-                    )
                 }
-                let signsWithCollectionId: Signs = []
-                while (stmt.step())
-                    signsWithCollectionId.push(stmt.getAsObject())
-                // postMessage({type:'signs',signs:result})
-                return signsWithCollectionId
+                let signCollection: Signs = db.query(stmt)
+                return signCollection
                 break
+            case 'signSearchWithCollectionId':
+                console.log('signSearchWithCollectionId')
+                // let searchValue = message.searchValue
+                if (!query) {
+                    stmt = `
+                        select distinct
+                        sign.id as sign_id,
+                        sign.phrase as phrase,
+                        sign.youtube_id as youtube_id,
+                        sign_fts.related_signs as related_signs,
+                            case when sign_collection.collection_id is not null then true else false end as in_collection
+                        from sign
+                        join sign_fts
+                        on sign.id = sign_fts.id
+                        left join sign_collection
+                        on sign.id = sign_collection.sign_id
+                        and sign_collection.collection_id = ${collectionId}
+                        order by sign.phrase asc
+                        limit ${limit}
+                        offset ${offset}`
+                }
+                let allSignsWithCollectionBool: Signs = db.query(stmt)
+                return allSignsWithCollectionBool
+                break
+            case 'checkSignInCollection':
+                const { sign_id, collection_id } = query
+                let res = db.query(`
+                select case when exists
+                    (select *
+                    from sign_collection
+                    where sign_id = ${sign_id}
+                    and collection_id = ${collection_id}
+                    )
+                    then true
+                    else false
+                    end
+                    as in_collection;
+                `)[0]
+                return Boolean(res.in_collection)
         }
         // console.log(message)
         // let stmt;

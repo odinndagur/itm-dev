@@ -5,7 +5,11 @@ import AutoSizer from 'react-virtualized-auto-sizer'
 import InfiniteLoader from 'react-window-infinite-loader'
 import { useRef, useEffect, useState, forwardRef } from 'react'
 
-import { searchSigns, searchSignsWithCollectionId } from './db'
+import {
+    searchSigns,
+    searchSignsWithCollectionId,
+    getCollectionById,
+} from './db'
 
 const SearchableSignList = ({
     searchValue,
@@ -28,14 +32,15 @@ const SearchableSignList = ({
         />
     ))
     const [signs, setSigns] = useState<Signs>([])
+    const onItemsRendered = (props: any) => {
+        console.log(props)
+    }
     useEffect(() => {
         console.log(searchValue)
-        searchSignsWithCollectionId(searchValue, collection).then(
-            (signs: Signs) => {
-                setSigns(signs)
-                console.log(signs)
-            }
-        )
+        getCollectionById(searchValue, collection).then((signs: Signs) => {
+            setSigns(signs)
+            console.log(signs)
+        })
         outerListRef.current &&
             outerListRef.current.scrollTo({
                 left: 0,
@@ -56,6 +61,7 @@ const SearchableSignList = ({
                     overscanCount={100}
                     outerRef={outerListRef}
                     innerElementType={innerElementType}
+                    onItemsRendered={onItemsRendered}
                 >
                     {({ index, style }) => {
                         const sign = signs[index]

@@ -1,13 +1,34 @@
 import { Button } from '@mui/material'
-import { Add } from '@mui/icons-material'
-import { YoutubeEmbed } from './YoutubeEmbed'
-import { useState } from 'react'
+import { Add, Remove } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { checkSignInCollection } from './db'
+
 function Sign({ sign }: { sign: Sign }) {
-    const [youtubeShowing, setYoutubeShowing] = useState(false)
-    function showYt() {
-        console.log('showyoutube')
-        setYoutubeShowing(!youtubeShowing)
+    const [inCollection, setInCollection] = useState(
+        Boolean(sign.in_collection)
+    )
+    const toggleUserCollection = async () => {
+        const collection_id = 3
+        const sign_id = sign.sign_id
+        const exists = await checkSignInCollection({
+            sign_id: sign_id,
+            collection_id: collection_id,
+        })
+        setInCollection(!exists)
+        if (exists) {
+            window.promiseWorker.postMessage({
+                type: 'sql',
+                query: `delete from sign_collection
+                where sign_id = ${sign_id}
+                and collection_id = ${collection_id}`,
+            } satisfies absurdSqlPromiseWorkerMessage)
+        } else {
+            window.promiseWorker.postMessage({
+                type: 'sql',
+                query: `insert into sign_collection(sign_id, collection_id) values(${sign_id},${collection_id})`,
+            } satisfies absurdSqlPromiseWorkerMessage)
+        }
     }
 
     return (
@@ -22,17 +43,12 @@ function Sign({ sign }: { sign: Sign }) {
         >
             <div>
                 <Button
-                    onClick={() => {
-                        window.promiseWorker.postMessage({
-                            type: 'addToDefaultUserCollection',
-                            query: sign.sign_id,
-                        })
-                    }}
+                    onClick={toggleUserCollection}
                     variant="outlined"
                     size="small"
                     sx={{}}
                 >
-                    <Add />
+                    {!inCollection ? <Add /> : <Remove />}
                 </Button>
             </div>
             <Link

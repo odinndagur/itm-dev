@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { searchSignsWithCollectionId } from './db'
+import { signSearchWithCollectionId, getCollectionById } from './db'
 const elementsPerPage = 300
 
 function useSigns({ collection }) {
@@ -30,7 +30,7 @@ function useSigns({ collection }) {
         //         signOffset: offset,
         //         signLimit: limit,
         //     } satisfies absurdSqlPromiseWorkerMessage)
-        searchSignsWithCollectionId('', collection, limit, offset).then(
+        signSearchWithCollectionId('', collection, limit, offset).then(
             (signsData: Signs) => {
                 console.log(signs)
                 console.log({ signsdata: signsData })
