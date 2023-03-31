@@ -7,7 +7,7 @@ import { useRef, useEffect, useState, forwardRef } from 'react'
 
 import {
     searchSigns,
-    searchSignsWithCollectionId,
+    signSearchWithCollectionId,
     getCollectionById,
 } from './db'
 
