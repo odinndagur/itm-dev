@@ -23,39 +23,57 @@ function SignPage() {
 
     return (
         <div className="sign" id={sign.sign_id}>
-            <div className="sign-phrase">
-                <h2>{sign.phrase}</h2>
-            </div>
             <div>
-                <YoutubeEmbed embedId={sign.youtube_ids[0]}/>
-            </div>
-            <div className='sign-info'>
-                {sign.efnisflokkar && (
-                <div className='sign-item'>
-                    <b>Efnisflokkar</b>
-                    {sign.efnisflokkar.map(efnisflokkur => {
-                        return <div key={efnisflokkur}>{efnisflokkur}</div>
-                    })}
+                <div>
+                    <h2 className="sign-phrase">{sign.phrase}</h2>
+                    <YoutubeEmbed embedId={sign.youtube_ids[0]}/>
                 </div>
-                )}
-                {sign.ordflokkur && (
-                <div className='sign-item'>
-                    <b>Orðflokkur</b>
-                        <div>{sign.ordflokkur}</div>
+                <div className='sign-info'>
+                    {sign.efnisflokkar && (
+                    <div className='sign-info-item'>
+                        <b>Efnisflokkar</b>
+                        {sign.efnisflokkar.map(efnisflokkur => {
+                            return <div key={efnisflokkur}>{efnisflokkur}</div>
+                        })}
+                    </div>
+                    )}
+                    {sign.ordflokkur && (
+                    <div className='sign-info-item'>
+                        <b>Orðflokkur</b>
+                            <div>{sign.ordflokkur}</div>
+                    </div>
+                    )}
+                    {sign.myndunarstadur && (
+                    <div className='sign-info-item'>
+                        <b>Myndunarstaður</b>
+                            <div>{sign.myndunarstadur}</div>
+                    </div>
+                    )}
+                    {sign.handform && (
+                    <div className='sign-info-item'>
+                        <b>Handform</b>
+                            <div>{sign.handform}</div>
+                    </div>
+                    )}
+                    {sign.description && (
+                    <div className='sign-info-item'>
+                        <b>Lýsing</b>
+                            <div>{sign.description}</div>
+                    </div>
+                    )}
+                    {sign.islenska && (
+                    <div className='sign-info-item'>
+                        <b>Íslenska</b>
+                            <div>{sign.islenska}</div>
+                    </div>
+                    )}
+                    {sign.taknmal && (
+                    <div className='sign-info-item'>
+                        <b>Táknmál</b>
+                            <div>{sign.taknmal}</div>
+                    </div>
+                    )}
                 </div>
-                )}
-                {sign.myndunarstadur && (
-                <div className='sign-item'>
-                    <b>Myndunarstaður</b>
-                        <div>{sign.myndunarstadur}</div>
-                </div>
-                )}
-                {sign.handform && (
-                <div className='sign-item'>
-                    <b>Handform</b>
-                        <div>{sign.handform}</div>
-                </div>
-                )}
             </div>
             <div className="alternate-videos">
                 {sign.youtube_ids.slice(1).map((id) => {

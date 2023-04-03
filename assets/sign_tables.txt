@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS "sign" (
         "myndunarstadur" TEXT,
         "ordflokkur" TEXT,
         "handform" TEXT,
+        "taknmal" TEXT,
         PRIMARY KEY("id")
 );
 

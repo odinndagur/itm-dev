@@ -1,7 +1,7 @@
 .sign {
     display: flex;
     flex-direction: column;
-    max-width: 80vw;
+    /* max-width: 80vw; */
     height: 100%;
     justify-content: space-between;
     margin: auto;
@@ -32,11 +32,11 @@
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    /* justify-content: space-between; */
-    align-items: baseline;
+    justify-content: space-between;
+    align-items: flex-end;
 }
 
-.sign-item {
+.sign-info-item {
     padding: 0.5rem 0.5rem;
     /* flex-basis: 50%; */
     text-align: left;
