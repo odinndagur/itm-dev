@@ -120,7 +120,7 @@ async function run() {
                 console.log('signsearch')
                 // let searchValue = message.searchValue
                 if (!query) {
-                    stmt = `select sign.id as sign_id,
+                    stmt = `select distinct sign.id as sign_id,
                         sign.phrase as phrase,
                         sign_video.video_id as youtube_id,
                         sign_fts.related_signs as related_signs,
@@ -138,7 +138,7 @@ async function run() {
                         offset ${offset}`
                 }
                 if (query[0] === '*') {
-                    stmt = `select sign.id as sign_id,
+                    stmt = `select distinct sign.id as sign_id,
                         sign.phrase as phrase,
                         sign_video.video_id as youtube_id,
                         sign_fts.related_signs as related_signs,
@@ -160,7 +160,7 @@ async function run() {
                     if (query[query.length - 1] != '*') {
                         query = query + '*'
                     }
-                    stmt = `select sign.id as sign_id,
+                    stmt = `select distinct sign.id as sign_id,
                         sign.phrase as phrase,
                         sign_video.video_id as youtube_id,
                         sign_fts.related_signs as related_signs,
@@ -217,7 +217,7 @@ async function run() {
                 console.log('getCollectionById')
                 // let searchValue = message.searchValue
                 if (!query) {
-                    stmt = `select sign.id as sign_id,
+                    stmt = `select distinct sign.id as sign_id,
                         sign.phrase as phrase,
                         sign_video.video_id as youtube_id,
                         sign_fts.related_signs as related_signs,
@@ -233,12 +233,13 @@ async function run() {
                         LEFT JOIN sign_video
                         ON sign.id = sign_video.sign_id
                         where collection.id = ${collectionId}
+                        group by sign.id
                         order by sign.phrase asc
                         limit ${limit}
                         offset ${offset}`
                 }
                 if (query[0] === '*') {
-                    stmt = `select sign.id as sign_id,
+                    stmt = `select distinct sign.id as sign_id,
                         sign.phrase as phrase,
                         sign_video.video_id as youtube_id,
                         sign_fts.related_signs as related_signs,
@@ -255,6 +256,7 @@ async function run() {
                         ON sign.id = sign_video.sign_id
                         where sign.phrase like "%${query.substring(1)}%"
                         and collection.id = ${collectionId}
+                        group by sign.id
                         order by sign.phrase asc
                         limit ${limit}
                         offset ${offset}`
@@ -263,7 +265,7 @@ async function run() {
                     if (query[query.length - 1] != '*') {
                         query = query + '*'
                     }
-                    stmt = `select sign.id as sign_id,
+                    stmt = `select distinct sign.id as sign_id,
                         sign.phrase as phrase,
                         sign_video.video_id as youtube_id,
                         sign_fts.related_signs as related_signs,
@@ -279,6 +281,7 @@ async function run() {
                         ON sign.id = sign_video.sign_id
                         where sign_fts match "${query}"
                         and collection.id = ${collectionId}
+                        group by sign.id
                         order by sign_fts.rank, sign.phrase asc
                         limit ${limit}
                         offset ${offset}`

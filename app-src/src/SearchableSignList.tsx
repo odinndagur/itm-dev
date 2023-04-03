@@ -32,8 +32,9 @@ const SearchableSignList = ({
         />
     ))
     const [signs, setSigns] = useState<Signs>([])
-    const onItemsRendered = (props: any) => {
-        console.log(props)
+    //@ts-ignore
+    const onItemsRendered = ({visibleStartIndex, visibleStopIndex}) => {
+        console.log(visibleStartIndex, visibleStopIndex)
     }
     useEffect(() => {
         console.log(searchValue)

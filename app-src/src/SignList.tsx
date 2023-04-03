@@ -19,7 +19,7 @@ function ConditionalSignList({
         <InfiniteSignList collection={userCollection} {...listProps} />
     ) : (
         <SearchableSignList
-            collection={collection}
+            collection={collection!}
             searchValue={searchValue}
             {...listProps}
         />
