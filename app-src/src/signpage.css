@@ -16,14 +16,14 @@
 
 .alternate-videos {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 .alternate-video {
     display: block;
-    /* flex-basis: 80%; */
+    flex-basis: 80%;
     height: auto;
-    width: 80%;
+    /* width: 80%; */
     margin: auto;
 }
 
@@ -33,7 +33,7 @@
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: flex-start;
 }
 
 .sign-info-item {

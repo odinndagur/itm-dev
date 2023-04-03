@@ -50,7 +50,7 @@ function useSigns({ collection }) {
 
     useEffect(() => {
         setSigns([])
-    }, collection)
+    }, [collection])
     const checkIfSignLoaded = (index: number) => {
         return !hasNextPage || index < signs.length
     }
