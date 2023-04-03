@@ -3,6 +3,26 @@
     flex-direction: column;
     max-width: 80vw;
     height: 100%;
-    justify-content: center;
+    justify-content: space-between;
+    margin: auto;
+    padding: 1rem 1rem;
+    box-sizing: border-box;
+}
+
+.sign-phrase {
+    text-align: center;
+    font-weight: 700;
+}
+
+.alternate-videos {
+    display: flex;
+    flex-direction: column;
+}
+
+.alternate-video {
+    display: block;
+    /* flex-basis: 80%; */
+    height: auto;
+    width: 80%;
     margin: auto;
 }

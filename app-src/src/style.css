@@ -34,13 +34,15 @@ a {
 
 #root {
     height: 100%;
+    padding-top: calc(env(safe-area-inset-top, 3rem) + 1em);
+    box-sizing: border-box;
     /* background-color: red; */
 }
 
 header {
     position: sticky;
     text-align: center;
-    padding-top: calc(env(safe-area-inset-top, 3rem) + 1em);
+    /* padding-top: calc(env(safe-area-inset-top, 3rem) + 1em); */
     padding-bottom: 2rem;
     /* margin-bottom: 2rem; */
     /* padding-bottom: env(safe-area-inset-bottom,0.3rem);

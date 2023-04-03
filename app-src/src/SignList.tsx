@@ -27,9 +27,9 @@ function ConditionalSignList({
 
 function SignList() {
     const [searchValue, setSearchValue] = useState('')
-    const [promiseWorkerLoaded, setPromiseWorkerLoaded] = useState(false)
     const [collection, setCollection] = useState(1)
-
+    
+    const [promiseWorkerLoaded, setPromiseWorkerLoaded] = useState(false)
     useEffect(() => {
         const intervalID = setInterval(() => {
             console.log('callback yo')

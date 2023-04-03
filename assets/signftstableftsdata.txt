@@ -1,3 +1,5 @@
+CREATE VIRTUAL TABLE IF NOT EXISTS sign_fts USING FTS5(id,phrase,related_signs);
+/* sign_fts(id,phrase,related_signs) */;
 INSERT INTO sign_fts (id, phrase, related_signs)
 SELECT s.id, s.phrase, group_concat(r.phrase)
 from sign as s

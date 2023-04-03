@@ -1,8 +1,40 @@
 const getSignById = async (id: number) => {
     const signs = await window.promiseWorker.postMessage({
         type: 'sql',
-        query: `select * from sign where id = ${id}`,
+        query: `
+            SELECT sign.*,
+            GROUP_CONCAT(distinct sign_video.rank || ':' || sign_video.video_id) as youtube_ids,
+            GROUP_CONCAT(distinct efnisflokkur.text) as efnisflokkar,
+            myndunarstadur,
+            ordflokkur
+            FROM sign
+            JOIN sign_video
+            ON sign.id = sign_video.sign_id
+            JOIN sign_efnisflokkur
+            ON sign_efnisflokkur.sign_id = sign.id
+            JOIN efnisflokkur
+            ON sign_efnisflokkur.efnisflokkur_id = efnisflokkur.id
+
+            
+            WHERE sign.id = ${id}
+            GROUP BY sign.id
+            `,
     } satisfies absurdSqlPromiseWorkerMessage)
+    let sign = signs[0]
+    sign['youtube_ids'] = sign['youtube_ids']
+        .split(',')
+        .sort((a: any, b: any) => {
+            let rank1 = a.split(':')[0]
+            let rank2 = b.split(':')[0]
+            return rank1 - rank2
+        })
+        .map((video: any) => {
+            return video.split(':')[1]
+        })
+
+    sign['efnisflokkar'] = sign['efnisflokkar'].split(',')
+    console.log('getsignbyid')
+    console.log(sign)
     return signs[0]
 }
 

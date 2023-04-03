@@ -65,20 +65,36 @@ async function run() {
         let filepathPrefix = `${import.meta.env.BASE_URL}`
         // }
         const filepaths = [
-            `${filepathPrefix}assets/signfts.txt`,
-            `${filepathPrefix}assets/signftsdata.txt`,
+            // `${filepathPrefix}assets/signfts.txt`,
+            // `${filepathPrefix}assets/signftsdata.txt`,
+            // `${filepathPrefix}assets/sign-nytt-tables.txt`,
+            // `${filepathPrefix}assets/sign-nytt.txt`,
+            `${filepathPrefix}assets/sign_tables.txt`,
+            `${filepathPrefix}assets/sign_db_data.txt`,
             `${filepathPrefix}assets/signftstableftsdata.txt`,
         ]
         for (let filepath of filepaths) {
-            for await (let line of splitTextFileBySemicolon(filepath)) {
-                // console.log(line)
-                try {
-                    db.exec(line)
-                } catch (error) {
-                    console.error(error)
+            if (filepath.includes('db_data')) {
+                for await (let line of makeTextFileLineIterator(filepath)) {
+                    // console.log(line)
+                    try {
+                        db.exec(line)
+                    } catch (error) {
+                        console.error(error)
+                    }
+                }
+            } else {
+                for await (let line of splitTextFileBySemicolon(filepath)) {
+                    // console.log(line)
+                    try {
+                        db.exec(line)
+                    } catch (error) {
+                        console.error(error)
+                    }
                 }
             }
         }
+        // db.exec()
         db.exec('INSERT INTO user(name, id) VALUES("default_user",3);')
         db.exec(
             'INSERT INTO collection(id,user_id,name) VALUES(3,3,"default_collection");'
@@ -103,7 +119,7 @@ async function run() {
                 if (!query) {
                     stmt = `select sign.id as sign_id,
                         sign.phrase as phrase,
-                        sign.youtube_id as youtube_id,
+                        sign_video.video_id as youtube_id,
                         sign_fts.related_signs as related_signs,
                         CASE WHEN sign_collection.collection_id = ${collectionId} THEN true ELSE false END as is_in_collection
                         from sign
@@ -111,6 +127,8 @@ async function run() {
                         on sign.id = sign_fts.id
                         LEFT JOIN sign_collection
                         ON sign_collection.sign_id = sign.id
+                        LEFT JOIN sign_video
+                        ON sign.id = sign_video.sign_id
                         group by sign.id
                         order by phrase asc
                         limit ${limit}
@@ -119,7 +137,7 @@ async function run() {
                 if (query[0] === '*') {
                     stmt = `select sign.id as sign_id,
                         sign.phrase as phrase,
-                        sign.youtube_id as youtube_id,
+                        sign_video.video_id as youtube_id,
                         sign_fts.related_signs as related_signs,
                         CASE WHEN sign_collection.collection_id = ${collectionId} THEN true ELSE false END as is_in_collection
                         from sign
@@ -127,6 +145,8 @@ async function run() {
                         on sign.id = sign_fts.id
                         LEFT JOIN sign_collection
                         ON sign_collection.sign_id = sign.id
+                        LEFT JOIN sign_video
+                        ON sign.id = sign_video.sign_id
                         where sign.phrase like "%${query.substring(1)}%"
                         group by sign.id
                         order by sign.phrase asc
@@ -139,16 +159,18 @@ async function run() {
                     }
                     stmt = `select sign.id as sign_id,
                         sign.phrase as phrase,
-                        sign.youtube_id as youtube_id,
+                        sign_video.video_id as youtube_id,
                         sign_fts.related_signs as related_signs,
                         CASE WHEN sign_collection.collection_id = ${collectionId} THEN true ELSE false END as is_in_collection
                         from sign_fts
                         join sign on sign.id = sign_fts.id
                         LEFT JOIN sign_collection
                         ON sign_collection.sign_id = sign.id
+                        LEFT JOIN sign_video
+                        ON sign.id = sign_video.sign_id
                         where sign_fts match "${query}"
                         group by sign.id
-                        order by rank, sign.phrase asc
+                        order by sign_fts.rank, sign.phrase asc
                         limit ${limit}
                         offset ${offset}`
                 }
@@ -194,7 +216,7 @@ async function run() {
                 if (!query) {
                     stmt = `select sign.id as sign_id,
                         sign.phrase as phrase,
-                        sign.youtube_id as youtube_id,
+                        sign_video.video_id as youtube_id,
                         sign_fts.related_signs as related_signs,
                         collection.id as collection_id,
                         collection.name as collection_name
@@ -205,6 +227,8 @@ async function run() {
                         on sign.id = sign_collection.sign_id
                         left join collection
                         on collection.id = sign_collection.collection_id
+                        LEFT JOIN sign_video
+                        ON sign.id = sign_video.sign_id
                         where collection.id = ${collectionId}
                         order by sign.phrase asc
                         limit ${limit}
@@ -213,7 +237,7 @@ async function run() {
                 if (query[0] === '*') {
                     stmt = `select sign.id as sign_id,
                         sign.phrase as phrase,
-                        sign.youtube_id as youtube_id,
+                        sign_video.video_id as youtube_id,
                         sign_fts.related_signs as related_signs,
                         collection.id as collection_id,
                         collection.name as collection_name
@@ -224,6 +248,8 @@ async function run() {
                         on sign.id = sign_collection.sign_id
                         left join collection
                         on collection.id = sign_collection.collection_id
+                        LEFT JOIN sign_video
+                        ON sign.id = sign_video.sign_id
                         where sign.phrase like "%${query.substring(1)}%"
                         and collection.id = ${collectionId}
                         order by sign.phrase asc
@@ -236,7 +262,7 @@ async function run() {
                     }
                     stmt = `select sign.id as sign_id,
                         sign.phrase as phrase,
-                        sign.youtube_id as youtube_id,
+                        sign_video.video_id as youtube_id,
                         sign_fts.related_signs as related_signs,
                         collection.id as collection_id,
                         collection.name as collection_name
@@ -246,9 +272,11 @@ async function run() {
                         on sign.id = sign_collection.sign_id
                         left join collection
                         on collection.id = sign_collection.collection_id
+                        LEFT JOIN sign_video
+                        ON sign.id = sign_video.sign_id
                         where sign_fts match "${query}"
                         and collection.id = ${collectionId}
-                        order by rank, sign.phrase asc
+                        order by sign_fts.rank, sign.phrase asc
                         limit ${limit}
                         offset ${offset}`
                 }
@@ -263,7 +291,7 @@ async function run() {
                         select distinct
                         sign.id as sign_id,
                         sign.phrase as phrase,
-                        sign.youtube_id as youtube_id,
+                        sign_video.video_id as youtube_id,
                         sign_fts.related_signs as related_signs,
                             case when sign_collection.collection_id is not null then true else false end as in_collection
                         from sign
@@ -272,6 +300,8 @@ async function run() {
                         left join sign_collection
                         on sign.id = sign_collection.sign_id
                         and sign_collection.collection_id = ${collectionId}
+                        LEFT JOIN sign_video
+                        ON sign.id = sign_video.sign_id
                         order by sign.phrase asc
                         limit ${limit}
                         offset ${offset}`
@@ -309,7 +339,7 @@ async function run() {
         //       if(query[query.length-1] != '*'){
         //           query = query + '*'
         //       }
-        //       stmt = db.prepare(`select * from sign_fts join sign on sign.id = sign_fts.id where sign_fts match "${query}" order by rank, phrase asc`)
+        //       stmt = db.prepare(`select * from sign_fts join sign on sign.id = sign_fts.id where sign_fts match "${query}" order by sign_fts.rank, phrase asc`)
         //   }
         //   let result = []
         //   while (stmt.step()) result.push(stmt.getAsObject());

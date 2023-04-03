@@ -1,6 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+         <!-- Start Single Page Apps for GitHub Pages -->
+         <script type="text/javascript">
+            // Single Page Apps for GitHub Pages
+            // MIT License
+            // https://github.com/rafgraph/spa-github-pages
+            // This script checks to see if a redirect is present in the query string,
+            // converts it back into the correct url and adds it to the
+            // browser's history using window.history.replaceState(...),
+            // which won't cause the browser to attempt to load the new url.
+            // When the single page app is loaded further down in this file,
+            // the correct url will be waiting in the browser's history for
+            // the single page app to route accordingly.
+            (function (l) {
+                console.log('redirect nett stuff')
+                if (l.search[1] === '/') {
+                    var decoded = l.search
+                        .slice(1)
+                        .split('&')
+                        .map(function (s) {
+                            return s.replace(/~and~/g, '&')
+                        })
+                        .join('?')
+                    window.history.replaceState(
+                        null,
+                        null,
+                        l.pathname.slice(0, -1) + decoded + l.hash
+                    )
+                }
+            })(window.location)
+        </script>
+        <!-- End Single Page Apps for GitHub Pages -->
         <link rel="manifest" href="/itm-dev/assets/manifest.webmanifest" />
         <link rel="dns-prefetch" href="//youtube.com" />
         <link rel="dns-prefetch" href="//youtube-nocookie.com" />
@@ -286,13 +317,15 @@
             rel="stylesheet"
         />
         <title>Íslenskt táknmál</title>
+
+       
         <link rel="canonical" href="https://taknmal.github.io/itm-dev/" />
         <!-- <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js" crossorigin></script>
     <script src='https://unpkg.com/react-router-dom@5.0.0/umd/react-router-dom.min.js' crossorigin></script> -->
-      <script type="module" crossorigin src="/itm-dev/assets/index-25974027.js"></script>
-      <link rel="stylesheet" href="/itm-dev/assets/index-31e13174.css">
+      <script type="module" crossorigin src="/itm-dev/assets/index-159aa38e.js"></script>
+      <link rel="stylesheet" href="/itm-dev/assets/index-bc8d9e59.css">
     </head>
     <body>
         <script>
