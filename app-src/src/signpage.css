@@ -26,3 +26,18 @@
     width: 80%;
     margin: auto;
 }
+
+.sign-info {
+    padding: 0rem 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    /* justify-content: space-between; */
+    align-items: baseline;
+}
+
+.sign-item {
+    padding: 0.5rem 0.5rem;
+    /* flex-basis: 50%; */
+    text-align: left;
+}

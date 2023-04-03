@@ -95,6 +95,9 @@ async function run() {
             }
         }
         // db.exec()
+        db.exec('INSERT INTO user(name,id) VALUES("ÍTM",1)')
+        db.exec('INSERT INTO collection(id,user_id,name) VALUES(1,1,"Öll tákn")')
+        db.exec('INSERT INTO sign_collection(sign_id,collection_id) SELECT sign.id, 1 FROM sign')
         db.exec('INSERT INTO user(name, id) VALUES("default_user",3);')
         db.exec(
             'INSERT INTO collection(id,user_id,name) VALUES(3,3,"default_collection");'

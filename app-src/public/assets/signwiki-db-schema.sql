@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS "sign" (
         "islenska" TEXT,
         "myndunarstadur" TEXT,
         "ordflokkur" TEXT,
+        "handform" TEXT,
         PRIMARY KEY("id")
 );
 
@@ -72,19 +73,6 @@ CREATE TABLE IF NOT EXISTS "myndatexti"(
 --     "id" INTEGER PRIMARY KEY,
 --     "text" TEXT NOT NULL
 -- );
-
-CREATE TABLE IF NOT EXISTS "sign_handform"(
-    "sign_id" INTEGER,
-    "handform_id" INTEGER,
-    "rank" INTEGER,
-    FOREIGN KEY("sign_id") REFERENCES "sign"("id"),
-    FOREIGN KEY("handform_id") REFERENCES "handform"("id")
-);
-
-CREATE TABLE IF NOT EXISTS "handform"(
-    "handform_id" INTEGER PRIMARY KEY,
-    "text"
-);
 
 CREATE TABLE IF NOT EXISTS "sign_twohandforms"(
     "sign_id" INTEGER,
