@@ -1,3 +1,4 @@
+PRAGMA user_version = 1;
 CREATE TABLE IF NOT EXISTS "sign_collection" (
 	"sign_id"	INTEGER,
 	"collection_id"	INTEGER,

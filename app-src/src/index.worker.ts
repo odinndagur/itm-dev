@@ -45,24 +45,29 @@ async function run() {
     }
     db.query = (...args: any[]) => toObjects(db!.exec(...args))
 
+    const currentVersion = 3
     let initDB = false
     try {
         console.log('try')
         db.exec('select * from sign_fts limit 5')
+        const res = await db.query('pragma user_version')
+        const user_version = res[0].user_version
+        console.log('pragma user version', user_version, currentVersion)
+        if (res.length && user_version != currentVersion) {
+            initDB = true
+            db.exec(`PRAGMA writable_schema = 1;
+            delete from sqlite_master where type in ('table', 'index', 'trigger');
+            PRAGMA writable_schema = 0;
+            VACUUM;
+            PRAGMA INTEGRITY_CHECK`)
+        }
     } catch (error) {
         console.log('except')
         initDB = true
     }
     if (initDB) {
-        // let filepathPrefix = ''
-        // if (import.meta.env.MODE != 'development') {
         let filepathPrefix = `${import.meta.env.BASE_URL}`
-        // }
         const filepaths = [
-            // `${filepathPrefix}assets/signfts.txt`,
-            // `${filepathPrefix}assets/signftsdata.txt`,
-            // `${filepathPrefix}assets/sign-nytt-tables.txt`,
-            // `${filepathPrefix}assets/sign-nytt.txt`,
             `${filepathPrefix}assets/sign_tables.txt`,
             `${filepathPrefix}assets/sign_db_data.txt`,
             `${filepathPrefix}assets/signftstableftsdata.txt`,
@@ -90,18 +95,23 @@ async function run() {
         }
         // db.exec()
         db.exec('INSERT INTO user(name,id) VALUES("ÍTM",1)')
-        db.exec('INSERT INTO collection(id,user_id,name) VALUES(1,1,"Öll tákn")')
-        db.exec('INSERT INTO sign_collection(sign_id,collection_id) SELECT sign.id, 1 FROM sign')
-        db.exec('INSERT INTO user(name, id) VALUES("default_user",3);')
         db.exec(
-            'INSERT INTO collection(id,user_id,name) VALUES(3,3,"default_collection");'
+            'INSERT INTO collection(id,user_id,name) VALUES(1,1,"Öll tákn")'
         )
+        db.exec(
+            'INSERT INTO sign_collection(sign_id,collection_id) SELECT sign.id, 1 FROM sign'
+        )
+        db.exec('INSERT INTO user(name, id) VALUES("User",3);')
+        db.exec(
+            'INSERT INTO collection(id,user_id,name) VALUES(3,3,"User collection");'
+        )
+        db.exec(`pragma user_version = ${currentVersion}`)
     }
 
     registerPromiseWorker(async function (
         message: absurdSqlPromiseWorkerMessage
     ) {
-        switch (message.type){
+        switch (message.type) {
             case 'sql':
                 return db.query(message.query)
             case 'exec':
@@ -149,7 +159,6 @@ async function lineDoer() {
         processLine(line)
     }
 }
-
 
 async function* splitTextFileBySemicolon(fileURL: string) {
     const utf8Decoder = new TextDecoder('utf-8')

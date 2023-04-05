@@ -1,9 +1,9 @@
 //@ts-nocheck
 import { useState, useEffect, FormEvent } from 'react'
-import SignList from './Components/SignList'
 import SignPage from './Components/SignPage'
 import Efnisflokkar from './Components/Efnisflokkar'
 import Efnisflokkur from './Components/Efnisflokkur'
+import Home from './Components/Home'
 import { query } from './db'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Collections from './Components/Collections'
@@ -35,7 +35,7 @@ function App() {
     return (
         <Router basename={import.meta.env.BASE_URL}>
             <Routes>
-                <Route exact path={''} element={<Collections />}></Route>
+                <Route exact path={''} element={<Home />}></Route>
                 <Route exact path={`/signs/:id`} element={<SignPage />} />
                 <Route
                     exact

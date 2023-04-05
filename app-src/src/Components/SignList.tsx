@@ -1,6 +1,7 @@
 import InfiniteSignList from './InfiniteSignList'
 import SearchableSignList from './SearchableSignList'
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Switch } from '@mui/material'
 import './SignList.css'
 
@@ -26,9 +27,9 @@ function ConditionalSignList({
 }
 
 function SignList() {
-    const [searchValue, setSearchValue] = useState('')  
+    const [searchValue, setSearchValue] = useState('')
     const [collection, setCollection] = useState(1)
-    
+
     function changeCollection() {
         if (collection == 1) {
             setCollection(3)
@@ -47,7 +48,9 @@ function SignList() {
             style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
         >
             <header>
-                <h1 className="heading">ÍTM</h1>
+                <Link to={'/'}>
+                    <h1 className="heading">ÍTM</h1>
+                </Link>
                 <div className="search">
                     {/* <TextField
                         id="outlined-basic"
@@ -66,11 +69,11 @@ function SignList() {
                 <span>Mín tákn</span>
             </header>
             <div className="signlist">
-                    <ConditionalSignList
-                        searchValue={searchValue}
-                        listProps={{ itemSize: 40 }}
-                        collection={collection}
-                    />
+                <ConditionalSignList
+                    searchValue={searchValue}
+                    listProps={{ itemSize: 40 }}
+                    collection={collection}
+                />
             </div>
             <footer style={{ margin: 'auto' }}></footer>
         </div>

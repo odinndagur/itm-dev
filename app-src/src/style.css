@@ -34,7 +34,8 @@ a {
 
 #root {
     height: 100%;
-    padding-top: calc(env(safe-area-inset-top, 1rem) + 1em);
+    /* padding-top: calc(env(safe-area-inset-top, 1rem) + 1em); */
+    padding-top: calc(env(safe-area-inset-top, 1rem));
     /* padding-top: calc(env(safe-area-inset-top, 3rem) + 1em); */
     box-sizing: border-box;
     /* background-color: red; */
@@ -56,12 +57,12 @@ header {
 }
 
 .heading {
-    /* text-align: center; */
-    /* color:#000; */
-    /* font-family: 'Faustina';
+    text-align: center;
+    color: #000;
+    font-family: 'Faustina';
     font-size: 30pt;
     font-style: italic;
-    padding: 1rem 1rem; */
+    /* padding: 1rem 1rem; */
 }
 
 .app {

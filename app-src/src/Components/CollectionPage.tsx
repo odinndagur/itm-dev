@@ -3,6 +3,7 @@ import { useParams } from 'react-router'
 import { useEffect, useState } from 'react'
 import { query, getCollectionById } from '../db'
 import './SignList.css'
+import { Link } from 'react-router-dom'
 
 function CollectionPage() {
     const params: any = useParams()
@@ -24,7 +25,9 @@ function CollectionPage() {
     return (
         <div className="flexcol">
             <header>
-                <h1 className="heading">ÍTM</h1>
+                <Link to={'/'}>
+                    <h1 className="heading">ÍTM</h1>
+                </Link>
                 <h3>{collectionName}</h3>
                 <div className="search">
                     <input

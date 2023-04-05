@@ -9,9 +9,4 @@ export default defineConfig({
             include: '**/*.tsx',
         }),
     ],
-    // build: {
-    //   watch: {
-    //     // https://rollupjs.org/guide/en/#watch-options
-    //   }
-    // }
 })

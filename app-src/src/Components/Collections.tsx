@@ -2,6 +2,7 @@ import SearchableSignList from './SearchableSignList'
 import { useEffect, useState } from 'react'
 import { query, getCollectionById } from '../db'
 import './SignList.css'
+import { Link } from 'react-router-dom'
 
 function Collections() {
     const [searchValue, setSearchValue] = useState('')
@@ -34,7 +35,9 @@ function Collections() {
     return (
         <div className="flexcol">
             <header>
-                <h1 className="heading">ÍTM</h1>
+                <h1 className="heading">
+                    <Link to={'/'}>ÍTM</Link>
+                </h1>
                 <h3>Táknasöfn</h3>
                 <div className="search">
                     <input

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { query } from '../db'
+import { Link } from 'react-router-dom'
 function Efnisflokkar() {
     const [efnisflokkar, setEfnisflokkar] = useState([])
     const [loaded, setLoaded] = useState(false)
@@ -24,9 +25,12 @@ function Efnisflokkar() {
         <div>
             {efnisflokkar.map((efnisflokkur: any) => {
                 return (
-                    <div className="card" key={efnisflokkur.id}>
-                        {efnisflokkur.text}
-                    </div>
+                    <Link
+                        to={`/efnisflokkar/${efnisflokkur.text}`}
+                        key={efnisflokkur.id}
+                    >
+                        <div className="card">{efnisflokkur.text}</div>
+                    </Link>
                 )
             })}
         </div>
