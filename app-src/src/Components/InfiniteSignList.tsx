@@ -6,7 +6,7 @@ import InfiniteLoader from 'react-window-infinite-loader'
 import { useRef, useEffect, forwardRef } from 'react'
 import { ConditionalWrapper } from './ConditionalWrapper'
 
-import { getSignById } from './db'
+import { getSignById } from '../db'
 
 const InfiniteSignList = ({ collection }) => {
     const PADDING_SIZE = 40

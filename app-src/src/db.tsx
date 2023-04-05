@@ -1,19 +1,24 @@
-const query = async (query:string) => {
-    const result = await window.promiseWorker.postMessage({type:'sql',query:query})
+const query = async (query: string) => {
+    const result = await window.promiseWorker.postMessage({
+        type: 'sql',
+        query: query,
+    })
     return result
 }
 
-const exec = async (query:string) => {
-    window.promiseWorker.postMessage({type:'exec',query:query})
+const exec = async (query: string) => {
+    window.promiseWorker.postMessage({ type: 'exec', query: query })
 }
 
 //@ts-ignore
-const addSignToCollection = async ({signId, collectionId}) => {
-    exec(`insert into sign_collection(sign_id, collection_id) values(${signId},${collectionId})`)
+const addSignToCollection = async ({ signId, collectionId }) => {
+    exec(
+        `insert into sign_collection(sign_id, collection_id) values(${signId},${collectionId})`
+    )
 }
 
 //@ts-ignore
-const deleteSignFromCollection = async ({signId, collectionId}) => {
+const deleteSignFromCollection = async ({ signId, collectionId }) => {
     exec(`delete from sign_collection
     where sign_id = ${signId}
     and collection_id = ${collectionId}`)
@@ -148,8 +153,9 @@ const signSearchWithCollectionId = async (
 const getCollectionById = async (
     searchValue: string,
     collectionId: number,
-    limit: number = 500,
-    offset: number = 0
+    limit: number = 20000,
+    offset: number = 0,
+    userCollection: number = 3
 ) => {
     let stmt = ''
     if (!searchValue) {
@@ -159,7 +165,7 @@ const getCollectionById = async (
             sign_fts.related_signs as related_signs,
             collection.id as collection_id,
             collection.name as collection_name,
-                case when sign_collection.collection_id = ${collectionId} then true else false end as in_collection
+                case when sign_collection.collection_id = ${userCollection} then true else false end as in_collection
             from sign
             join sign_fts
             on sign.id = sign_fts.id
@@ -182,7 +188,7 @@ const getCollectionById = async (
             sign_fts.related_signs as related_signs,
             collection.id as collection_id,
             collection.name as collection_name,
-                case when sign_collection.collection_id = ${collectionId} then true else false end as in_collection
+                case when sign_collection.collection_id = ${userCollection} then true else false end as in_collection
             from sign
             join sign_fts
             on sign.id = sign_fts.id
@@ -209,7 +215,7 @@ const getCollectionById = async (
             sign_fts.related_signs as related_signs,
             collection.id as collection_id,
             collection.name as collection_name,
-                case when sign_collection.collection_id = ${collectionId} then true else false end as in_collection
+                case when sign_collection.collection_id = ${userCollection} then true else false end as in_collection
             from sign_fts
             join sign on sign.id = sign_fts.id
             left join sign_collection
@@ -225,18 +231,26 @@ const getCollectionById = async (
             limit ${limit}
             offset ${offset}`
     }
-    const result = await query(stmt)
+    const result: {
+        sign_id: number
+        phrase: string
+        youtube_id: string
+        related_signs: string
+        collection_id: number
+        collection_name: string
+        in_collection: boolean
+    }[] = await query(stmt)
     return result
 }
 
-    const checkSignInCollection = async ({
-        sign_id,
-        collection_id,
-    }: {
-        sign_id: number
-        collection_id: number
-    }) => {
-        let res = await query(`
+const checkSignInCollection = async ({
+    sign_id,
+    collection_id,
+}: {
+    sign_id: number
+    collection_id: number
+}) => {
+    let res = await query(`
         select case when exists
             (select *
             from sign_collection
@@ -248,9 +262,9 @@ const getCollectionById = async (
             end
             as in_collection;
         `)
-        console.log(res)
-        return res[0].in_collection
-    }
+    console.log(res)
+    return res[0].in_collection
+}
 
 export {
     query,
@@ -260,5 +274,5 @@ export {
     getCollectionById,
     checkSignInCollection,
     addSignToCollection,
-    deleteSignFromCollection
+    deleteSignFromCollection,
 }

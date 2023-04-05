@@ -1,47 +1,59 @@
-import SearchableSignList from './SearchableSignList'
-import { useParams } from 'react-router'
-import { useEffect, useState } from 'react'
-import { query, getCollectionById } from '../db'
-import './SignList.css'
+import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import {
+    addSignToCollection,
+    checkSignInCollection,
+    deleteSignFromCollection,
+} from '../db'
+import '../style.css'
 
-function Collection() {
-    const params: any = useParams()
-    const collectionId = params.collectionId
-    
-    const [searchValue, setSearchValue] = useState('')  
-    const [signs, setSigns] = useState<Signs>([])
-    const [collectionName, setCollectionName] = useState('')
-
-    useEffect(() => {
-        console.log(searchValue)
-        getCollectionById(searchValue, collectionId).then((signs: Signs) => {
-            setSigns(signs)
-            setCollectionName(signs[0]!.collection_name)
-            console.log(signs)
+function Collection({ sign }: { sign: Sign }) {
+    const [inCollection, setInCollection] = useState(
+        Boolean(sign.in_collection)
+    )
+    const toggleUserCollection = async () => {
+        const collection_id = 3
+        const sign_id = sign.sign_id
+        const exists = await checkSignInCollection({
+            sign_id: sign_id,
+            collection_id: collection_id,
         })
-    },[searchValue])
-
+        setInCollection(!exists)
+        if (exists) {
+            deleteSignFromCollection({
+                signId: sign_id,
+                collectionId: collection_id,
+            })
+            setInCollection(false)
+        } else {
+            addSignToCollection({
+                signId: sign_id,
+                collectionId: collection_id,
+            })
+            setInCollection(true)
+        }
+    }
 
     return (
-        <div className='flexcol'>
-            <header>
-                <h1 className="heading">ÍTM</h1>
-                <h3>{collectionName}</h3>
-                <div className="search">
-                    <input
-                        onChange={(event) => setSearchValue(event.target.value)}
-                        type="search"
-                        placeholder='Leita að tákni'
-                        style={{padding:'0.4rem 1rem'}}
-                    />
-                </div>
-            </header>
-            <div className="signlist">
-                    <SearchableSignList
-                        signs={signs}
-                    />
+        <div
+            style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '0 2rem',
+            }}
+        >
+            <div>
+                <button onClick={toggleUserCollection} className="round-button">
+                    {!inCollection ? (
+                        <span className="material-icons">add</span>
+                    ) : (
+                        <span className="material-icons">remove</span>
+                    )}
+                </button>
             </div>
-            <footer style={{ margin: 'auto' }}></footer>
+            <Link to={`signs/${sign.sign_id}`} style={{ paddingLeft: '2rem' }}>
+                {sign.phrase}
+            </Link>
         </div>
     )
 }

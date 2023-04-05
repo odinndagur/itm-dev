@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
-import { addSignToCollection, checkSignInCollection, deleteSignFromCollection } from '../db'
+import {
+    addSignToCollection,
+    checkSignInCollection,
+    deleteSignFromCollection,
+} from '../db'
 import '../style.css'
 
 function Sign({ sign }: { sign: Sign }) {
@@ -16,10 +20,16 @@ function Sign({ sign }: { sign: Sign }) {
         })
         setInCollection(!exists)
         if (exists) {
-            deleteSignFromCollection({signId:sign_id,collectionId:collection_id})
+            deleteSignFromCollection({
+                signId: sign_id,
+                collectionId: collection_id,
+            })
             setInCollection(false)
         } else {
-            addSignToCollection({signId:sign_id,collectionId:collection_id})
+            addSignToCollection({
+                signId: sign_id,
+                collectionId: collection_id,
+            })
             setInCollection(true)
         }
     }
@@ -34,7 +44,11 @@ function Sign({ sign }: { sign: Sign }) {
         >
             <div>
                 <button onClick={toggleUserCollection} className="round-button">
-                    {!inCollection ? <span className="material-icons">add</span> : <span className="material-icons">remove</span>}
+                    {!inCollection ? (
+                        <span className="material-icons">add</span>
+                    ) : (
+                        <span className="material-icons">remove</span>
+                    )}
                 </button>
             </div>
             <Link to={`signs/${sign.sign_id}`} style={{ paddingLeft: '2rem' }}>

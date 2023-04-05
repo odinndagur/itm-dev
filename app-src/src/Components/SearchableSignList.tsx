@@ -1,21 +1,23 @@
-import useSigns from './useSigns'
 import Sign from './Sign'
+import CollectionListItem from './CollectionItem'
 import { FixedSizeList } from 'react-window'
 import AutoSizer from 'react-virtualized-auto-sizer'
-import InfiniteLoader from 'react-window-infinite-loader'
 import { useRef, useEffect, useState, forwardRef } from 'react'
-
-import {
-    getCollectionById,
-} from '../db'
+import CollectionPage from './CollectionPage'
 
 const SearchableSignList = ({
-    signs
+    items,
+    itemType = 'sign' || 'collection',
+    itemSize = 40,
+    paddingSize = 40,
 }: {
-    signs:Signs
+    items: any
+    itemType: string
+    itemSize?: number
+    paddingSize?: number
 }) => {
     // console.log(searchValue, 'infinitesignlist')
-    const PADDING_SIZE = 40
+    const PADDING_SIZE = paddingSize
     const innerElementType = forwardRef(({ style, ...rest }, ref) => (
         <div
             ref={ref}
@@ -28,7 +30,7 @@ const SearchableSignList = ({
         />
     ))
     //@ts-ignore
-    const onItemsRendered = ({visibleStartIndex, visibleStopIndex}) => {
+    const onItemsRendered = ({ visibleStartIndex, visibleStopIndex }) => {
         console.log(visibleStartIndex, visibleStopIndex)
     }
     useEffect(() => {
@@ -38,7 +40,7 @@ const SearchableSignList = ({
                 top: 0,
                 behavior: 'auto',
             })
-    }, [signs])
+    }, [items])
     const outerListRef = useRef<FixedSizeList>(null)
 
     return (
@@ -47,15 +49,15 @@ const SearchableSignList = ({
                 <FixedSizeList
                     height={height!}
                     width={width!}
-                    itemCount={signs.length}
-                    itemSize={40}
+                    itemCount={items.length}
+                    itemSize={itemSize}
                     overscanCount={100}
                     outerRef={outerListRef}
                     innerElementType={innerElementType}
                     onItemsRendered={onItemsRendered}
                 >
                     {({ index, style }) => {
-                        const sign = signs[index]
+                        const item = items[index]
                         return (
                             <div
                                 style={{
@@ -65,7 +67,11 @@ const SearchableSignList = ({
                                     }px`,
                                 }}
                             >
-                                <Sign sign={sign} />
+                                {itemType == 'sign' ? (
+                                    <Sign sign={item} />
+                                ) : (
+                                    <CollectionListItem collection={item} />
+                                )}
                             </div>
                         )
                     }}
