@@ -126,7 +126,8 @@ const signSearchWithCollectionId = async (
     searchValue: string,
     collectionId: number,
     limit: number = 500,
-    offset: number = 0
+    offset: number = 0,
+    userCollection: number = 3
 ) => {
     let stmt = `
         select distinct
@@ -134,7 +135,7 @@ const signSearchWithCollectionId = async (
         sign.phrase as phrase,
         sign_video.video_id as youtube_id,
         sign_fts.related_signs as related_signs,
-            case when sign_collection.collection_id = ${collectionId} then true else false end as in_collection
+            case when sign_collection.collection_id = ${userCollection} then true else false end as in_collection
         from sign
         join sign_fts
         on sign.id = sign_fts.id
