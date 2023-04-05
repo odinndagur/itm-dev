@@ -1,9 +1,9 @@
 //@ts-nocheck
 import { useState, useEffect, FormEvent } from 'react'
-import SignList from './SignList'
-import SignPage from './SignPage'
-import Efnisflokkar from './Efnisflokkar'
-import Efnisflokkur from './Efnisflokkur'
+import SignList from './Components/SignList'
+import SignPage from './Components/SignPage'
+import Efnisflokkar from './Components/Efnisflokkar'
+import Efnisflokkur from './Components/Efnisflokkur'
 import {
     createBrowserRouter,
     BrowserRouter as Router,

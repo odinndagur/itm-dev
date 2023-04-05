@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { signSearchWithCollectionId, getCollectionById } from './db'
+import { signSearchWithCollectionId, getCollectionById } from '../db'
 const elementsPerPage = 300
 
 function useSigns({ collection }) {

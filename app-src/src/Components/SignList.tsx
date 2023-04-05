@@ -3,7 +3,7 @@ import SearchableSignList from './SearchableSignList'
 import { TextField } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { Switch } from '@mui/material'
-import './app.css'
+import '../app.css'
 
 function ConditionalSignList({
     searchValue,

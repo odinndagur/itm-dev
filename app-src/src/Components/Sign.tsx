@@ -2,7 +2,7 @@ import { Button } from '@mui/material'
 import { Add, Remove } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
-import { checkSignInCollection } from './db'
+import { checkSignInCollection } from '../db'
 
 function Sign({ sign }: { sign: Sign }) {
     const [inCollection, setInCollection] = useState(

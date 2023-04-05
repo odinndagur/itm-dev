@@ -1,7 +1,7 @@
 //@ts-nocheck
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
-import { getSignById } from './db'
+import { getSignById } from '../db'
 import { YoutubeEmbed } from './YoutubeEmbed'
 import './signpage.css'
 

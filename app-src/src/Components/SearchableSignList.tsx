@@ -9,7 +9,7 @@ import {
     searchSigns,
     signSearchWithCollectionId,
     getCollectionById,
-} from './db'
+} from '../db'
 
 const SearchableSignList = ({
     searchValue,
