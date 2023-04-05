@@ -3,6 +3,22 @@ const query = async (query:string) => {
     return result
 }
 
+const exec = async (query:string) => {
+    window.promiseWorker.postMessage({type:'exec',query:query})
+}
+
+//@ts-ignore
+const addSignToCollection = async ({signId, collectionId}) => {
+    exec(`insert into sign_collection(sign_id, collection_id) values(${signId},${collectionId})`)
+}
+
+//@ts-ignore
+const deleteSignFromCollection = async ({signId, collectionId}) => {
+    exec(`delete from sign_collection
+    where sign_id = ${signId}
+    and collection_id = ${collectionId}`)
+}
+
 const getSignById = async (id: number) => {
     const stmt = `
         SELECT sign.*,
@@ -42,9 +58,7 @@ const getSignById = async (id: number) => {
 }
 
 const searchSigns = async (searchValue: string, collectionId: number = 3) => {
-    let stmt
-    let limit = 500
-    let offset = 0
+    let stmt = ''
     // const collectionId = message.collectionId ?? 3
     console.log('searchsigns')
     if (!searchValue) {
@@ -61,9 +75,7 @@ const searchSigns = async (searchValue: string, collectionId: number = 3) => {
             LEFT JOIN sign_video
             ON sign.id = sign_video.sign_id
             group by sign.id
-            order by phrase asc
-            limit ${limit}
-            offset ${offset}`
+            order by phrase asc`
     }
     if (searchValue[0] === '*') {
         stmt = `select distinct sign.id as sign_id,
@@ -80,9 +92,7 @@ const searchSigns = async (searchValue: string, collectionId: number = 3) => {
             ON sign.id = sign_video.sign_id
             where sign.phrase like "%${searchValue.substring(1)}%"
             group by sign.id
-            order by sign.phrase asc
-            limit ${limit}
-            offset ${offset}`
+            order by sign.phrase asc`
     }
     if (searchValue && searchValue[0] != '*') {
         if (searchValue[searchValue.length - 1] != '*') {
@@ -101,9 +111,7 @@ const searchSigns = async (searchValue: string, collectionId: number = 3) => {
             ON sign.id = sign_video.sign_id
             where sign_fts match "${searchValue}"
             group by sign.id
-            order by sign_fts.rank, sign.phrase asc
-            limit ${limit}
-            offset ${offset}`
+            order by sign_fts.rank, sign.phrase asc`
     }
     const result = await query(stmt)
     return result
@@ -251,4 +259,6 @@ export {
     signSearchWithCollectionId,
     getCollectionById,
     checkSignInCollection,
+    addSignToCollection,
+    deleteSignFromCollection
 }

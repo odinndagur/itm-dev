@@ -1,9 +1,8 @@
 import InfiniteSignList from './InfiniteSignList'
 import SearchableSignList from './SearchableSignList'
-import { TextField } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { Switch } from '@mui/material'
-import '../app.css'
+import './SignList.css'
 
 function ConditionalSignList({
     searchValue,
@@ -30,28 +29,6 @@ function SignList() {
     const [searchValue, setSearchValue] = useState('')  
     const [collection, setCollection] = useState(1)
     
-    // const [promiseWorkerLoaded, setPromiseWorkerLoaded] = useState(false)
-    // useEffect(() => {
-    //     const intervalID = setInterval(() => {
-    //         console.log('callback yo')
-    //         try {
-    //             window.promiseWorker
-    //                 .postMessage({
-    //                     type: 'sql',
-    //                     query: 'select * from sign limit 5',
-    //                 } satisfies absurdSqlPromiseWorkerMessage)
-    //                 .then((res: any) => {
-    //                     if (res[0]) {
-    //                         clearInterval(intervalID)
-    //                         setPromiseWorkerLoaded(true)
-    //                     }
-    //                 })
-    //         } catch (error) {
-    //             console.error(error)
-    //         }
-    //     }, 500)
-    // }, [])
-
     function changeCollection() {
         if (collection == 1) {
             setCollection(3)
@@ -72,12 +49,16 @@ function SignList() {
             <header>
                 <h1 className="heading">ÍTM</h1>
                 <div className="search">
-                    <TextField
+                    {/* <TextField
                         id="outlined-basic"
                         onChange={(event) => setSearchValue(event.target.value)}
                         variant="outlined"
                         fullWidth
                         label="Search"
+                    /> */}
+                    <input
+                        onChange={(event) => setSearchValue(event.target.value)}
+                        type="search"
                     />
                 </div>
                 <span>Öll tákn</span>

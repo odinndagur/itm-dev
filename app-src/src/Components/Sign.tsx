@@ -1,8 +1,7 @@
-import { Button } from '@mui/material'
-import { Add, Remove } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
-import { checkSignInCollection } from '../db'
+import { addSignToCollection, checkSignInCollection, deleteSignFromCollection } from '../db'
+import '../style.css'
 
 function Sign({ sign }: { sign: Sign }) {
     const [inCollection, setInCollection] = useState(
@@ -17,17 +16,11 @@ function Sign({ sign }: { sign: Sign }) {
         })
         setInCollection(!exists)
         if (exists) {
-            window.promiseWorker.postMessage({
-                type: 'sql',
-                query: `delete from sign_collection
-                where sign_id = ${sign_id}
-                and collection_id = ${collection_id}`,
-            } satisfies absurdSqlPromiseWorkerMessage)
+            deleteSignFromCollection({signId:sign_id,collectionId:collection_id})
+            setInCollection(false)
         } else {
-            window.promiseWorker.postMessage({
-                type: 'sql',
-                query: `insert into sign_collection(sign_id, collection_id) values(${sign_id},${collection_id})`,
-            } satisfies absurdSqlPromiseWorkerMessage)
+            addSignToCollection({signId:sign_id,collectionId:collection_id})
+            setInCollection(true)
         }
     }
 
@@ -35,34 +28,19 @@ function Sign({ sign }: { sign: Sign }) {
         <div
             style={{
                 display: 'flex',
-                // justifyContent: 'space-around',
                 alignItems: 'center',
                 padding: '0 2rem',
-                // maxWidth: '500px',
             }}
         >
             <div>
-                <Button
-                    onClick={toggleUserCollection}
-                    variant="outlined"
-                    size="small"
-                    sx={{}}
-                >
-                    {!inCollection ? <Add /> : <Remove />}
-                </Button>
+                <button onClick={toggleUserCollection} className="round-button">
+                    {!inCollection ? <span className="material-icons">add</span> : <span className="material-icons">remove</span>}
+                </button>
             </div>
             <Link to={`signs/${sign.sign_id}`} style={{ paddingLeft: '2rem' }}>
                 {sign.phrase}
             </Link>
         </div>
-
-        // <div className="sign" onClick={() => showYt()} id={sign.id}>
-        //     <div className="sign-phrase">
-        //         <span>{sign.phrase}</span>
-        //     </div>
-
-        //     {youtubeShowing && <YoutubeEmbed embedId={sign.youtube_id} />}
-        // </div>
     )
 }
 

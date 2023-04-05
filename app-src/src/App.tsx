@@ -6,13 +6,12 @@ import Efnisflokkar from './Components/Efnisflokkar'
 import Efnisflokkur from './Components/Efnisflokkur'
 import { query } from './db'
 import {
-    createBrowserRouter,
     BrowserRouter as Router,
     Route,
     Routes,
-    ScrollRestoration,
 } from 'react-router-dom'
-import CacheRoute, { CacheSwitch } from 'react-router-cache-route'
+import Collections from './Components/Collections'
+import Collection from './Components/Collection'
 
 function App() {
     const [promiseWorkerLoaded, setPromiseWorkerLoaded] = useState(false)
@@ -44,6 +43,8 @@ function App() {
                 <Route exact path={`/signs/:id`} element={<SignPage />} />
                 <Route exact path={`/efnisflokkar`} element={<Efnisflokkar />} />                
                 <Route exact path={`/efnisflokkar/:efnisflokkur`} element={<Efnisflokkur />} />                
+                <Route exact path={`/collections/`} element={<Collections />} />                
+                <Route exact path={`/collections/:collectionId`} element={<Collection />} />                
                 <Route render={() => <div>404 Not Found</div>} />
             </Routes>
         </Router>

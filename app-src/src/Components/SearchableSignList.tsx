@@ -6,17 +6,13 @@ import InfiniteLoader from 'react-window-infinite-loader'
 import { useRef, useEffect, useState, forwardRef } from 'react'
 
 import {
-    searchSigns,
-    signSearchWithCollectionId,
     getCollectionById,
 } from '../db'
 
 const SearchableSignList = ({
-    searchValue,
-    collection,
+    signs
 }: {
-    searchValue: string
-    collection: number
+    signs:Signs
 }) => {
     // console.log(searchValue, 'infinitesignlist')
     const PADDING_SIZE = 40
@@ -31,24 +27,18 @@ const SearchableSignList = ({
             className="innerClass"
         />
     ))
-    const [signs, setSigns] = useState<Signs>([])
     //@ts-ignore
     const onItemsRendered = ({visibleStartIndex, visibleStopIndex}) => {
         console.log(visibleStartIndex, visibleStopIndex)
     }
     useEffect(() => {
-        console.log(searchValue)
-        getCollectionById(searchValue, collection).then((signs: Signs) => {
-            setSigns(signs)
-            console.log(signs)
-        })
         outerListRef.current &&
             outerListRef.current.scrollTo({
                 left: 0,
                 top: 0,
                 behavior: 'auto',
             })
-    }, [searchValue, collection])
+    }, [signs])
     const outerListRef = useRef<FixedSizeList>(null)
 
     return (

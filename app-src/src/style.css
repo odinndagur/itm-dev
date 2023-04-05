@@ -34,7 +34,7 @@ a {
 
 #root {
     height: 100%;
-    padding-top: calc(env(safe-area-inset-top, 3rem) + 1em);
+    /* padding-top: calc(env(safe-area-inset-top, 3rem) + 1em); */
     box-sizing: border-box;
     /* background-color: red; */
 }
@@ -65,4 +65,40 @@ header {
 
 .app {
     height: 100%;
+}
+
+.material-icons {
+    color: black;
+}
+
+.round-button {
+    aspect-ratio: 1;
+    border-radius: 50%;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px; /* 5px rounded corners */
+}
+
+  /* On mouse-over, add a deeper shadow */
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+  
+
+.sign {
+    display: 'flex';
+    /* justifyContent: 'space-around'; */
+    align-items: 'center';
+    padding: '0 2rem';
+    /* maxWidth: '500px'; */
+}
+
+.flexcol {
+    /* // style={{ height: '100%', display: 'flex', flexDirection: 'column' }} */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }

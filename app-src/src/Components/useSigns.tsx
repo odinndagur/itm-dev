@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { signSearchWithCollectionId } from '../db'
+import { query, signSearchWithCollectionId } from '../db'
 const elementsPerPage = 300
 
 function useSigns({ collection }) {
@@ -23,13 +23,6 @@ function useSigns({ collection }) {
         const offset = elementsPerPage * pageNumber
         const limit = elementsPerPage
 
-        // window.promiseWorker
-        //     .postMessage({
-        //         type: 'signSearch',
-        //         query: '',
-        //         signOffset: offset,
-        //         signLimit: limit,
-        //     } satisfies absurdSqlPromiseWorkerMessage)
         signSearchWithCollectionId('', collection, limit, offset).then(
             (signsData: Signs) => {
                 console.log({ signsdata: signsData })
@@ -55,23 +48,13 @@ function useSigns({ collection }) {
     }
 
     useEffect(() => {
-        // const msCount = 200
-        // const timer = setTimeout(() => {
         if (!didFetchInitialData.current) {
             didFetchInitialData.current = true
-            window.promiseWorker
-                .postMessage({
-                    type: 'sql',
-                    query: 'select count(*) as allSignsCount from sign',
-                } satisfies absurdSqlPromiseWorkerMessage)
-                .then((res: any) => {
+                query('select count(*) as allSignsCount from sign').then((res: any) => {
                     setAllSignsCount(res[0].allSignsCount)
                 })
             loadChunkOfData()
         }
-        // }, msCount)
-        // console.log(allSignsCount)
-        // return () => clearTimeout(timer)
     }, [loadChunkOfData])
 
     return {
