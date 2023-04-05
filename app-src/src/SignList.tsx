@@ -27,7 +27,7 @@ function ConditionalSignList({
 }
 
 function SignList() {
-    const [searchValue, setSearchValue] = useState('')
+    const [searchValue, setSearchValue] = useState('')  
     const [collection, setCollection] = useState(1)
     
     const [promiseWorkerLoaded, setPromiseWorkerLoaded] = useState(false)

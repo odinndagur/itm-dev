@@ -2,6 +2,8 @@
 import { useState, useEffect, FormEvent } from 'react'
 import SignList from './SignList'
 import SignPage from './SignPage'
+import Efnisflokkar from './Efnisflokkar'
+import Efnisflokkur from './Efnisflokkur'
 import {
     createBrowserRouter,
     BrowserRouter as Router,
@@ -42,6 +44,8 @@ function App() {
             <Routes>
                 <Route exact path={''} element={<SignList />}></Route>
                 <Route exact path={`/signs/:id`} element={<SignPage />} />
+                <Route exact path={`/efnisflokkar`} element={<Efnisflokkar />} />                
+                <Route exact path={`/efnisflokkar/:efnisflokkur`} element={<Efnisflokkur />} />                
                 <Route render={() => <div>404 Not Found</div>} />
             </Routes>
         </Router>
