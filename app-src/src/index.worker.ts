@@ -50,7 +50,7 @@ async function run() {
     try {
         console.log('try')
         db.exec('select * from sign_fts limit 5')
-        const res = await db.query('pragma user_version')
+        const res = db.query('pragma user_version')
         const user_version = res[0].user_version
         console.log('pragma user version', user_version, currentVersion)
         if (res.length && user_version != currentVersion) {

@@ -34,9 +34,9 @@
         <!-- End Single Page Apps for GitHub Pages -->
         <link rel="manifest" href="/itm-dev/assets/manifest.webmanifest" />
         <link rel="dns-prefetch" href="//youtube.com" />
-        <link rel="dns-prefetch" href="//youtube-nocookie.com" />
+        <!-- <link rel="dns-prefetch" href="//youtube-nocookie.com" /> -->
         <link rel="preconnect" href="https://youtube.com" />
-        <link rel="preconnect" href="https://youtube-nocookie.com" />
+        <!-- <link rel="preconnect" href="https://youtube-nocookie.com" /> -->
 
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -304,8 +304,6 @@
             content="black-translucent"
         />
         <meta name="apple-mobile-web-app-title" content="ÍTM" />
-
-        <!-- <link rel="stylesheet" href="style.css" /> -->
         <link
             href="https://fonts.googleapis.com/css?family=Faustina"
             rel="stylesheet"
@@ -318,15 +316,10 @@
             href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@200"
             rel="stylesheet"
         />
-        <title>Íslenskt táknmál</title>
-
-        <link rel="canonical" href="https://taknmal.github.io/itm-dev/" />
-        <!-- <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js" crossorigin></script>
-    <script src='https://unpkg.com/react-router-dom@5.0.0/umd/react-router-dom.min.js' crossorigin></script> -->
-      <script type="module" crossorigin src="/itm-dev/assets/index-38a1bc52.js"></script>
-      <link rel="stylesheet" href="/itm-dev/assets/index-2d462175.css">
+        <title>%APP_NAME%</title>
+        <link rel="canonical" href="https://odinndagur.github.io/itm-dev/" />
+      <script type="module" crossorigin src="/itm-dev/assets/index-4a5ce572.js"></script>
+      <link rel="stylesheet" href="/itm-dev/assets/index-b4e120f9.css">
     </head>
     <body>
         <script>
@@ -343,46 +336,4 @@
         <div id="root"></div>
         
     </body>
-    <script>
-        // let currentSignOffset = 0
-        // let signQueryCount = 500
-        // // window.addEventListener('scroll', () => {
-        // //       // console.log('scroll')
-        // //       let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight >= (document.documentElement.offsetHeight - 100)
-        // //       if (bottomOfWindow) {
-        // //           hitWindowBottom()
-        // //       }
-        // //       let el = document.getElementById('signs')
-        // //       let bottomOfElement = el.scrollHeight - el.scrollTop - el.clientHeight < 1
-        // //       if(bottomOfElement){
-        // //         hitWindowBottom()
-        // //       }
-        // //   })
-
-        // //   function hitWindowBottom() {
-        // //   console.log('bottom')
-        // //   if(currentSignOffset != 0){
-        // //     currentSignOffset += signQueryCount
-        // //     updateSearch()
-        // //   }
-        // // }
-        // function updateSearch() {
-        //     console.log('update')
-        //     if (!window.worker) {
-        //         setTimeout(updateSearch, 150)
-        //         return
-        //     }
-        //     let inp = document.querySelector('#search-input')
-
-        //     window.worker.postMessage({
-        //         type: 'searchValue',
-        //         searchValue: inp.value,
-        //         currentSignOffset,
-        //         signQueryCount,
-        //     })
-        // }
-        // window.updateSearch = updateSearch
-
-        // updateSearch()
-    </script>
 </html>

@@ -6,6 +6,10 @@ import { getSignById } from '../db'
 import { YoutubeEmbed } from './YoutubeEmbed'
 import './signpage.css'
 
+function SignDescription({ description }) {
+    return <div>{description}</div>
+}
+
 function SignPage() {
     const params: any = useParams()
     const [signLoaded, setSignLoaded] = useState(false)
@@ -81,7 +85,7 @@ function SignPage() {
                     {sign.description && (
                         <div className="sign-info-item">
                             <b>Lýsing</b>
-                            <div>{sign.description}</div>
+                            <SignDescription description={sign.description} />
                         </div>
                     )}
                     {sign.islenska && (
