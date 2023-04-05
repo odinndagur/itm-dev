@@ -30,27 +30,27 @@ function SignList() {
     const [searchValue, setSearchValue] = useState('')  
     const [collection, setCollection] = useState(1)
     
-    const [promiseWorkerLoaded, setPromiseWorkerLoaded] = useState(false)
-    useEffect(() => {
-        const intervalID = setInterval(() => {
-            console.log('callback yo')
-            try {
-                window.promiseWorker
-                    .postMessage({
-                        type: 'sql',
-                        query: 'select * from sign limit 5',
-                    } satisfies absurdSqlPromiseWorkerMessage)
-                    .then((res: any) => {
-                        if (res[0]) {
-                            clearInterval(intervalID)
-                            setPromiseWorkerLoaded(true)
-                        }
-                    })
-            } catch (error) {
-                console.error(error)
-            }
-        }, 500)
-    }, [])
+    // const [promiseWorkerLoaded, setPromiseWorkerLoaded] = useState(false)
+    // useEffect(() => {
+    //     const intervalID = setInterval(() => {
+    //         console.log('callback yo')
+    //         try {
+    //             window.promiseWorker
+    //                 .postMessage({
+    //                     type: 'sql',
+    //                     query: 'select * from sign limit 5',
+    //                 } satisfies absurdSqlPromiseWorkerMessage)
+    //                 .then((res: any) => {
+    //                     if (res[0]) {
+    //                         clearInterval(intervalID)
+    //                         setPromiseWorkerLoaded(true)
+    //                     }
+    //                 })
+    //         } catch (error) {
+    //             console.error(error)
+    //         }
+    //     }, 500)
+    // }, [])
 
     function changeCollection() {
         if (collection == 1) {
@@ -85,15 +85,11 @@ function SignList() {
                 <span>Mín tákn</span>
             </header>
             <div className="signlist">
-                {promiseWorkerLoaded ? (
                     <ConditionalSignList
                         searchValue={searchValue}
                         listProps={{ itemSize: 40 }}
                         collection={collection}
                     />
-                ) : (
-                    ''
-                )}
             </div>
             <footer style={{ margin: 'auto' }}></footer>
         </div>

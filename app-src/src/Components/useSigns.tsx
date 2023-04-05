@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { signSearchWithCollectionId, getCollectionById } from '../db'
+import { signSearchWithCollectionId } from '../db'
 const elementsPerPage = 300
 
 function useSigns({ collection }) {
@@ -32,7 +32,6 @@ function useSigns({ collection }) {
         //     } satisfies absurdSqlPromiseWorkerMessage)
         signSearchWithCollectionId('', collection, limit, offset).then(
             (signsData: Signs) => {
-                console.log(signs)
                 console.log({ signsdata: signsData })
                 if (signsData.length < elementsPerPage) {
                     setHasNextPage(false)

@@ -4,6 +4,7 @@ import SignList from './Components/SignList'
 import SignPage from './Components/SignPage'
 import Efnisflokkar from './Components/Efnisflokkar'
 import Efnisflokkur from './Components/Efnisflokkur'
+import { query } from './db'
 import {
     createBrowserRouter,
     BrowserRouter as Router,
@@ -19,17 +20,14 @@ function App() {
         const intervalID = setInterval(() => {
             console.log('callback yo')
             try {
-                window.promiseWorker
-                    .postMessage({
-                        type: 'sql',
-                        query: 'select * from sign limit 5',
-                    } satisfies absurdSqlPromiseWorkerMessage)
-                    .then((res: any) => {
-                        if (res[0]) {
-                            clearInterval(intervalID)
-                            setPromiseWorkerLoaded(true)
-                        }
-                    })
+                query('select * from sign limit 5')
+                .then((res: any) => {
+                    if (res[0]) {
+                        clearInterval(intervalID)
+                        setPromiseWorkerLoaded(true)
+                        console.log('promise worker loaded')
+                    }
+                })
             } catch (error) {
                 console.error(error)
             }

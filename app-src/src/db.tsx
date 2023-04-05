@@ -1,25 +1,28 @@
-const getSignById = async (id: number) => {
-    const signs = await window.promiseWorker.postMessage({
-        type: 'sql',
-        query: `
-            SELECT sign.*,
-            GROUP_CONCAT(distinct sign_video.rank || ':' || sign_video.video_id) as youtube_ids,
-            GROUP_CONCAT(distinct efnisflokkur.text) as efnisflokkar,
-            myndunarstadur,
-            ordflokkur
-            FROM sign
-            JOIN sign_video
-            ON sign.id = sign_video.sign_id
-            JOIN sign_efnisflokkur
-            ON sign_efnisflokkur.sign_id = sign.id
-            JOIN efnisflokkur
-            ON sign_efnisflokkur.efnisflokkur_id = efnisflokkur.id
+const query = async (query:string) => {
+    const result = await window.promiseWorker.postMessage({type:'sql',query:query})
+    return result
+}
 
-            
-            WHERE sign.id = ${id}
-            GROUP BY sign.id
-            `,
-    } satisfies absurdSqlPromiseWorkerMessage)
+const getSignById = async (id: number) => {
+    const stmt = `
+        SELECT sign.*,
+        GROUP_CONCAT(distinct sign_video.rank || ':' || sign_video.video_id) as youtube_ids,
+        GROUP_CONCAT(distinct efnisflokkur.text) as efnisflokkar,
+        myndunarstadur,
+        ordflokkur
+        FROM sign
+        JOIN sign_video
+        ON sign.id = sign_video.sign_id
+        JOIN sign_efnisflokkur
+        ON sign_efnisflokkur.sign_id = sign.id
+        JOIN efnisflokkur
+        ON sign_efnisflokkur.efnisflokkur_id = efnisflokkur.id
+
+        
+        WHERE sign.id = ${id}
+        GROUP BY sign.id
+    `
+    const signs = await query(stmt)
     let sign = signs[0]
     sign['youtube_ids'] = sign['youtube_ids']
         .split(',')
@@ -38,67 +41,211 @@ const getSignById = async (id: number) => {
     return signs[0]
 }
 
-const searchSigns = async (searchValue: string, collectionId?: number) => {
-    const signs = await window.promiseWorker.postMessage({
-        type: 'signSearch',
-        query: searchValue,
-        collectionId: collectionId,
-    } satisfies absurdSqlPromiseWorkerMessage)
-    return signs
+const searchSigns = async (searchValue: string, collectionId: number = 3) => {
+    let stmt
+    let limit = 500
+    let offset = 0
+    // const collectionId = message.collectionId ?? 3
+    console.log('searchsigns')
+    if (!searchValue) {
+        stmt = `select distinct sign.id as sign_id,
+            sign.phrase as phrase,
+            sign_video.video_id as youtube_id,
+            sign_fts.related_signs as related_signs,
+            CASE WHEN sign_collection.collection_id = ${collectionId} THEN true ELSE false END as is_in_collection
+            from sign
+            join sign_fts
+            on sign.id = sign_fts.id
+            LEFT JOIN sign_collection
+            ON sign_collection.sign_id = sign.id
+            LEFT JOIN sign_video
+            ON sign.id = sign_video.sign_id
+            group by sign.id
+            order by phrase asc
+            limit ${limit}
+            offset ${offset}`
+    }
+    if (searchValue[0] === '*') {
+        stmt = `select distinct sign.id as sign_id,
+            sign.phrase as phrase,
+            sign_video.video_id as youtube_id,
+            sign_fts.related_signs as related_signs,
+            CASE WHEN sign_collection.collection_id = ${collectionId} THEN true ELSE false END as is_in_collection
+            from sign
+            join sign_fts
+            on sign.id = sign_fts.id
+            LEFT JOIN sign_collection
+            ON sign_collection.sign_id = sign.id
+            LEFT JOIN sign_video
+            ON sign.id = sign_video.sign_id
+            where sign.phrase like "%${searchValue.substring(1)}%"
+            group by sign.id
+            order by sign.phrase asc
+            limit ${limit}
+            offset ${offset}`
+    }
+    if (searchValue && searchValue[0] != '*') {
+        if (searchValue[searchValue.length - 1] != '*') {
+            searchValue = searchValue + '*'
+        }
+        stmt = `select distinct sign.id as sign_id,
+            sign.phrase as phrase,
+            sign_video.video_id as youtube_id,
+            sign_fts.related_signs as related_signs,
+            CASE WHEN sign_collection.collection_id = ${collectionId} THEN true ELSE false END as is_in_collection
+            from sign_fts
+            join sign on sign.id = sign_fts.id
+            LEFT JOIN sign_collection
+            ON sign_collection.sign_id = sign.id
+            LEFT JOIN sign_video
+            ON sign.id = sign_video.sign_id
+            where sign_fts match "${searchValue}"
+            group by sign.id
+            order by sign_fts.rank, sign.phrase asc
+            limit ${limit}
+            offset ${offset}`
+    }
+    const result = await query(stmt)
+    return result
 }
 
 const signSearchWithCollectionId = async (
     searchValue: string,
     collectionId: number,
-    limit?: number,
-    offset?: number
+    limit: number = 500,
+    offset: number = 0
 ) => {
-    const signs = await window.promiseWorker.postMessage({
-        type: 'signSearchWithCollectionId',
-        query: searchValue,
-        collectionId: collectionId,
-        signLimit: limit ?? undefined,
-        signOffset: offset ?? undefined,
-    } satisfies absurdSqlPromiseWorkerMessage)
-    // console.log(signs)
-    return signs
+    let stmt = `
+        select distinct
+        sign.id as sign_id,
+        sign.phrase as phrase,
+        sign_video.video_id as youtube_id,
+        sign_fts.related_signs as related_signs,
+            case when sign_collection.collection_id = ${collectionId} then true else false end as in_collection
+        from sign
+        join sign_fts
+        on sign.id = sign_fts.id
+        left join sign_collection
+        on sign.id = sign_collection.sign_id
+        and sign_collection.collection_id = ${collectionId}
+        LEFT JOIN sign_video
+        ON sign.id = sign_video.sign_id
+        order by sign.phrase asc
+        limit ${limit}
+        offset ${offset}`
+    const result = await query(stmt)
+    return result
 }
 
 const getCollectionById = async (
     searchValue: string,
     collectionId: number,
-    limit?: number,
-    offset?: number
+    limit: number = 500,
+    offset: number = 0
 ) => {
-    const signs = await window.promiseWorker.postMessage({
-        type: 'getCollectionById',
-        query: searchValue,
-        collectionId: collectionId,
-        signLimit: limit ?? undefined,
-        signOffset: offset ?? undefined,
-    } satisfies absurdSqlPromiseWorkerMessage)
-    // console.log(signs)
-    return signs
+    let stmt = ''
+    if (!searchValue) {
+        stmt = `select distinct sign.id as sign_id,
+            sign.phrase as phrase,
+            sign_video.video_id as youtube_id,
+            sign_fts.related_signs as related_signs,
+            collection.id as collection_id,
+            collection.name as collection_name,
+                case when sign_collection.collection_id = ${collectionId} then true else false end as in_collection
+            from sign
+            join sign_fts
+            on sign.id = sign_fts.id
+            left join sign_collection
+            on sign.id = sign_collection.sign_id
+            left join collection
+            on collection.id = sign_collection.collection_id
+            LEFT JOIN sign_video
+            ON sign.id = sign_video.sign_id
+            where collection.id = ${collectionId}
+            group by sign.id
+            order by sign.phrase asc
+            limit ${limit}
+            offset ${offset}`
+    }
+    if (searchValue[0] === '*') {
+        stmt = `select distinct sign.id as sign_id,
+            sign.phrase as phrase,
+            sign_video.video_id as youtube_id,
+            sign_fts.related_signs as related_signs,
+            collection.id as collection_id,
+            collection.name as collection_name,
+                case when sign_collection.collection_id = ${collectionId} then true else false end as in_collection
+            from sign
+            join sign_fts
+            on sign.id = sign_fts.id
+            left join sign_collection
+            on sign.id = sign_collection.sign_id
+            left join collection
+            on collection.id = sign_collection.collection_id
+            LEFT JOIN sign_video
+            ON sign.id = sign_video.sign_id
+            where sign.phrase like "%${searchValue.substring(1)}%"
+            and collection.id = ${collectionId}
+            group by sign.id
+            order by sign.phrase asc
+            limit ${limit}
+            offset ${offset}`
+    }
+    if (searchValue && searchValue[0] != '*') {
+        if (searchValue[searchValue.length - 1] != '*') {
+            searchValue = searchValue + '*'
+        }
+        stmt = `select distinct sign.id as sign_id,
+            sign.phrase as phrase,
+            sign_video.video_id as youtube_id,
+            sign_fts.related_signs as related_signs,
+            collection.id as collection_id,
+            collection.name as collection_name,
+                case when sign_collection.collection_id = ${collectionId} then true else false end as in_collection
+            from sign_fts
+            join sign on sign.id = sign_fts.id
+            left join sign_collection
+            on sign.id = sign_collection.sign_id
+            left join collection
+            on collection.id = sign_collection.collection_id
+            LEFT JOIN sign_video
+            ON sign.id = sign_video.sign_id
+            where sign_fts match "${searchValue}"
+            and collection.id = ${collectionId}
+            group by sign.id
+            order by sign_fts.rank, sign.phrase asc
+            limit ${limit}
+            offset ${offset}`
+    }
+    const result = await query(stmt)
+    return result
 }
 
-const checkSignInCollection = async ({
-    sign_id,
-    collection_id,
-}: {
-    sign_id: number
-    collection_id: number
-}) => {
-    const res = await window.promiseWorker.postMessage({
-        type: 'checkSignInCollection',
-        query: {
-            sign_id,
-            collection_id,
-        },
-    } satisfies absurdSqlPromiseWorkerMessage)
-    return res
-}
+    const checkSignInCollection = async ({
+        sign_id,
+        collection_id,
+    }: {
+        sign_id: number
+        collection_id: number
+    }) => {
+        let res = await query(`
+        select case when exists
+            (select *
+            from sign_collection
+            where sign_id = ${sign_id}
+            and collection_id = ${collection_id}
+            )
+            then true
+            else false
+            end
+            as in_collection;
+        `)
+        console.log(res)
+        return res[0].in_collection
+    }
 
 export {
+    query,
     getSignById,
     searchSigns,
     signSearchWithCollectionId,
