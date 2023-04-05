@@ -51,7 +51,7 @@ function Collection({ sign }: { sign: Sign }) {
                     )}
                 </button>
             </div>
-            <Link to={`signs/${sign.sign_id}`} style={{ paddingLeft: '2rem' }}>
+            <Link to={`/signs/${sign.sign_id}`} style={{ paddingLeft: '2rem' }}>
                 {sign.phrase}
             </Link>
         </div>

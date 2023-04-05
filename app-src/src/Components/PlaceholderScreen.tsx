@@ -3,7 +3,9 @@ function PlaceholderScreen() {
         <div className="placeholder-image-container">
             <img
                 className="placeholder-image"
-                src="/assets/images/manifest-icon-512.maskable.png"
+                src={`${
+                    import.meta.env.BASE_URL
+                }assets/images/manifest-icon-512.maskable.png`}
             />
         </div>
     )
