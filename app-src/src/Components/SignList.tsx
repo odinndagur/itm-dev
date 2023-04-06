@@ -28,19 +28,19 @@ function ConditionalSignList({
 
 function SignList() {
     const [searchValue, setSearchValue] = useState('')
-    const [collection, setCollection] = useState(1)
+    // const [collection, setCollection] = useState(1)
 
-    function changeCollection() {
-        if (collection == 1) {
-            setCollection(3)
-        } else {
-            setCollection(1)
-        }
+    // function changeCollection() {
+    //     if (collection == 1) {
+    //         setCollection(3)
+    //     } else {
+    //         setCollection(1)
+    //     }
 
-        const temp = searchValue
-        setSearchValue('')
-        setSearchValue(temp)
-    }
+    //     const temp = searchValue
+    //     setSearchValue('')
+    //     setSearchValue(temp)
+    // }
 
     return (
         <div
@@ -65,7 +65,7 @@ function SignList() {
                     />
                 </div>
                 <span>Öll tákn</span>
-                <Switch onClick={() => changeCollection()} />
+                {/* <Switch onClick={() => changeCollection()} /> */}
                 <span>Mín tákn</span>
             </header>
             <div className="signlist">

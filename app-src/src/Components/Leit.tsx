@@ -51,6 +51,7 @@ function Leit() {
         ON efnisflokkur.id = sign_efnisflokkur.efnisflokkur_id
         ${clauses.length ? 'where' : ''}
         ${clauses.join(' and ')}
+        group by sign.id
         order by sign.phrase
         `
         console.log(sql)
