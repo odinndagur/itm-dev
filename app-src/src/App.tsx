@@ -14,6 +14,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Collections from './Components/Collections'
 import CollectionPage from './Components/CollectionPage'
 import PlaceholderScreen from './Components/PlaceholderScreen'
+import Ordflokkar from './Components/Ordflokkar'
+import Ordflokkur from './Components/Ordflokkur'
 
 function App() {
     const [promiseWorkerLoaded, setPromiseWorkerLoaded] = useState(false)
@@ -51,6 +53,12 @@ function App() {
                     exact
                     path={`/efnisflokkar/:efnisflokkur`}
                     element={<Efnisflokkur />}
+                />
+                <Route exact path={`/ordflokkar`} element={<Ordflokkar />} />
+                <Route
+                    exact
+                    path={`/ordflokkar/:ordflokkur`}
+                    element={<Ordflokkur />}
                 />
                 <Route
                     exact
