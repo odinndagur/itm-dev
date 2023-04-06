@@ -2,13 +2,9 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { Link } from 'react-router-dom'
-import { getSignById } from '../db'
+import { getSignById, query } from '../db'
 import { YoutubeEmbed } from './YoutubeEmbed'
 import './signpage.css'
-
-function SignDescription({ description }) {
-    return <div>{description}</div>
-}
 
 function SignPage() {
     const params: any = useParams()
@@ -85,7 +81,7 @@ function SignPage() {
                     {sign.description && (
                         <div className="sign-info-item">
                             <b>Lýsing</b>
-                            <SignDescription description={sign.description} />
+                            <div>{sign.description}</div>
                         </div>
                     )}
                     {sign.islenska && (

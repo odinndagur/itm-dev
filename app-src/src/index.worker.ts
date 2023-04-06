@@ -45,7 +45,7 @@ async function run() {
     }
     db.query = (...args: any[]) => toObjects(db!.exec(...args))
 
-    const currentVersion = 3
+    const currentVersion = 4
     let initDB = false
     try {
         console.log('try')
@@ -103,7 +103,7 @@ async function run() {
         )
         db.exec('INSERT INTO user(name, id) VALUES("User",3);')
         db.exec(
-            'INSERT INTO collection(id,user_id,name) VALUES(3,3,"User collection");'
+            'INSERT INTO collection(id,user_id,name) VALUES(3,3,"Mín tákn");'
         )
         db.exec(`pragma user_version = ${currentVersion}`)
     }
