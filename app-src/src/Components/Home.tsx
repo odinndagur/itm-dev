@@ -8,6 +8,7 @@ function Home() {
                 <nav className="navbar">
                     <Link to={'/collections/1'}>Öll tákn</Link>
                     <Link to={'/collections'}>Táknasöfn</Link>
+                    <Link to={'/leit'}>Leit</Link>
                     <Link to={'/settings'}>Stillingar</Link>
                 </nav>
             </header>

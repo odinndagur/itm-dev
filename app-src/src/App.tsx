@@ -3,6 +3,11 @@ import { useState, useEffect, FormEvent } from 'react'
 import SignPage from './Components/SignPage'
 import Efnisflokkar from './Components/Efnisflokkar'
 import Efnisflokkur from './Components/Efnisflokkur'
+import Myndunarstadir from './Components/Myndunarstadir'
+import Myndunarstadur from './Components/Myndunarstadur'
+import Handform from './Components/Handform'
+import Handforms from './Components/Handforms'
+import Leit from './Components/Leit'
 import Home from './Components/Home'
 import { query } from './db'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
@@ -47,6 +52,23 @@ function App() {
                     path={`/efnisflokkar/:efnisflokkur`}
                     element={<Efnisflokkur />}
                 />
+                <Route
+                    exact
+                    path={`/myndunarstadir`}
+                    element={<Myndunarstadir />}
+                />
+                <Route
+                    exact
+                    path={`/myndunarstadir/:myndunarstadur`}
+                    element={<Myndunarstadur />}
+                />
+                <Route exact path={`/handform`} element={<Handforms />} />
+                <Route
+                    exact
+                    path={`/handform/:handform`}
+                    element={<Handform />}
+                />
+                <Route exact path={`/leit`} element={<Leit />} />
                 <Route exact path={`/collections/`} element={<Collections />} />
                 <Route
                     exact
