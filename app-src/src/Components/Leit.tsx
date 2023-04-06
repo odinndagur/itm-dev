@@ -1,11 +1,76 @@
 import { useEffect, useState } from 'react'
 import { query } from '../db'
+import SearchableSignList from './SearchableSignList'
 
 function Leit() {
     const [handforms, setHandforms] = useState([])
     const [myndunarstadir, setMyndunarstadir] = useState([])
     const [efnisflokkar, setEfnisflokkar] = useState([])
     const [ordflokkar, setOrdflokkar] = useState([])
+
+    const [selectedHandforms, setSelectedHandforms] = useState<string[]>([])
+    const [selectedMyndunarstadir, setSelectedMyndunarstadir] = useState<
+        string[]
+    >([])
+    const [selectedEfnisflokkar, setSelectedEfnisflokkar] = useState<string[]>(
+        []
+    )
+    const [selectedOrdflokkar, setSelectedOrdflokkar] = useState<string[]>([])
+
+    const [signs, setSigns] = useState<any>([])
+
+    useEffect(() => {
+        const clauses = [
+            selectedHandforms.length
+                ? `handform in (${selectedHandforms.join(',')})`
+                : '',
+            selectedMyndunarstadir.length
+                ? `myndunarstadur in (${selectedMyndunarstadir.join(',')})`
+                : '',
+            selectedEfnisflokkar.length
+                ? `efnisflokkur in (${selectedEfnisflokkar.join(',')})`
+                : '',
+            selectedOrdflokkar.length
+                ? `ordflokkur in (${selectedOrdflokkar.join(',')})`
+                : '',
+        ].filter((entry) => {
+            return entry != ''
+        })
+        let sql = `
+        select distinct
+        sign.id,
+        sign.phrase,
+        sign.myndunarstadur,
+        sign.ordflokkur,
+        sign.handform,
+        efnisflokkur.text as efnisflokkur
+        from sign
+        join sign_efnisflokkur
+        ON sign.id = sign_efnisflokkur.sign_id
+        join efnisflokkur
+        ON efnisflokkur.id = sign_efnisflokkur.efnisflokkur_id
+        ${clauses.length ? 'where' : ''}
+        ${clauses.join(' and ')}
+        order by sign.phrase
+        `
+        console.log(sql)
+        query(sql).then((signs) => {
+            console.log(signs)
+            setSigns(signs)
+        })
+        console.log({
+            selectedEfnisflokkar,
+            selectedHandforms,
+            selectedMyndunarstadir,
+            selectedOrdflokkar,
+        })
+    }, [
+        selectedEfnisflokkar,
+        selectedHandforms,
+        selectedMyndunarstadir,
+        selectedOrdflokkar,
+    ])
+
     const [loaded, setLoaded] = useState(false)
     useEffect(() => {
         query(
@@ -21,12 +86,16 @@ function Leit() {
             )
         })
         query(
-            'select * from efnisflokkur where efnisflokkur.text is not null order by efnisflokkur.text'
+            'select efnisflokkur.text as efnisflokkur from efnisflokkur where efnisflokkur.text is not null order by efnisflokkur.text'
         ).then((efnisflokkar: any) => {
             setEfnisflokkar(
-                efnisflokkar.filter((flokkur: any) => {
-                    return flokkur.text != ''
-                })
+                efnisflokkar
+                    .map((flokkur: any) => {
+                        return flokkur.efnisflokkur
+                    })
+                    .filter((flokkur: any) => {
+                        return flokkur != ''
+                    })
             )
         })
         query(
@@ -44,16 +113,17 @@ function Leit() {
         })
         setLoaded(true)
     }, [])
+
     if (!loaded) {
         return ''
     }
     return (
-        <div>
+        <div style={{ height: '100%' }}>
             <h1>leit</h1>
             <div
                 style={{
                     display: 'flex',
-                    flexDirection: 'row',
+                    flexDirection: 'column',
                     justifyContent: 'space-evenly',
                     alignContent: 'center',
                 }}
@@ -63,9 +133,20 @@ function Leit() {
                     name=""
                     id=""
                     multiple
+                    onChange={(e) => {
+                        let values = Array.from(
+                            e.target.selectedOptions,
+                            (option) => `"${option.value}"`
+                        )
+                        setSelectedHandforms(values)
+                    }}
                 >
                     {handforms.map((handform) => {
-                        return <option value={handform}>{handform}</option>
+                        return (
+                            <option value={handform} key={handform}>
+                                {handform}
+                            </option>
+                        )
                     })}
                 </select>
                 <select
@@ -73,10 +154,17 @@ function Leit() {
                     name=""
                     id=""
                     multiple
+                    onChange={(e) => {
+                        let values = Array.from(
+                            e.target.selectedOptions,
+                            (option) => `"${option.value}"`
+                        )
+                        setSelectedMyndunarstadir(values)
+                    }}
                 >
                     {myndunarstadir.map((myndunarstadur) => {
                         return (
-                            <option value={myndunarstadur}>
+                            <option value={myndunarstadur} key={myndunarstadur}>
                                 {myndunarstadur}
                             </option>
                         )
@@ -87,11 +175,18 @@ function Leit() {
                     name=""
                     id=""
                     multiple
+                    onChange={(e) => {
+                        let values = Array.from(
+                            e.target.selectedOptions,
+                            (option) => `"${option.value}"`
+                        )
+                        setSelectedEfnisflokkar(values)
+                    }}
                 >
                     {efnisflokkar.map((efnisflokkur) => {
                         return (
-                            <option value={efnisflokkur.id}>
-                                {efnisflokkur.text}
+                            <option value={efnisflokkur} key={efnisflokkur}>
+                                {efnisflokkur}
                             </option>
                         )
                     })}
@@ -101,11 +196,29 @@ function Leit() {
                     name=""
                     id=""
                     multiple
+                    onChange={(e) => {
+                        let values = Array.from(
+                            e.target.selectedOptions,
+                            (option) => `"${option.value}"`
+                        )
+                        setSelectedOrdflokkar(values)
+                    }}
                 >
                     {ordflokkar.map((ordflokkur) => {
-                        return <option value={ordflokkur}>{ordflokkur}</option>
+                        return (
+                            <option value={ordflokkur} key={ordflokkur}>
+                                {ordflokkur}
+                            </option>
+                        )
                     })}
                 </select>
+            </div>
+            <div style={{ flexGrow: 1, height: '100%' }}>
+                <SearchableSignList
+                    items={signs}
+                    itemType="sign"
+                    itemSize={40}
+                />
             </div>
         </div>
     )
