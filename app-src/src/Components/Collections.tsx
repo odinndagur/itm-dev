@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { query, getCollectionById } from '../db'
 import './SignList.css'
 import { Link } from 'react-router-dom'
+import { AppNavBar } from './AppNavBar'
 
 function Collections() {
     const [searchValue, setSearchValue] = useState('')
@@ -55,7 +56,7 @@ function Collections() {
                     itemType="collection"
                 />
             </div>
-            <footer style={{ margin: 'auto' }}></footer>
+            {/* <AppNavBar/> */}
         </div>
     )
 }

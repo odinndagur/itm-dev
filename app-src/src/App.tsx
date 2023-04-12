@@ -26,6 +26,8 @@ import {
     QueryClientProvider,
 } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import SignWikiCredits from './Components/SignWikiCredits'
+import { AppNavBar } from './Components/AppNavBar'
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -114,8 +116,9 @@ function App() {
                     />
                     <Route render={() => <div>404 Not Found</div>} />
                 </Routes>
+            <AppNavBar/>
             </Router>
-            <ReactQueryDevtools />
+            {/* <ReactQueryDevtools /> */}
         </QueryClientProvider>
     )
 }

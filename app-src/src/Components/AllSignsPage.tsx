@@ -10,6 +10,8 @@ import {
     QueryClient,
     QueryClientProvider,
 } from '@tanstack/react-query'
+import SignWikiCredits from './SignWikiCredits'
+import { AppNavBar } from './AppNavBar'
 
 export function AllSignsPage() {
     const [searchValue, setSearchValue] = useState('')
@@ -68,7 +70,8 @@ export function AllSignsPage() {
             ) : (
                 ''
             )}
-            <footer style={{ margin: 'auto' }}></footer>
+            {/* <AppNavBar/> */}
+            {/* <SignWikiCredits/> */}
         </div>
     )
 }

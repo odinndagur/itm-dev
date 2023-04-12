@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { query } from '../db'
 import SearchableSignList from './SearchableSignList'
+import { AppNavBar } from './AppNavBar'
 
 function Leit() {
     const [handforms, setHandforms] = useState([])
@@ -120,7 +121,7 @@ function Leit() {
     if (!loaded) {
         return ''
     }
-    return (
+    return (<>
         <div style={{ height: '100%' }}>
             <h1>leit</h1>
                 <div
@@ -235,6 +236,8 @@ function Leit() {
                 />
             </div>
         </div>
+        {/* <AppNavBar/> */}
+        </>
     )
 }
 

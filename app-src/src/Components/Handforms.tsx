@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { query } from '../db'
 import { Link } from 'react-router-dom'
+import { AppNavBar } from './AppNavBar'
 function Handforms() {
     const [handforms, setHandforms] = useState([])
     const [loaded, setLoaded] = useState(false)
@@ -27,7 +28,7 @@ function Handforms() {
     if (!loaded) {
         return ''
     }
-    return (
+    return (<>
         <div>
             {handforms.map((handform: any) => {
                 return (
@@ -37,6 +38,8 @@ function Handforms() {
                 )
             })}
         </div>
+    {/* <AppNavBar/> */}
+    </>
     )
 }
 
