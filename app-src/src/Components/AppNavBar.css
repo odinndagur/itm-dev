@@ -34,7 +34,7 @@
     /* max-height: 5em; */
     display: flex;
     align-items: center;
-    padding-bottom: calc(env(safe-area-inset-bottom,0.3rem) + 0.4rem);
+    /* padding-bottom: calc(env(safe-area-inset-bottom,0.3rem) + 0.4rem); */
     position: fixed;
     background-color: var(--background-color-light);
     bottom: 0;

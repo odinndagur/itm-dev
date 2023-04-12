@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { query } from '../db'
 import SearchableSignList from './SearchableSignList'
 import { AppNavBar } from './AppNavBar'
+import './Leit.css'
 
 function Leit() {
     const [handforms, setHandforms] = useState([])
@@ -121,9 +122,10 @@ function Leit() {
     if (!loaded) {
         return ''
     }
-    return (<>
-        <div style={{ height: '100%' }}>
+    return (<div className='flexcol'>
+        <header>
             <h1>leit</h1>
+        </header>
                 <div
                 style={{
                     display: 'flex',
@@ -131,7 +133,7 @@ function Leit() {
                     justifyContent: 'space-evenly',
                     alignContent: 'center',
                     width:'80%',
-                    margin:'auto'
+                    margin:'auto',
                 }}
                 >
                 <button onClick={() => setShowFilterBox(!showFilterBox)}>Sía niðurstöður</button>
@@ -236,8 +238,6 @@ function Leit() {
                 />
             </div>
         </div>
-        {/* <AppNavBar/> */}
-        </>
     )
 }
 
