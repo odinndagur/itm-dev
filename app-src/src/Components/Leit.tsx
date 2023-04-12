@@ -19,6 +19,8 @@ function Leit() {
 
     const [signs, setSigns] = useState<any>([])
 
+    const [showFilterBox, setShowFilterBox] = useState(false)
+
     useEffect(() => {
         const clauses = [
             selectedHandforms.length
@@ -121,99 +123,110 @@ function Leit() {
     return (
         <div style={{ height: '100%' }}>
             <h1>leit</h1>
-            <div
+                <div
                 style={{
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-evenly',
                     alignContent: 'center',
+                    width:'80%',
+                    margin:'auto'
                 }}
-            >
-                <select
-                    style={{ flexBasis: '100%', margin: '0.5rem' }}
-                    name=""
-                    id=""
-                    multiple
-                    onChange={(e) => {
-                        let values = Array.from(
-                            e.target.selectedOptions,
-                            (option) => `"${option.value}"`
-                        )
-                        setSelectedHandforms(values)
-                    }}
                 >
-                    {handforms.map((handform) => {
-                        return (
-                            <option value={handform} key={handform}>
-                                {handform}
-                            </option>
-                        )
-                    })}
-                </select>
-                <select
-                    style={{ flexBasis: '100%', margin: '0.5rem' }}
-                    name=""
-                    id=""
-                    multiple
-                    onChange={(e) => {
-                        let values = Array.from(
-                            e.target.selectedOptions,
-                            (option) => `"${option.value}"`
-                        )
-                        setSelectedMyndunarstadir(values)
-                    }}
-                >
-                    {myndunarstadir.map((myndunarstadur) => {
-                        return (
-                            <option value={myndunarstadur} key={myndunarstadur}>
-                                {myndunarstadur}
-                            </option>
-                        )
-                    })}
-                </select>
-                <select
-                    style={{ flexBasis: '100%', margin: '0.5rem' }}
-                    name=""
-                    id=""
-                    multiple
-                    onChange={(e) => {
-                        let values = Array.from(
-                            e.target.selectedOptions,
-                            (option) => `"${option.value}"`
-                        )
-                        setSelectedEfnisflokkar(values)
-                    }}
-                >
-                    {efnisflokkar.map((efnisflokkur) => {
-                        return (
-                            <option value={efnisflokkur} key={efnisflokkur}>
-                                {efnisflokkur}
-                            </option>
-                        )
-                    })}
-                </select>
-                <select
-                    style={{ flexBasis: '100%', margin: '0.5rem' }}
-                    name=""
-                    id=""
-                    multiple
-                    onChange={(e) => {
-                        let values = Array.from(
-                            e.target.selectedOptions,
-                            (option) => `"${option.value}"`
-                        )
-                        setSelectedOrdflokkar(values)
-                    }}
-                >
-                    {ordflokkar.map((ordflokkur) => {
-                        return (
-                            <option value={ordflokkur} key={ordflokkur}>
-                                {ordflokkur}
-                            </option>
-                        )
-                    })}
-                </select>
-            </div>
+                <button onClick={() => setShowFilterBox(!showFilterBox)}>Sía niðurstöður</button>
+                {showFilterBox ?
+                <div>
+
+                        <select
+                            style={{ flexBasis: '100%', margin: '0.5rem' }}
+                            name=""
+                            id=""
+                            multiple
+                            onChange={(e) => {
+                                let values = Array.from(
+                                    e.target.selectedOptions,
+                                    (option) => `"${option.value}"`
+                                )
+                                setSelectedHandforms(values)
+                            }}
+                        >
+                            {handforms.map((handform) => {
+                                return (
+                                    <option value={handform} key={handform}>
+                                        {handform}
+                                    </option>
+                                )
+                            })}
+                        </select>
+                        <select
+                            style={{ flexBasis: '100%', margin: '0.5rem' }}
+                            name=""
+                            id=""
+                            multiple
+                            onChange={(e) => {
+                                let values = Array.from(
+                                    e.target.selectedOptions,
+                                    (option) => `"${option.value}"`
+                                )
+                                setSelectedMyndunarstadir(values)
+                            }}
+                        >
+                            {myndunarstadir.map((myndunarstadur) => {
+                                return (
+                                    <option value={myndunarstadur} key={myndunarstadur}>
+                                        {myndunarstadur}
+                                    </option>
+                                )
+                            })}
+                        </select>
+                        <select
+                            style={{ flexBasis: '100%', margin: '0.5rem' }}
+                            name=""
+                            id=""
+                            multiple
+                            onChange={(e) => {
+                                let values = Array.from(
+                                    e.target.selectedOptions,
+                                    (option) => `"${option.value}"`
+                                )
+                                setSelectedEfnisflokkar(values)
+                            }}
+                        >
+                            {efnisflokkar.map((efnisflokkur) => {
+                                return (
+                                    <option value={efnisflokkur} key={efnisflokkur}>
+                                        {efnisflokkur}
+                                    </option>
+                                )
+                            })}
+                        </select>
+                        <select
+                            style={{ flexBasis: '100%', margin: '0.5rem' }}
+                            name=""
+                            id=""
+                            multiple
+                            onChange={(e) => {
+                                let values = Array.from(
+                                    e.target.selectedOptions,
+                                    (option) => `"${option.value}"`
+                                )
+                                setSelectedOrdflokkar(values)
+                            }}
+                        >
+                            {ordflokkar.map((ordflokkur) => {
+                                return (
+                                    <option value={ordflokkur} key={ordflokkur}>
+                                        {ordflokkur}
+                                    </option>
+                                )
+                            })}
+                        </select>
+                </div>
+            : ''
+            }
+                </div>
+
+            {/* : <button onClick={() => setShowFilterBox(!showFilterBox)}>Sía niðurstöður</button> */}
             <div style={{ flexGrow: 1, height: '100%' }}>
                 <SearchableSignList
                     items={signs}

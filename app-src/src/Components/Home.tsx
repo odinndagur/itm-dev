@@ -6,7 +6,7 @@ function Home() {
             <header>
                 <h1 className="heading">Íslenskt táknmál</h1>
                 <nav className="navbar">
-                    <Link to={'/collections/1'}>Öll tákn</Link>
+                    <Link to={'/signs'}>Öll tákn</Link>
                     <Link to={'/collections'}>Táknasöfn</Link>
                     <Link to={'/leit'}>Leit</Link>
                     <Link to={'/settings'}>Stillingar</Link>
