@@ -42,7 +42,7 @@ function Leit() {
         })
         let sql = `
         select distinct
-        sign.id,
+        sign.id as sign_id,
         sign.phrase,
         sign.myndunarstadur,
         sign.ordflokkur,
