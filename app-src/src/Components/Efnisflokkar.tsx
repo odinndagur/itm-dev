@@ -9,7 +9,7 @@ function Efnisflokkar() {
         query('select * from efnisflokkur order by text').then(
             (efnisflokkar: any) => {
                 setEfnisflokkar(
-                    efnisflokkar.filter((flokkur) => {
+                    efnisflokkar.filter((flokkur:any) => {
                         return flokkur.text != ''
                     })
                 )
