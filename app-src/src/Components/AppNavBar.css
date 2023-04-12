@@ -42,10 +42,9 @@
   }
   
 
-
-  footer nav a {
+.nav-item {
     color: black;
-    display: flex;
+    /* display: flex; */
     flex-direction: column;
     justify-content: center;
     text-align: center;
