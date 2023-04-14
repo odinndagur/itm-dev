@@ -51,7 +51,14 @@ export function AllSignsPage() {
             {data || isPlaceholderData ? (
                 <div className="signlist">
                     {data.map((sign) => {
-                        return <div key={sign.sign_id}>{sign.phrase}</div>
+                        return (
+                            <Link
+                                key={sign.sign_id}
+                                to={`/signs/${sign.sign_id}`}
+                            >
+                                <div className="temp-card">{sign.phrase}</div>
+                            </Link>
+                        )
                     })}
                     <div className="pagination">
                         <a onClick={() => setPage(page - 1)}>

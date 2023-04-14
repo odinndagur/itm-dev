@@ -1,5 +1,19 @@
 .signlist {
     overflow-y: scroll;
+    padding: 2rem 0;
+}
+
+.temp-card {
+    padding: 1rem 2rem;
+    /* margin: 1rem; */
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 5px; /* 5px rounded corners */
+}
+
+/* On mouse-over, add a deeper shadow */
+.temp-card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
 .pagination {
@@ -7,6 +21,7 @@
     flex-direction: row;
     min-height: 2rem;
     justify-content: space-evenly;
+    padding-top: 1rem;
 }
 
 .pagination a {
@@ -31,4 +46,26 @@
 
 .pagination a.active {
     border-radius: 5px;
+}
+
+.pagination a {
+    transition: background-color 0.3s;
+}
+
+.pagination a {
+    border: 1px solid #ddd; /* Gray */
+}
+
+.pagination a:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.pagination a:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.pagination a {
+    /* font-size: 22px; */
 }
