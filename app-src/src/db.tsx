@@ -267,6 +267,104 @@ const checkSignInCollection = async ({
     return res[0].in_collection
 }
 
+const searchPagedCollectionById = async ({
+    searchValue,
+    collectionId,
+    page,
+}: {
+    searchValue: string
+    collectionId: number
+    page: number
+}) => {
+    const limit = 100
+    const offset = page * limit
+    const userCollection = 3
+    let stmt = ''
+    if (!searchValue) {
+        stmt = `select distinct sign.id as sign_id,
+            sign.phrase as phrase,
+            sign_video.video_id as youtube_id,
+            sign_fts.related_signs as related_signs,
+            collection.id as collection_id,
+            collection.name as collection_name,
+                case when sign_collection.collection_id = ${userCollection} then true else false end as in_collection
+            from sign
+            join sign_fts
+            on sign.id = sign_fts.id
+            left join sign_collection
+            on sign.id = sign_collection.sign_id
+            left join collection
+            on collection.id = sign_collection.collection_id
+            LEFT JOIN sign_video
+            ON sign.id = sign_video.sign_id
+            where collection.id = ${collectionId}
+            group by sign.id
+            order by sign.phrase asc
+            limit ${limit}
+            offset ${offset}`
+    }
+    if (searchValue[0] === '*') {
+        stmt = `select distinct sign.id as sign_id,
+            sign.phrase as phrase,
+            sign_video.video_id as youtube_id,
+            sign_fts.related_signs as related_signs,
+            collection.id as collection_id,
+            collection.name as collection_name,
+                case when sign_collection.collection_id = ${userCollection} then true else false end as in_collection
+            from sign
+            join sign_fts
+            on sign.id = sign_fts.id
+            left join sign_collection
+            on sign.id = sign_collection.sign_id
+            left join collection
+            on collection.id = sign_collection.collection_id
+            LEFT JOIN sign_video
+            ON sign.id = sign_video.sign_id
+            where sign.phrase like "%${searchValue.substring(1)}%"
+            and collection.id = ${collectionId}
+            group by sign.id
+            order by sign.phrase asc
+            limit ${limit}
+            offset ${offset}`
+    }
+    if (searchValue && searchValue[0] != '*') {
+        if (searchValue[searchValue.length - 1] != '*') {
+            searchValue = searchValue + '*'
+        }
+        stmt = `select distinct sign.id as sign_id,
+            sign.phrase as phrase,
+            sign_video.video_id as youtube_id,
+            sign_fts.related_signs as related_signs,
+            collection.id as collection_id,
+            collection.name as collection_name,
+                case when sign_collection.collection_id = ${userCollection} then true else false end as in_collection
+            from sign_fts
+            join sign on sign.id = sign_fts.id
+            left join sign_collection
+            on sign.id = sign_collection.sign_id
+            left join collection
+            on collection.id = sign_collection.collection_id
+            LEFT JOIN sign_video
+            ON sign.id = sign_video.sign_id
+            where sign_fts match "${searchValue}"
+            and collection.id = ${collectionId}
+            group by sign.id
+            order by sign_fts.rank, sign.phrase asc
+            limit ${limit}
+            offset ${offset}`
+    }
+    const result: {
+        sign_id: number
+        phrase: string
+        youtube_id: string
+        related_signs: string
+        collection_id: number
+        collection_name: string
+        in_collection: boolean
+    }[] = await query(stmt)
+    return result
+}
+
 export {
     query,
     getSignById,
@@ -276,4 +374,5 @@ export {
     checkSignInCollection,
     addSignToCollection,
     deleteSignFromCollection,
+    searchPagedCollectionById,
 }
