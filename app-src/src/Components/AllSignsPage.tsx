@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { getCollectionById, searchPagedCollectionById } from '../db'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import './AllSignsPage.css'
 import {
     useQuery,
@@ -12,7 +12,22 @@ import {
 
 export function AllSignsPage() {
     const [page, setPage] = useState(0)
+    const scrollRef = useRef<HTMLDivElement>(null)
+
+    const location = useLocation()
+    const params = new URLSearchParams(location.search)
+    useEffect(() => {
+        if (params.get('page')) {
+            setPage(Number(params.get('page')))
+        }
+    }, [])
+
     const [searchValue, setSearchValue] = useState('')
+
+    const updatePage = (page: number) => {
+        setPage(page)
+        scrollRef.current?.scrollTo({ top: 0 })
+    }
 
     const { data, isPlaceholderData, isLoading, isError } = useQuery({
         queryKey: ['signs', searchValue ?? null, page],
@@ -49,23 +64,28 @@ export function AllSignsPage() {
                 </div>
             </header>
             {data || isPlaceholderData ? (
-                <div className="signlist">
+                <div className="signlist" ref={scrollRef}>
                     {data.map((sign) => {
                         return (
                             <Link
                                 key={sign.sign_id}
                                 to={`/signs/${sign.sign_id}`}
                             >
-                                <div className="temp-card">{sign.phrase}</div>
+                                <div className="temp-card">
+                                    <b>{sign.phrase}</b>
+                                    <div>
+                                        <i>{sign.related_signs}</i>
+                                    </div>
+                                </div>
                             </Link>
                         )
                     })}
                     <div className="pagination">
-                        <a onClick={() => setPage(page - 1)}>
+                        <a onClick={() => updatePage(page - 1)}>
                             {page - 1 > 0 ? page : ''}
                         </a>
                         <a className="active">{page + 1}</a>
-                        <a onClick={() => setPage(page + 1)}>{page + 2}</a>
+                        <a onClick={() => updatePage(page + 1)}>{page + 2}</a>
                     </div>
                 </div>
             ) : (
