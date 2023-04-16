@@ -65,6 +65,10 @@ function App() {
                 basepath="itm-dev"
                 routes={[
                     {
+                        path: '/',
+                        element: <AllSignsPage />,
+                    },
+                    {
                         path: 'signs',
                         children: [
                             {
