@@ -120,7 +120,13 @@ export function AllSignsPage() {
                                 <div className="temp-card">
                                     <b>{sign.phrase}</b>
                                     <div>
-                                        <i>{sign.related_signs}</i>
+                                        <i>
+                                            {sign.related_signs
+                                                ? sign.related_signs
+                                                      .split(',')
+                                                      .join(', ')
+                                                : sign.related_signs}
+                                        </i>
                                     </div>
                                 </div>
                             </Link>
