@@ -3,8 +3,9 @@ import { useState, useEffect, FormEvent } from 'react'
 import SignPage from './Components/SignPage'
 import { AllSignsPage } from './Components/AllSignsPage'
 import Home from './Components/Home'
-import { query } from './db'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { query, getSignById } from './db'
+// import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { ReactLocation, Router } from '@tanstack/react-location'
 import PlaceholderScreen from './Components/PlaceholderScreen'
 
 import {
@@ -15,6 +16,8 @@ import {
     QueryClientProvider,
 } from '@tanstack/react-query'
 import { AppNavBar } from './Components/AppNavBar'
+
+const reactLocation = new ReactLocation()
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -49,16 +52,36 @@ function App() {
     }
     return (
         <QueryClientProvider client={queryClient}>
-            <Router basename={import.meta.env.BASE_URL}>
+            {/* <Router basename={import.meta.env.BASE_URL}>
                 <Routes>
                     <Route exact path={''} element={<AllSignsPage />}></Route>
                     <Route exact path={`/signs`} element={<AllSignsPage />} />
                     <Route exact path={`/signs/:id`} element={<SignPage />} />
                     <Route render={() => <div>404 Not Found</div>} />
                 </Routes>
-                {/* <AppNavBar /> */}
-            </Router>
-            {/* <ReactQueryDevtools /> */}
+            </Router> */}
+            <Router
+                location={reactLocation}
+                basepath="itm-dev"
+                routes={[
+                    {
+                        path: 'signs',
+                        children: [
+                            {
+                                path: '/',
+                                element: <AllSignsPage />,
+                            },
+                            {
+                                path: ':id',
+                                element: <SignPage />,
+                                loader: async ({ params }) => ({
+                                    sign: await getSignById(params.id),
+                                }),
+                            },
+                        ],
+                    },
+                ]}
+            />
         </QueryClientProvider>
     )
 }
