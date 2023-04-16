@@ -3,12 +3,12 @@ const RUNTIME = 'runtime'
 
 // A list of local resources we always want to be cached.
 const PRECACHE_URLS = [
-    // '/index.html',
+    '/index.html',
     '/',
     // '/style.css',
-    // '/manifest.webmanifest',
-    // '/sql-wasm.js',
-    // '/sql-wasm.wasm',
+    '/manifest.webmanifest',
+    '/sql-wasm.js',
+    '/sql-wasm.wasm',
     // '/src_index_worker_js.js',
 ]
 

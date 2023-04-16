@@ -323,14 +323,14 @@
     </head>
     <body>
         <script>
-            //   console.log('fyrir sw')
+            console.log('fyrir sw')
             // register ServiceWorker, remember to use absolute path!
-            // if (navigator.serviceWorker) {
-            //     console.log('fyrir registersw')
-            //     navigator.serviceWorker.register('/sw.js', {
-            //         scope: '/itm-dev/',
-            //     })
-            // }
+            if (navigator.serviceWorker) {
+                console.log('fyrir register sw')
+                navigator.serviceWorker.register('/itm-dev/sw.js', {
+                    scope: '/itm-dev/',
+                })
+            }
         </script>
 
         <div id="root"></div>
