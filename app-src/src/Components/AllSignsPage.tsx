@@ -34,7 +34,7 @@ export function AllSignsPage() {
         // }
         setPage(Number(params.get('page')))
         setSearchValue(params.get('query') ?? '')
-    }, [])
+    }, [window.location.search])
 
     const [searchValue, setSearchValue] = useState('')
 
@@ -53,7 +53,7 @@ export function AllSignsPage() {
         //     .toString()
         //     .replace(window.location.search, params.toString())
         // window.history.pushState(null, '', newLocation)
-        window.history.replaceState(null, '', `?${params.toString()}`)
+        window.history.pushState(null, '', `?${params.toString()}`)
         // window.location.search = params.toString()
         setPage(page)
         scrollRef.current?.scrollTo({ top: 0 })
