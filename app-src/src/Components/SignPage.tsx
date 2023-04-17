@@ -1,8 +1,5 @@
 //@ts-nocheck
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
 import { Link, useMatch } from '@tanstack/react-location'
-import { getSignById, query } from '../db'
 import { YoutubeEmbed } from './YoutubeEmbed'
 import './signpage.css'
 
@@ -23,12 +20,11 @@ function SignPage() {
             <div>
                 <div>
                     <h2 className="sign-phrase">{sign.phrase}</h2>
-                    {/* {sign} */}
                     <YoutubeEmbed embedId={sign.youtube_ids[0]} />
                 </div>
                 <div className="sign-info">
                     {sign.efnisflokkar && (
-                        <div className="sign-info-item">
+                        <div className="sign-info-item card">
                             <b>Efnisflokkar</b>
                             {sign.efnisflokkar.map((efnisflokkur) => {
                                 return (
@@ -44,7 +40,7 @@ function SignPage() {
                         </div>
                     )}
                     {sign.ordflokkur && (
-                        <div className="sign-info-item">
+                        <div className="sign-info-item card">
                             <b>Orðflokkur</b>
                             <div>
                                 <Link to={`/ordflokkar/${sign.ordflokkur}`}>
@@ -54,7 +50,7 @@ function SignPage() {
                         </div>
                     )}
                     {sign.myndunarstadur && (
-                        <div className="sign-info-item">
+                        <div className="sign-info-item card">
                             <b>Myndunarstaður</b>
                             <div>
                                 <Link
@@ -66,7 +62,7 @@ function SignPage() {
                         </div>
                     )}
                     {sign.handform && (
-                        <div className="sign-info-item">
+                        <div className="sign-info-item card">
                             <b>Handform</b>
                             <div>
                                 <Link to={`/handform/${sign.handform}`}>
@@ -76,26 +72,39 @@ function SignPage() {
                         </div>
                     )}
                     {sign.description && (
-                        <div className="sign-info-item">
+                        <div className="sign-info-item card">
                             <b>Lýsing</b>
                             <div>{sign.description}</div>
                         </div>
                     )}
-                    {sign.related_signs &&
-                        sign.related_signs.split(',').map((phrase) => {
-                            return phrase
-                        })}
+                    {sign.related_signs && (
+                        <div className="sign-info-item card">
+                            <b>Tengd tákn</b>
+                            {sign.related_signs.split(',').map((phrase) => {
+                                return (
+                                    <div key={phrase}>
+                                        <Link
+                                            to={`/sign`}
+                                            search={{ phrase: phrase }}
+                                        >
+                                            {phrase}
+                                        </Link>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    )}
                 </div>
             </div>
             <div className="alternate-videos">
                 {sign.islenska && (
-                    <div className="sign-info-item">
+                    <div className="sign-info-item card">
                         <b>Íslenska</b>
                         <div>{sign.islenska}</div>
                     </div>
                 )}
                 {sign.taknmal && (
-                    <div className="sign-info-item">
+                    <div className="sign-info-item card">
                         <b>Táknmál</b>
                         <div>{sign.taknmal}</div>
                     </div>

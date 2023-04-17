@@ -25,12 +25,14 @@ const deleteSignFromCollection = async ({ signId, collectionId }) => {
 }
 
 const getSignById = async (id: number) => {
+    console.log('getting sign by id: ' + id)
     const stmt = `
         SELECT sign.*,
         GROUP_CONCAT(distinct sign_video.rank || ':' || sign_video.video_id) as youtube_ids,
         GROUP_CONCAT(distinct efnisflokkur.text) as efnisflokkar,
-        myndunarstadur,
-        ordflokkur
+        GROUP_CONCAT(distinct related.phrase) as related_signs,
+        sign.myndunarstadur,
+        sign.ordflokkur
         FROM sign
         JOIN sign_video
         ON sign.id = sign_video.sign_id
@@ -38,9 +40,56 @@ const getSignById = async (id: number) => {
         ON sign_efnisflokkur.sign_id = sign.id
         JOIN efnisflokkur
         ON sign_efnisflokkur.efnisflokkur_id = efnisflokkur.id
+        JOIN sign_related
+        ON sign_related.sign_id = sign.id
+        JOIN sign AS related
+        ON sign_related.related_id = related.id
 
         
         WHERE sign.id = ${id}
+        GROUP BY sign.id
+    `
+    const signs = await query(stmt)
+    let sign = signs[0]
+    sign['youtube_ids'] = sign['youtube_ids']
+        .split(',')
+        .sort((a: any, b: any) => {
+            let rank1 = a.split(':')[0]
+            let rank2 = b.split(':')[0]
+            return rank1 - rank2
+        })
+        .map((video: any) => {
+            return video.split(':')[1]
+        })
+
+    sign['efnisflokkar'] = sign['efnisflokkar'].split(',')
+    console.log('getsignbyid')
+    console.log(sign)
+    return signs[0]
+}
+
+const getSignByPhrase = async (phrase: string) => {
+    const stmt = `
+        SELECT sign.*,
+        GROUP_CONCAT(distinct sign_video.rank || ':' || sign_video.video_id) as youtube_ids,
+        GROUP_CONCAT(distinct efnisflokkur.text) as efnisflokkar,
+        GROUP_CONCAT(distinct related.phrase) as related_signs,
+        sign.myndunarstadur,
+        sign.ordflokkur
+        FROM sign
+        JOIN sign_video
+        ON sign.id = sign_video.sign_id
+        JOIN sign_efnisflokkur
+        ON sign_efnisflokkur.sign_id = sign.id
+        JOIN efnisflokkur
+        ON sign_efnisflokkur.efnisflokkur_id = efnisflokkur.id
+        JOIN sign_related
+        ON sign_related.sign_id = sign.id
+        JOIN sign AS related
+        ON sign_related.related_id = related.id
+
+        
+        WHERE sign.phrase LIKE "${phrase.toLowerCase().trim()}"
         GROUP BY sign.id
     `
     const signs = await query(stmt)
@@ -368,6 +417,7 @@ const searchPagedCollectionById = async ({
 export {
     query,
     getSignById,
+    getSignByPhrase,
     searchSigns,
     signSearchWithCollectionId,
     getCollectionById,

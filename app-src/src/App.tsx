@@ -3,9 +3,14 @@ import { useState, useEffect, FormEvent } from 'react'
 import SignPage from './Components/SignPage'
 import { AllSignsPage } from './Components/AllSignsPage'
 import Home from './Components/Home'
-import { query, getSignById } from './db'
+import { query, getSignById, getSignByPhrase } from './db'
 // import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import { ReactLocation, Router } from '@tanstack/react-location'
+import {
+    ReactLocation,
+    Router,
+    useMatch,
+    useSearch,
+} from '@tanstack/react-location'
 import PlaceholderScreen from './Components/PlaceholderScreen'
 
 import {
@@ -28,6 +33,14 @@ const queryClient = new QueryClient({
     },
 })
 
+const TestaSignById = () => {
+    const { test } = useSearch()
+    return (
+        <div>
+            <h1>{test}</h1>
+        </div>
+    )
+}
 function App() {
     const [promiseWorkerLoaded, setPromiseWorkerLoaded] = useState(false)
     useEffect(() => {
@@ -83,6 +96,39 @@ function App() {
                                 }),
                             },
                         ],
+                    },
+                    {
+                        path: 'sign',
+                        id: 'signByPhrase',
+                        element: <SignPage />,
+                        search: (search) => {
+                            return 'phrase' in search
+                        },
+                        loader: async ({ search }) => ({
+                            sign: await getSignByPhrase(search.phrase),
+                        }),
+                    },
+                    {
+                        path: 'sign',
+                        id: 'signById',
+                        element: <SignPage />,
+                        search: (search) => {
+                            return 'id' in search
+                        },
+                        loader: async ({ search }) => ({
+                            sign: await getSignById(search.id),
+                        }),
+                    },
+                    {
+                        path: 'sign',
+                        id: 'signByTest',
+                        element: <TestaSignById />,
+                        search: (search) => {
+                            return 'test' in search
+                        },
+                        // loader: async ({ search }) => ({
+                        //     sign: await getSignById(search.id),
+                        // }),
                     },
                 ]}
             />
