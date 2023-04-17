@@ -23,6 +23,7 @@ function SignPage() {
             <div>
                 <div>
                     <h2 className="sign-phrase">{sign.phrase}</h2>
+                    {/* {sign} */}
                     <YoutubeEmbed embedId={sign.youtube_ids[0]} />
                 </div>
                 <div className="sign-info">
@@ -80,21 +81,25 @@ function SignPage() {
                             <div>{sign.description}</div>
                         </div>
                     )}
-                    {sign.islenska && (
-                        <div className="sign-info-item">
-                            <b>Íslenska</b>
-                            <div>{sign.islenska}</div>
-                        </div>
-                    )}
-                    {sign.taknmal && (
-                        <div className="sign-info-item">
-                            <b>Táknmál</b>
-                            <div>{sign.taknmal}</div>
-                        </div>
-                    )}
+                    {sign.related_signs &&
+                        sign.related_signs.split(',').map((phrase) => {
+                            return phrase
+                        })}
                 </div>
             </div>
             <div className="alternate-videos">
+                {sign.islenska && (
+                    <div className="sign-info-item">
+                        <b>Íslenska</b>
+                        <div>{sign.islenska}</div>
+                    </div>
+                )}
+                {sign.taknmal && (
+                    <div className="sign-info-item">
+                        <b>Táknmál</b>
+                        <div>{sign.taknmal}</div>
+                    </div>
+                )}
                 {sign.youtube_ids.slice(1).map((id) => {
                     return (
                         <div className="alternate-video" key={id}>

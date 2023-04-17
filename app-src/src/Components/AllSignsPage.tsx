@@ -40,6 +40,10 @@ export function AllSignsPage() {
 
     const handleSearch = (query: string) => {
         setSearchValue(query)
+        const params = new URLSearchParams(window.location.search)
+        params.set('query', query)
+        params.set('page', '0')
+        window.history.replaceState(null, '', `?${params.toString()}`)
         // params.set('query', query)
         // location.search = params.toString()
         // window.history.replaceState(null, '', location)
