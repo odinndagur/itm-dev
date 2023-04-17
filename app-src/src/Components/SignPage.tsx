@@ -1,8 +1,14 @@
 //@ts-nocheck
-import { Link, useMatch } from '@tanstack/react-location'
+import {
+    Link,
+    useMatch,
+    useNavigate,
+    MakeGenerics,
+    useLocation,
+} from '@tanstack/react-location'
 import { YoutubeEmbed } from './YoutubeEmbed'
 import './signpage.css'
-
+import { useEffect } from 'react'
 function SignPage() {
     const {
         data: {
@@ -80,14 +86,11 @@ function SignPage() {
                     {sign.related_signs && (
                         <div className="sign-info-item card">
                             <b>Tengd tákn</b>
-                            {sign.related_signs.split(',').map((phrase) => {
+                            {sign.related_signs.map((related_sign) => {
                                 return (
-                                    <div key={phrase}>
-                                        <Link
-                                            to={`/sign`}
-                                            search={{ phrase: phrase }}
-                                        >
-                                            {phrase}
+                                    <div key={related_sign.id}>
+                                        <Link to={`/signs/${related_sign.id}`}>
+                                            {related_sign.phrase}
                                         </Link>
                                     </div>
                                 )

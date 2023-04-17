@@ -30,7 +30,7 @@ const getSignById = async (id: number) => {
         SELECT sign.*,
         GROUP_CONCAT(distinct sign_video.rank || ':' || sign_video.video_id) as youtube_ids,
         GROUP_CONCAT(distinct efnisflokkur.text) as efnisflokkar,
-        GROUP_CONCAT(distinct related.phrase) as related_signs,
+        GROUP_CONCAT(distinct related.phrase || ':' || related.id) as related_signs,
         sign.myndunarstadur,
         sign.ordflokkur
         FROM sign
@@ -62,7 +62,15 @@ const getSignById = async (id: number) => {
             return video.split(':')[1]
         })
 
+    sign['related_signs'] = sign['related_signs']
+        .split(',')
+        .map((sign: any) => {
+            const [phrase, id] = sign.split(':')
+            return { id, phrase }
+        })
+
     sign['efnisflokkar'] = sign['efnisflokkar'].split(',')
+
     console.log('getsignbyid')
     console.log(sign)
     return signs[0]
@@ -94,20 +102,22 @@ const getSignByPhrase = async (phrase: string) => {
     `
     const signs = await query(stmt)
     let sign = signs[0]
-    sign['youtube_ids'] = sign['youtube_ids']
-        .split(',')
-        .sort((a: any, b: any) => {
-            let rank1 = a.split(':')[0]
-            let rank2 = b.split(':')[0]
-            return rank1 - rank2
-        })
-        .map((video: any) => {
-            return video.split(':')[1]
-        })
+    if (sign) {
+        sign['youtube_ids'] = sign['youtube_ids']
+            .split(',')
+            .sort((a: any, b: any) => {
+                let rank1 = a.split(':')[0]
+                let rank2 = b.split(':')[0]
+                return rank1 - rank2
+            })
+            .map((video: any) => {
+                return video.split(':')[1]
+            })
 
-    sign['efnisflokkar'] = sign['efnisflokkar'].split(',')
+        sign['efnisflokkar'] = sign['efnisflokkar'].split(',')
+        console.log(sign.youtube_ids)
+    }
     console.log('getsignbyid')
-    console.log(sign)
     return signs[0]
 }
 

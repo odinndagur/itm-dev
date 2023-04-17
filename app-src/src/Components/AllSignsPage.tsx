@@ -119,7 +119,8 @@ export function AllSignsPage() {
                         return (
                             <Link
                                 key={sign.sign_id}
-                                to={`/itm-dev/signs/${sign.sign_id}`}
+                                to={`/itm-dev/sign`}
+                                search={{ id: sign.sign_id }}
                             >
                                 <div className="temp-card">
                                     <b>{sign.phrase}</b>
