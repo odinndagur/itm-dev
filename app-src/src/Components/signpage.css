@@ -19,6 +19,11 @@
     flex-direction: row;
 }
 
+.flexrow {
+    display: flex;
+    flex-direction: row;
+}
+
 .alternate-video {
     display: block;
     flex-basis: 80%;

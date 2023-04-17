@@ -83,23 +83,23 @@ function SignPage() {
                             <div>{sign.description}</div>
                         </div>
                     )}
-                    {sign.related_signs && (
-                        <div className="sign-info-item card">
-                            <b>Tengd tákn</b>
-                            {sign.related_signs.map((related_sign) => {
-                                return (
-                                    <div key={related_sign.id}>
-                                        <Link to={`/signs/${related_sign.id}`}>
-                                            {related_sign.phrase}
-                                        </Link>
-                                    </div>
-                                )
-                            })}
-                        </div>
-                    )}
                 </div>
+                {sign.related_signs && (
+                    <div className="sign-info-item card">
+                        <b>Tengd tákn</b>
+                        {sign.related_signs.map((related_sign) => {
+                            return (
+                                <div key={related_sign.id}>
+                                    <Link to={`/signs/${related_sign.id}`}>
+                                        {related_sign.phrase}
+                                    </Link>
+                                </div>
+                            )
+                        })}
+                    </div>
+                )}
             </div>
-            <div className="alternate-videos">
+            <div className="flexrow">
                 {sign.islenska && (
                     <div className="sign-info-item card">
                         <b>Íslenska</b>
@@ -112,6 +112,8 @@ function SignPage() {
                         <div>{sign.taknmal}</div>
                     </div>
                 )}
+            </div>
+            <div className="alternate-videos">
                 {sign.youtube_ids.slice(1).map((id) => {
                     return (
                         <div className="alternate-video" key={id}>
