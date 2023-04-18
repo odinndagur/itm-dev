@@ -23,6 +23,7 @@ function SignPage() {
 
     return (
         <div className="sign" id={sign.sign_id}>
+            <header><Link to={'/'} className='heading'><b>ÍTM</b></Link></header>
             <div>
                 <div>
                     <h2 className="sign-phrase">{sign.phrase}</h2>
