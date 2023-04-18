@@ -91,7 +91,7 @@ export function AllSignsPage() {
     })
 
     if (isLoading) {
-        return 'Loading...'
+        return ''
     }
     if (isError) {
         return 'Error.'
