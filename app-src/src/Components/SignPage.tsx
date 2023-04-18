@@ -29,9 +29,9 @@ function SignPage() {
                     <h2 className="sign-phrase">{sign.phrase}</h2>
                     <YoutubeEmbed embedId={sign.youtube_ids[0]} />
                 </div>
-                <div className="sign-info">
+                <div className="sign-info card">
                     {sign.efnisflokkar && (
-                        <div className="sign-info-item card">
+                        <div className="sign-info-item">
                             <b>Efnisflokkar</b>
                             {sign.efnisflokkar.map((efnisflokkur) => {
                                 return (
@@ -47,7 +47,7 @@ function SignPage() {
                         </div>
                     )}
                     {sign.ordflokkur && (
-                        <div className="sign-info-item card">
+                        <div className="sign-info-item">
                             <b>Orðflokkur</b>
                             <div>
                                 <Link to={`/ordflokkar/${sign.ordflokkur}`}>
@@ -57,7 +57,7 @@ function SignPage() {
                         </div>
                     )}
                     {sign.myndunarstadur && (
-                        <div className="sign-info-item card">
+                        <div className="sign-info-item">
                             <b>Myndunarstaður</b>
                             <div>
                                 <Link
@@ -69,7 +69,7 @@ function SignPage() {
                         </div>
                     )}
                     {sign.handform && (
-                        <div className="sign-info-item card">
+                        <div className="sign-info-item">
                             <b>Handform</b>
                             <div>
                                 <Link to={`/handform/${sign.handform}`}>
@@ -79,50 +79,53 @@ function SignPage() {
                         </div>
                     )}
                     {sign.description && (
-                        <div className="sign-info-item card">
+                        <div className="sign-info-item">
                             <b>Lýsing</b>
                             <div>{sign.description}</div>
                         </div>
                     )}
                 </div>
-                {sign.related_signs && (
-                    <div className="sign-info-item card">
-                        <b>Tengd tákn</b>
-                        {sign.related_signs.map((related_sign) => {
-                            return (
-                                <div key={related_sign.id}>
-                                    <Link to={`/signs/${related_sign.id}`}>
-                                        {related_sign.phrase}
-                                    </Link>
-                                </div>
-                            )
-                        })}
-                    </div>
-                )}
             </div>
-            <div className="flexrow">
-                {sign.islenska && (
-                    <div className="sign-info-item card">
-                        <b>Íslenska</b>
-                        <div>{sign.islenska}</div>
-                    </div>
-                )}
-                {sign.taknmal && (
-                    <div className="sign-info-item card">
-                        <b>Táknmál</b>
-                        <div>{sign.taknmal}</div>
-                    </div>
-                )}
-            </div>
-            <div className="alternate-videos">
-                {sign.youtube_ids.slice(1).map((id) => {
-                    return (
-                        <div className="alternate-video" key={id}>
-                            <YoutubeEmbed embedId={id} />
+            <div className="card">
+                <div className="alternate-videos">
+                    {sign.youtube_ids.slice(1).map((id) => {
+                        return (
+                            <div className="alternate-video" key={id}>
+                                <YoutubeEmbed embedId={id} />
+                            </div>
+                        )
+                    })}
+                </div>
+                <div className="flexrow">
+                    {sign.islenska && (
+                        <div className="sign-info-item">
+                            <b>Íslenska</b>
+                            <div>{sign.islenska}</div>
                         </div>
-                    )
-                })}
+                    )}
+                    {sign.taknmal && (
+                        <div className="sign-info-item">
+                            <b>Táknmál</b>
+                            <div>{sign.taknmal}</div>
+                        </div>
+                    )}
+                </div>
+
             </div>
+            {sign.related_signs && (
+                <div className="sign-info-item card">
+                    <b>Tengd tákn</b>
+                    {sign.related_signs.map((related_sign) => {
+                        return (
+                            <div key={related_sign.id}>
+                                <Link to={`/signs/${related_sign.id}`}>
+                                    {related_sign.phrase}
+                                </Link>
+                            </div>
+                        )
+                    })}
+                </div>
+            )}
         </div>
     )
 }

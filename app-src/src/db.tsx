@@ -81,7 +81,7 @@ const getSignByPhrase = async (phrase: string) => {
         SELECT sign.*,
         GROUP_CONCAT(distinct sign_video.rank || ':' || sign_video.video_id) as youtube_ids,
         GROUP_CONCAT(distinct efnisflokkur.text) as efnisflokkar,
-        GROUP_CONCAT(distinct related.phrase) as related_signs,
+        GROUP_CONCAT(distinct related.phrase || ':' || related.id) as related_signs,
         sign.myndunarstadur,
         sign.ordflokkur
         FROM sign
@@ -116,6 +116,12 @@ const getSignByPhrase = async (phrase: string) => {
 
         sign['efnisflokkar'] = sign['efnisflokkar'].split(',')
         console.log(sign.youtube_ids)
+        sign['related_signs'] = sign['related_signs']
+        .split(',')
+        .map((sign: any) => {
+            const [phrase, id] = sign.split(':')
+            return { id, phrase }
+        })
     }
     console.log('getsignbyid')
     return signs[0]
