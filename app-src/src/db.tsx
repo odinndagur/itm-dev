@@ -408,7 +408,7 @@ const searchPagedCollectionById = async ({
             where sign_fts match "${searchValue}"
             and collection.id = ${collectionId}
             group by sign.id
-            order by sign_fts.rank, sign.phrase asc
+            order by sign.phrase asc,sign_fts.rank
             limit ${limit}
             offset ${offset}`
     }
