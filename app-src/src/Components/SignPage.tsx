@@ -86,32 +86,32 @@ function SignPage() {
                     )}
                 </div>
             </div>
-            <div className="card">
-                <div className="alternate-videos">
-                    {sign.youtube_ids.slice(1).map((id) => {
-                        return (
-                            <div className="alternate-video" key={id}>
-                                <YoutubeEmbed embedId={id} />
+                <div className={(sign.youtube_ids.length > 1 || sign.islenska || sign.taknmal) ? 'card' : ''}>
+                    <div className="alternate-videos">
+                        {sign.youtube_ids.slice(1).map((id) => {
+                            return (
+                                <div className="alternate-video" key={id}>
+                                    <YoutubeEmbed embedId={id} />
+                                </div>
+                            )
+                        })}
+                    </div>
+                    <div className="flexrow">
+                        {sign.islenska && (
+                            <div className="sign-info-item">
+                                <b>Íslenska</b>
+                                <div>{sign.islenska}</div>
                             </div>
-                        )
-                    })}
-                </div>
-                <div className="flexrow">
-                    {sign.islenska && (
-                        <div className="sign-info-item">
-                            <b>Íslenska</b>
-                            <div>{sign.islenska}</div>
-                        </div>
-                    )}
-                    {sign.taknmal && (
-                        <div className="sign-info-item">
-                            <b>Táknmál</b>
-                            <div>{sign.taknmal}</div>
-                        </div>
-                    )}
-                </div>
-
+                        )}
+                        {sign.taknmal && (
+                            <div className="sign-info-item">
+                                <b>Táknmál</b>
+                                <div>{sign.taknmal}</div>
+                            </div>
+                        )}
+                    </div>
             </div>
+
             {sign.related_signs && (
                 <div className="sign-info-item card">
                     <b>Tengd tákn</b>
