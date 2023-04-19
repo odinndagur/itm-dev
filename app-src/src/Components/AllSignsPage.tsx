@@ -1,10 +1,15 @@
 import { useState, useRef, useEffect } from 'react'
-import { getCollectionById, searchPagedCollectionById } from '../db'
+import {
+    getCollectionById,
+    getSignByIdJson,
+    searchPagedCollectionById,
+} from '../db'
 import {
     Link,
     useSearch,
     MakeGenerics,
     useNavigate,
+    useMatch,
 } from '@tanstack/react-location'
 import './AllSignsPage.css'
 import {
@@ -17,21 +22,17 @@ import {
 
 type MyLocationGenerics = MakeGenerics<{
     Search: {
-        pagination?: {
-            index: number
-        }
+        page?: number
+        query?: string
     }
 }>
 
 export function AllSignsPage() {
-    const [page, setPage] = useState(0)
+    // const [oldSearch, setOldSearch] = useState<URLSearchParams>()
+    const [page, setPage] = useState(1)
     const scrollRef = useRef<HTMLDivElement>(null)
-    // const location = useLocation()
     const params = new URLSearchParams(window.location.search)
     useEffect(() => {
-        // if (params.get('page')) {
-        //     setPage(Number(params.get('page')))
-        // }
         setPage(Number(params.get('page')))
         setSearchValue(params.get('query') ?? '')
     }, [window.location.search])
@@ -42,8 +43,13 @@ export function AllSignsPage() {
         setSearchValue(query)
         const params = new URLSearchParams(window.location.search)
         params.set('query', query)
-        params.set('page', '0')
-        window.history.replaceState(null, '', `?${params.toString()}`)
+        params.set('page', '1')
+        window.history.replaceState(
+            params.toString(),
+            '',
+            `?${params.toString()}`
+        )
+        // setOldSearch(params)
         // params.set('query', query)
         // location.search = params.toString()
         // window.history.replaceState(null, '', location)
@@ -96,6 +102,43 @@ export function AllSignsPage() {
     if (isError) {
         return 'Error.'
     }
+    // const {
+    //     data: {
+    //         // You can access any data merged in from parent loaders as well
+    //         signs,
+    //     },
+    // } = useMatch()
+
+    function Pagination({
+        offset,
+        totalPages,
+        totalSignCount,
+        updatePage,
+        limit
+    }: {
+        offset: number
+        totalPages: number
+        totalSignCount: number
+        updatePage: (page: number) => void,
+        limit:number
+    }) {
+        return (
+            <>
+                {/* <div>{offset}</div>
+                <div>{totalPages}</div>
+                <div>{totalSignCount}</div>
+                <div>signs on page {Math.min(totalSignCount-offset, limit)}</div> */}
+                <div className="pagination">
+                    <a onClick={() => updatePage(page - 1)}>
+                        {page > 1 ? page - 1 : ''}
+                    </a>
+                    <a className="active">{page}</a>
+                    <a onClick={() => updatePage(page + 1)}>{page + 1}</a>
+                </div>
+            </>
+        )
+    }
+
     return (
         // <div className="flexcol">
         <>
@@ -115,19 +158,26 @@ export function AllSignsPage() {
             </header>
             {data || isPlaceholderData ? (
                 <div className="signlist" ref={scrollRef}>
-                    <div className="pagination">
-                        <a onClick={() => updatePage(page - 1)}>
-                            {page > 0 ? page : ''}
-                        </a>
-                        <a className="active">{page + 1}</a>
-                        <a onClick={() => updatePage(page + 1)}>{page + 2}</a>
-                    </div>
-                    {data.map((sign) => {
+                    <Pagination
+                        offset={data.offset}
+                        totalPages={data.totalPages}
+                        totalSignCount={data.totalSignCount}
+                        updatePage={updatePage}
+                        limit={data.limit}
+                    />
+                    {data.signs.map((sign) => {
                         return (
                             <Link
                                 key={sign.sign_id}
                                 to={`/itm-dev/sign`}
-                                search={{ id: sign.sign_id }}
+                                search={(search) => ({
+                                    id: sign.sign_id,
+                                    lastSearch: {
+                                        ...search,
+                                        query: searchValue,
+                                        page: page,
+                                    },
+                                })}
                             >
                                 <div className="temp-card">
                                     <b>{sign.phrase}</b>
@@ -144,13 +194,12 @@ export function AllSignsPage() {
                             </Link>
                         )
                     })}
-                    <div className="pagination">
-                        <a onClick={() => updatePage(page - 1)}>
-                            {page > 0 ? page : ''}
-                        </a>
-                        <a className="active">{page + 1}</a>
-                        <a onClick={() => updatePage(page + 1)}>{page + 2}</a>
-                    </div>
+                    <Pagination
+                        offset={data.offset}
+                        totalPages={data.totalPages}
+                        totalSignCount={data.totalSignCount}
+                        updatePage={updatePage}
+                    />
                 </div>
             ) : (
                 ''

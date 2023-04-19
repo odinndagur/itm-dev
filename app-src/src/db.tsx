@@ -24,6 +24,63 @@ const deleteSignFromCollection = async ({ signId, collectionId }) => {
     and collection_id = ${collectionId}`)
 }
 
+const getSignByIdJson = async (id: number) => {
+    console.log('getting sign by id with json: ' + id)
+    const stmt = `
+        SELECT
+        json_object(
+            'id',sign.id,
+            'phrase',sign.phrase,
+            'videos', json_group_array(distinct json_object('rank',sign_video.rank,'video_id', sign_video.video_id)),
+            'efnisflokkar', json_group_array(distinct efnisflokkur.text),
+            'related_signs', json_group_array(distinct json_object('phrase',related.phrase,'id', related.id)),
+            'myndunarstadur',sign.myndunarstadur,
+            'ordflokkur',sign.ordflokkur
+        ) as sign_json
+        FROM sign
+        LEFT JOIN sign_video
+        ON sign.id = sign_video.sign_id
+        LEFT JOIN sign_efnisflokkur
+        ON sign_efnisflokkur.sign_id = sign.id
+        LEFT JOIN efnisflokkur
+        ON sign_efnisflokkur.efnisflokkur_id = efnisflokkur.id
+        LEFT JOIN sign_related
+        ON sign_related.sign_id = sign.id
+        LEFT JOIN
+            (SELECT * FROM sign WHERE sign.id IN
+                (SELECT sign_id from sign_related where related_id = ${id}
+                UNION
+                SELECT related_id from sign_related where sign_id = ${id}
+                )
+            ) as related
+        WHERE sign.id = ${id}
+        GROUP BY sign.id
+    `
+    const signs = await query(stmt)
+    console.log(signs)
+    console.log(signs[0])
+    console.log(signs[0].sign_json)
+    console.log(JSON.parse(signs[0].sign_json))
+    let sign: {
+        id: string
+        phrase: string
+        videos: { rank: number; video_id: string }[]
+        efnisflokkar: string[]
+        related_signs: { phrase: string; id: number }[]
+        myndunarstadur: string
+        ordflokkur: string
+    } = JSON.parse(signs[0].sign_json)
+    sign.videos = sign.videos
+        .sort((a: any, b: any) => {
+            return a.rank - b.rank
+        })
+        .map((video: any) => {
+            return video.video_id
+        })
+        console.log(sign)
+    return sign
+}
+
 const getSignById = async (id: number) => {
     console.log('getting sign by id: ' + id)
     const stmt = `
@@ -117,11 +174,11 @@ const getSignByPhrase = async (phrase: string) => {
         sign['efnisflokkar'] = sign['efnisflokkar'].split(',')
         console.log(sign.youtube_ids)
         sign['related_signs'] = sign['related_signs']
-        .split(',')
-        .map((sign: any) => {
-            const [phrase, id] = sign.split(':')
-            return { id, phrase }
-        })
+            .split(',')
+            .map((sign: any) => {
+                const [phrase, id] = sign.split(':')
+                return { id, phrase }
+            })
     }
     console.log('getsignbyid')
     return signs[0]
@@ -342,10 +399,18 @@ const searchPagedCollectionById = async ({
     page: number
 }) => {
     const limit = 100
-    const offset = page * limit
+    const offset = (page - 1) * limit
     const userCollection = 3
     let stmt = ''
+    let totalSignCount = 0
+    let totalPages = 0
     if (!searchValue) {
+        const tempCount = await query(`select count(*) as sign_count from sign
+        join sign_fts
+        on sign.id = sign_fts.id`)
+        totalSignCount = tempCount[0].sign_count
+        totalPages = Math.ceil(totalSignCount/limit)
+        console.log({offset,tempCount,totalSignCount,totalPages})
         stmt = `select distinct sign.id as sign_id,
             sign.phrase as phrase,
             sign_video.video_id as youtube_id,
@@ -369,6 +434,14 @@ const searchPagedCollectionById = async ({
             offset ${offset}`
     }
     if (searchValue[0] === '*') {
+        const tempCount = await query(`select count(*) as sign_count
+        from sign
+        join sign_fts
+        on sign.id = sign_fts.id
+        where sign.phrase like "%${searchValue.substring(1)}%"`)
+        totalSignCount = tempCount[0].sign_count
+        totalPages = Math.ceil(totalSignCount/limit)
+        console.log({offset,tempCount,totalSignCount,totalPages})
         stmt = `select distinct sign.id as sign_id,
             sign.phrase as phrase,
             sign_video.video_id as youtube_id,
@@ -396,6 +469,13 @@ const searchPagedCollectionById = async ({
         if (searchValue[searchValue.length - 1] != '*') {
             searchValue = searchValue + '*'
         }
+        const tempCount = await query(`
+        select count(*) as sign_count from sign_fts
+        join sign on sign.id = sign_fts.id
+        where sign_fts match "${searchValue}"`)
+        totalSignCount = tempCount[0].sign_count
+        totalPages = Math.ceil(totalSignCount/limit)
+        console.log({offset,tempCount,totalSignCount,totalPages})
         stmt = `select distinct sign.id as sign_id,
             sign.phrase as phrase,
             sign_video.video_id as youtube_id,
@@ -427,7 +507,7 @@ const searchPagedCollectionById = async ({
         collection_name: string
         in_collection: boolean
     }[] = await query(stmt)
-    return result
+    return {signs:result,totalPages,totalSignCount,offset,limit}
 }
 
 export {
@@ -441,4 +521,5 @@ export {
     addSignToCollection,
     deleteSignFromCollection,
     searchPagedCollectionById,
+    getSignByIdJson,
 }

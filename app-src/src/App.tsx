@@ -3,7 +3,7 @@ import { useState, useEffect, FormEvent } from 'react'
 import SignPage from './Components/SignPage'
 import { AllSignsPage } from './Components/AllSignsPage'
 import Home from './Components/Home'
-import { query, getSignById, getSignByPhrase } from './db'
+import { query, getSignById, getSignByPhrase, getSignByIdJson, searchPagedCollectionById } from './db'
 // import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import {
     ReactLocation,
@@ -21,6 +21,7 @@ import {
     QueryClientProvider,
 } from '@tanstack/react-query'
 import { AppNavBar } from './Components/AppNavBar'
+import { Place } from '@mui/icons-material'
 
 const reactLocation = new ReactLocation()
 
@@ -76,10 +77,20 @@ function App() {
             <Router
                 location={reactLocation}
                 basepath="itm-dev"
+                // defaultLinkPreloadMaxAge={Infinity}
+                defaultPendingElement={<PlaceholderScreen />}
+                // defaultLoaderMaxAge={Infinity}
                 routes={[
                     {
                         path: '/',
                         element: <AllSignsPage />,
+                        loader: async ({ search }) => ({
+                            signs: await searchPagedCollectionById({
+                                searchValue: search.query ?? '',
+                                collectionId: search.collection ?? 1,
+                                page: search.page ?? 1,
+                            }),
+                        })
                     },
                     {
                         path: 'signs',
@@ -92,7 +103,7 @@ function App() {
                                 path: ':id',
                                 element: <SignPage />,
                                 loader: async ({ params }) => ({
-                                    sign: await getSignById(params.id),
+                                    sign: await getSignByIdJson(params.id),
                                 }),
                             },
                         ],
@@ -116,7 +127,7 @@ function App() {
                             return 'id' in search
                         },
                         loader: async ({ search }) => ({
-                            sign: await getSignById(search.id),
+                            sign: await getSignByIdJson(search.id),
                         }),
                     },
                     {
@@ -130,6 +141,10 @@ function App() {
                         //     sign: await getSignById(search.id),
                         // }),
                     },
+                    {
+                        // Passing no route is equivalent to passing `path: '*'`
+                        element: `This would render as the fallback when '/' or '/about' were not matched`,
+                      },
                 ]}
             />
         </QueryClientProvider>

@@ -5,6 +5,7 @@ import {
     useNavigate,
     MakeGenerics,
     useLocation,
+    Navigate,
 } from '@tanstack/react-location'
 import { YoutubeEmbed } from './YoutubeEmbed'
 import './signpage.css'
@@ -17,22 +18,25 @@ function SignPage() {
         },
     } = useMatch()
 
+    const navigate = useNavigate()
+
     if (!sign) {
-        return ''
+        return <Navigate to={'/'}/>
     }
 
     return (
         <div className="sign" id={sign.sign_id}>
+            <button onClick={() => window.history.back()}>lalalalala</button>
             <header><Link to={'/'} className='heading'><b>ÍTM</b></Link></header>
             <div>
                 <div>
                     <h2 className="sign-phrase">{sign.phrase}</h2>
-                    <YoutubeEmbed embedId={sign.youtube_ids[0]} />
+                    <YoutubeEmbed embedId={sign.videos[0]} />
                 </div>
                 <div className="sign-info card">
                     {sign.efnisflokkar && (
                         <div className="sign-info-item">
-                            <b>Efnisflokkar</b>
+                            <h3>Efnisflokkar</h3>
                             {sign.efnisflokkar.map((efnisflokkur) => {
                                 return (
                                     <div key={efnisflokkur}>
@@ -48,7 +52,7 @@ function SignPage() {
                     )}
                     {sign.ordflokkur && (
                         <div className="sign-info-item">
-                            <b>Orðflokkur</b>
+                            <h3>Orðflokkur</h3>
                             <div>
                                 <Link to={`/ordflokkar/${sign.ordflokkur}`}>
                                     {sign.ordflokkur}
@@ -58,7 +62,7 @@ function SignPage() {
                     )}
                     {sign.myndunarstadur && (
                         <div className="sign-info-item">
-                            <b>Myndunarstaður</b>
+                            <h3>Myndunarstaður</h3>
                             <div>
                                 <Link
                                     to={`/myndunarstadir/${sign.myndunarstadur}`}
@@ -70,7 +74,7 @@ function SignPage() {
                     )}
                     {sign.handform && (
                         <div className="sign-info-item">
-                            <b>Handform</b>
+                            <h3>Handform</h3>
                             <div>
                                 <Link to={`/handform/${sign.handform}`}>
                                     {sign.handform}
@@ -80,15 +84,15 @@ function SignPage() {
                     )}
                     {sign.description && (
                         <div className="sign-info-item">
-                            <b>Lýsing</b>
+                            <h3>Lýsing</h3>
                             <div>{sign.description}</div>
                         </div>
                     )}
                 </div>
             </div>
-                <div className={(sign.youtube_ids.length > 1 || sign.islenska || sign.taknmal) ? 'card' : ''}>
+                <div className={(sign.videos.length > 1 || sign.islenska || sign.taknmal) ? 'card' : ''}>
                     <div className="alternate-videos">
-                        {sign.youtube_ids.slice(1).map((id) => {
+                        {sign.videos.slice(1).map((id) => {
                             return (
                                 <div className="alternate-video" key={id}>
                                     <YoutubeEmbed embedId={id} />
@@ -117,7 +121,7 @@ function SignPage() {
                     <div>
                         <b>Tengd tákn</b>
                     </div>
-                    <div className='flexrow related-signs'>
+                    <div className='flexcol related-signs'>
                         {sign.related_signs.map((related_sign) => {
                             return (
                                 <div key={related_sign.id}>
