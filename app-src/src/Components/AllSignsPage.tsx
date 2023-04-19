@@ -54,9 +54,12 @@ export function AllSignsPage() {
         //     '',
         //     `?${params.toString()}`
         // )
-        navigate({
-            search: (old) => ({ ...old, query: query, page: page }),
-        })
+        if(query[query.length-1] != '´'){
+            navigate({
+                search: (old) => ({ ...old, query: query, page: 1 }),
+            })
+            scrollRef.current?.scrollTo({ top: 0 })
+        }
         // setOldSearch(params)
         // params.set('query', query)
         // location.search = params.toString()
@@ -120,12 +123,16 @@ export function AllSignsPage() {
         updatePage: (page: number) => void
         limit: number
     }) {
+        const signCountOnPage = Math.min(totalSignCount - offset, limit)
         return (
             <>
                 {/* <div>{offset}</div>
                 <div>{totalPages}</div>
                 <div>{totalSignCount}</div>
                 <div>signs on page {Math.min(totalSignCount-offset, limit)}</div> */}
+                    <div className='center pad'>
+                        Sýni tákn {offset}-{offset+signCountOnPage} af {totalSignCount}.
+                    </div>
                 <div className="pagination">
                     {/* <a onClick={() => updatePage(page - 1)}>
                         {page > 1 ? page - 1 : ''}

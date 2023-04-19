@@ -42,7 +42,7 @@ function SignPage() {
                     <b>ÍTM</b>
                 </Link>
             </header>
-            {search.lastSearch && <Link className='temp-card' to={'/signs'} search={search.lastSearch}>Til baka</Link>}
+            {search.lastSearch && <Link className='temp-card' to={'/signs'} search={search.lastSearch}>Til baka í leit <i>(„{search.lastSearch.query}“)</i></Link>}
             <div>
                 <div>
                     <h2 className="sign-phrase">{sign.phrase}</h2>
@@ -146,7 +146,7 @@ function SignPage() {
                         {sign.related_signs.map((related_sign) => {
                             return (
                                 <div key={related_sign.id}>
-                                    <Link to={`/signs/${related_sign.id}`}>
+                                    <Link to={`/signs/${related_sign.id}`} search={(old) => ({...old})}>
                                         {related_sign.phrase}
                                     </Link>
                                 </div>

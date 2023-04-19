@@ -73,3 +73,7 @@
 .pagination a {
     /* font-size: 22px; */
 }
+
+.pad {
+    padding: 0.5rem;
+}

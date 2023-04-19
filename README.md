@@ -22,11 +22,11 @@ SignPage
 
 CollectionPage
 - Pagination
-  - Gera uppi líka
-  - Fyrri síða
-  - Næsta síða
-  - Fyrsta síða
-  - Síðasta síða
+  - ~~Gera uppi líka~~
+  - ~~Fyrri síða~~~~
+  - ~~Næsta síða~~
+  - ~~Fyrsta síða~~
+  - ~~Síðasta síða~~
   - Sýna fjölda (x af y tákn/x af y síðu)
   - Hægt að velja síðu
 
