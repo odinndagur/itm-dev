@@ -113,17 +113,22 @@ function SignPage() {
             </div>
 
             {sign.related_signs && (
-                <div className="sign-info-item card">
-                    <b>Tengd tákn</b>
-                    {sign.related_signs.map((related_sign) => {
-                        return (
-                            <div key={related_sign.id}>
-                                <Link to={`/signs/${related_sign.id}`}>
-                                    {related_sign.phrase}
-                                </Link>
-                            </div>
-                        )
-                    })}
+                <div className="sign-info-item card center">
+                    <div>
+                        <b>Tengd tákn</b>
+                    </div>
+                    <div className='flexrow related-signs'>
+                        {sign.related_signs.map((related_sign) => {
+                            return (
+                                <div key={related_sign.id}>
+                                    <Link to={`/signs/${related_sign.id}`}>
+                                        {related_sign.phrase}
+                                    </Link>
+                                </div>
+                            )
+                        })}
+
+                    </div>
                 </div>
             )}
         </div>

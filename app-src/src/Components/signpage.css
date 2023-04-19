@@ -47,3 +47,14 @@
     text-align: left;
     /* border: 1px solid black; */
 }
+
+
+.related-signs{
+    justify-content: space-evenly;
+    padding: 1rem 0;
+}
+
+.center {
+    text-align: center;
+    margin: auto;
+}
