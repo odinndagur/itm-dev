@@ -28,27 +28,35 @@ type MyLocationGenerics = MakeGenerics<{
 }>
 
 export function AllSignsPage() {
+    const inputRef = useRef<HTMLInputElement>(null)
     // const [oldSearch, setOldSearch] = useState<URLSearchParams>()
     const [page, setPage] = useState(1)
     const scrollRef = useRef<HTMLDivElement>(null)
     const params = new URLSearchParams(window.location.search)
     useEffect(() => {
-        setPage(Number(params.get('page')))
+        setPage(Number(params.get('page') ?? 1))
         setSearchValue(params.get('query') ?? '')
+        if (inputRef.current) {
+            inputRef.current.value = ''
+            inputRef.current.value = params.get('query') ?? ''
+        }
     }, [window.location.search])
 
     const [searchValue, setSearchValue] = useState('')
 
     const handleSearch = (query: string) => {
         setSearchValue(query)
-        const params = new URLSearchParams(window.location.search)
-        params.set('query', query)
-        params.set('page', '1')
-        window.history.replaceState(
-            params.toString(),
-            '',
-            `?${params.toString()}`
-        )
+        // const params = new URLSearchParams(window.location.search)
+        // params.set('query', query)
+        // params.set('page', '1')
+        // window.history.replaceState(
+        //     params.toString(),
+        //     '',
+        //     `?${params.toString()}`
+        // )
+        navigate({
+            search: (old) => ({ ...old, query: query, page: page }),
+        })
         // setOldSearch(params)
         // params.set('query', query)
         // location.search = params.toString()
@@ -56,34 +64,24 @@ export function AllSignsPage() {
     }
 
     const updatePage = (page: number) => {
-        const params = new URLSearchParams(window.location.search)
-        params.set('page', String(page))
+        // const params = new URLSearchParams(window.location.search)
+        // params.set('page', String(page))
         // newLocation.search = params.toString()
         // let newLocation = window.location
         //     .toString()
         //     .replace(window.location.search, params.toString())
         // window.history.pushState(null, '', newLocation)
-        window.history.pushState(null, '', `?${params.toString()}`)
+        // window.history.pushState(null, '', `?${params.toString()}`)
+
+        navigate({
+            search: (old) => ({ ...old, query: searchValue, page: page }),
+        })
         // window.location.search = params.toString()
-        setPage(page)
+        // setPage(page)
         scrollRef.current?.scrollTo({ top: 0 })
     }
     const search = useSearch<MyLocationGenerics>()
     const navigate = useNavigate<MyLocationGenerics>()
-
-    const nextPage = () => {
-        console.log('next page')
-        navigate({
-            // All typesafe!
-            search: (old) => ({
-                ...old,
-                pagination: {
-                    ...old.pagination,
-                    index: old.pagination.index ? old.pagination.index + 1 : 0,
-                },
-            }),
-        })
-    }
 
     const { data, isPlaceholderData, isLoading, isError } = useQuery({
         queryKey: ['signs', searchValue ?? null, page],
@@ -114,13 +112,13 @@ export function AllSignsPage() {
         totalPages,
         totalSignCount,
         updatePage,
-        limit
+        limit,
     }: {
         offset: number
         totalPages: number
         totalSignCount: number
-        updatePage: (page: number) => void,
-        limit:number
+        updatePage: (page: number) => void
+        limit: number
     }) {
         return (
             <>
@@ -129,11 +127,21 @@ export function AllSignsPage() {
                 <div>{totalSignCount}</div>
                 <div>signs on page {Math.min(totalSignCount-offset, limit)}</div> */}
                 <div className="pagination">
-                    <a onClick={() => updatePage(page - 1)}>
+                    {/* <a onClick={() => updatePage(page - 1)}>
                         {page > 1 ? page - 1 : ''}
+                    </a> */}
+                    <a onClick={() => updatePage(page - 1)} className="">
+                        Fyrri
+                    </a>
+                    <a onClick={() => updatePage(1)} className="">
+                        1
                     </a>
                     <a className="active">{page}</a>
-                    <a onClick={() => updatePage(page + 1)}>{page + 1}</a>
+                    <a onClick={() => updatePage(totalPages)} className="">
+                        {totalPages}
+                    </a>
+                    {/* <a onClick={() => updatePage(page + 1)}>{page + 1}</a> */}
+                    <a onClick={() => updatePage(page + 1)}>Næsta</a>
                 </div>
             </>
         )
@@ -153,6 +161,7 @@ export function AllSignsPage() {
                         type="search"
                         placeholder="Leita að tákni"
                         style={{ padding: '0.4rem 1rem' }}
+                        ref={inputRef}
                     />
                 </div>
             </header>
@@ -199,6 +208,7 @@ export function AllSignsPage() {
                         totalPages={data.totalPages}
                         totalSignCount={data.totalSignCount}
                         updatePage={updatePage}
+                        limit={data.limit}
                     />
                 </div>
             ) : (

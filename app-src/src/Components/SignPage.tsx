@@ -5,11 +5,20 @@ import {
     useNavigate,
     MakeGenerics,
     useLocation,
+    useSearch,
     Navigate,
 } from '@tanstack/react-location'
 import { YoutubeEmbed } from './YoutubeEmbed'
 import './signpage.css'
 import { useEffect } from 'react'
+
+type MyLocationGenerics = MakeGenerics<{
+    Search: {
+        page?: number
+        query?: string
+        lastSearch: { page?: number; query?: string }
+    }
+}>
 function SignPage() {
     const {
         data: {
@@ -19,15 +28,21 @@ function SignPage() {
     } = useMatch()
 
     const navigate = useNavigate()
+    const search = useSearch<MyLocationGenerics>()
 
     if (!sign) {
-        return <Navigate to={'/'}/>
+        return <Navigate to={'/'} />
     }
 
     return (
         <div className="sign" id={sign.sign_id}>
             <button onClick={() => window.history.back()}>lalalalala</button>
-            <header><Link to={'/'} className='heading'><b>ÍTM</b></Link></header>
+            <header>
+                <Link to={'/'} className="heading">
+                    <b>ÍTM</b>
+                </Link>
+            </header>
+            {search.lastSearch && <Link className='temp-card' to={'/signs'} search={search.lastSearch}>Til baka</Link>}
             <div>
                 <div>
                     <h2 className="sign-phrase">{sign.phrase}</h2>
@@ -90,30 +105,36 @@ function SignPage() {
                     )}
                 </div>
             </div>
-                <div className={(sign.videos.length > 1 || sign.islenska || sign.taknmal) ? 'card' : ''}>
-                    <div className="alternate-videos">
-                        {sign.videos.slice(1).map((id) => {
-                            return (
-                                <div className="alternate-video" key={id}>
-                                    <YoutubeEmbed embedId={id} />
-                                </div>
-                            )
-                        })}
-                    </div>
-                    <div className="flexrow">
-                        {sign.islenska && (
-                            <div className="sign-info-item">
-                                <b>Íslenska</b>
-                                <div>{sign.islenska}</div>
+            <div
+                className={
+                    sign.videos.length > 1 || sign.islenska || sign.taknmal
+                        ? 'card'
+                        : ''
+                }
+            >
+                <div className="alternate-videos">
+                    {sign.videos.slice(1).map((id) => {
+                        return (
+                            <div className="alternate-video" key={id}>
+                                <YoutubeEmbed embedId={id} />
                             </div>
-                        )}
-                        {sign.taknmal && (
-                            <div className="sign-info-item">
-                                <b>Táknmál</b>
-                                <div>{sign.taknmal}</div>
-                            </div>
-                        )}
-                    </div>
+                        )
+                    })}
+                </div>
+                <div className="flexrow">
+                    {sign.islenska && (
+                        <div className="sign-info-item">
+                            <b>Íslenska</b>
+                            <div>{sign.islenska}</div>
+                        </div>
+                    )}
+                    {sign.taknmal && (
+                        <div className="sign-info-item">
+                            <b>Táknmál</b>
+                            <div>{sign.taknmal}</div>
+                        </div>
+                    )}
+                </div>
             </div>
 
             {sign.related_signs && (
@@ -121,7 +142,7 @@ function SignPage() {
                     <div>
                         <b>Tengd tákn</b>
                     </div>
-                    <div className='flexcol related-signs'>
+                    <div className="flexcol related-signs">
                         {sign.related_signs.map((related_sign) => {
                             return (
                                 <div key={related_sign.id}>
@@ -131,7 +152,6 @@ function SignPage() {
                                 </div>
                             )
                         })}
-
                     </div>
                 </div>
             )}
