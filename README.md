@@ -15,7 +15,7 @@ DB
 
 SignPage
 - [[Leit]] verður <u>Leit</u>
-- Bæta við back takka
+- ~~Bæta við back takka~~
   - Veit hvaðan hann kom
   - „Til baka í Öll tákn“
   - "Til baka í Skóli"
@@ -27,7 +27,7 @@ CollectionPage
   - ~~Næsta síða~~
   - ~~Fyrsta síða~~
   - ~~Síðasta síða~~
-  - Sýna fjölda (x af y tákn/x af y síðu)
+  - ~~Sýna fjölda (x af y tákn/x af y síðu)~~
   - Hægt að velja síðu
 
 Stillingar
