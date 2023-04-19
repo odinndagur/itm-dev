@@ -150,7 +150,8 @@ const getSignByPhrase = async (phrase: string) => {
             'ordflokkur',sign.ordflokkur,
             'islenska',sign.islenska,
             'taknmal',sign.taknmal,
-            'description',sign.description
+            'description',sign.description,
+            'handform',sign.handform
         ) as sign_json
         FROM sign
         LEFT JOIN sign_video
