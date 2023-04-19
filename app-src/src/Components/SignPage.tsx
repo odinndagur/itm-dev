@@ -19,6 +19,36 @@ type MyLocationGenerics = MakeGenerics<{
         lastSearch: { page?: number; query?: string }
     }
 }>
+
+function process_description(description: string) {
+    const matches = description.matchAll(/\[\[[a-zA-Z0-9|\p{L}]*\]\]/gmu)
+    if (!matches.length) {
+        return description
+    }
+    let output = []
+    let temp_last
+    for (let match of matches) {
+        console.log(match[0])
+        const word = match[0].split('|')[0].replace('[[', '')
+        console.log(word)
+        const [before, after] = description.split(match[0])
+        description = after
+        output.push(before)
+        output.push(
+            <Link
+                to={`/signs/phrase/${word}`}
+                search={(old) => ({ ...old.lastSearch })}
+            >
+                {word.toLocaleLowerCase()}
+            </Link>
+        )
+        temp_last = after
+        // output.push(after)
+    }
+    output.push(temp_last)
+    console.log('process description\n', output)
+    return output
+}
 function SignPage() {
     const {
         data: {
@@ -30,19 +60,27 @@ function SignPage() {
     const navigate = useNavigate()
     const search = useSearch<MyLocationGenerics>()
 
-    if (!sign) {
-        return <Navigate to={'/'} />
-    }
+    // if (!sign) {
+    //     return <Navigate to={'/'} />
+    // }
 
     return (
         <div className="sign" id={sign.sign_id}>
-            <button onClick={() => window.history.back()}>lalalalala</button>
-            <header>
+            {/* <button onClick={() => window.history.back()}>lalalalala</button> */}
+            {/* <header>
                 <Link to={'/'} className="heading">
                     <b>ÍTM</b>
                 </Link>
-            </header>
-            {search.lastSearch && <Link className='temp-card' to={'/signs'} search={search.lastSearch}>Til baka í leit <i>(„{search.lastSearch.query}“)</i></Link>}
+            </header> */}
+            {search.lastSearch && (
+                <Link
+                    className="temp-card"
+                    to={'/signs'}
+                    search={search.lastSearch}
+                >
+                    Til baka í leit <i>(„{search.lastSearch.query}“)</i>
+                </Link>
+            )}
             <div>
                 <div>
                     <h2 className="sign-phrase">{sign.phrase}</h2>
@@ -90,6 +128,9 @@ function SignPage() {
                     {sign.handform && (
                         <div className="sign-info-item">
                             <h3>Handform</h3>
+                            <img
+                                src={`/itm-dev/assets/itm-images/handform/${sign.handform}.png`}
+                            />
                             <div>
                                 <Link to={`/handform/${sign.handform}`}>
                                     {sign.handform}
@@ -100,7 +141,7 @@ function SignPage() {
                     {sign.description && (
                         <div className="sign-info-item">
                             <h3>Lýsing</h3>
-                            <div>{sign.description}</div>
+                            <div>{process_description(sign.description)}</div>
                         </div>
                     )}
                 </div>
@@ -146,7 +187,10 @@ function SignPage() {
                         {sign.related_signs.map((related_sign) => {
                             return (
                                 <div key={related_sign.id}>
-                                    <Link to={`/signs/${related_sign.id}`} search={(old) => ({...old})}>
+                                    <Link
+                                        to={`/signs/${related_sign.id}`}
+                                        search={(old) => ({ ...old })}
+                                    >
                                         {related_sign.phrase}
                                     </Link>
                                 </div>

@@ -35,7 +35,10 @@ const getSignByIdJson = async (id: number) => {
             'efnisflokkar', json_group_array(distinct efnisflokkur.text),
             'related_signs', json_group_array(distinct json_object('phrase',related.phrase,'id', related.id)),
             'myndunarstadur',sign.myndunarstadur,
-            'ordflokkur',sign.ordflokkur
+            'ordflokkur',sign.ordflokkur,
+            'islenska',sign.islenska,
+            'taknmal',sign.taknmal,
+            'description',sign.description
         ) as sign_json
         FROM sign
         LEFT JOIN sign_video
@@ -134,54 +137,63 @@ const getSignById = async (id: number) => {
 }
 
 const getSignByPhrase = async (phrase: string) => {
+    console.log('getting sign by phrase with json: ' + phrase)
     const stmt = `
-        SELECT sign.*,
-        GROUP_CONCAT(distinct sign_video.rank || ':' || sign_video.video_id) as youtube_ids,
-        GROUP_CONCAT(distinct efnisflokkur.text) as efnisflokkar,
-        GROUP_CONCAT(distinct related.phrase || ':' || related.id) as related_signs,
-        sign.myndunarstadur,
-        sign.ordflokkur
+        SELECT
+        json_object(
+            'id',sign.id,
+            'phrase',sign.phrase,
+            'videos', json_group_array(distinct json_object('rank',sign_video.rank,'video_id', sign_video.video_id)),
+            'efnisflokkar', json_group_array(distinct efnisflokkur.text),
+            'related_signs', json_group_array(distinct json_object('phrase',related.phrase,'id', related.id)),
+            'myndunarstadur',sign.myndunarstadur,
+            'ordflokkur',sign.ordflokkur,
+            'islenska',sign.islenska,
+            'taknmal',sign.taknmal,
+            'description',sign.description
+        ) as sign_json
         FROM sign
-        JOIN sign_video
+        LEFT JOIN sign_video
         ON sign.id = sign_video.sign_id
-        JOIN sign_efnisflokkur
+        LEFT JOIN sign_efnisflokkur
         ON sign_efnisflokkur.sign_id = sign.id
-        JOIN efnisflokkur
+        LEFT JOIN efnisflokkur
         ON sign_efnisflokkur.efnisflokkur_id = efnisflokkur.id
-        JOIN sign_related
+        LEFT JOIN sign_related
         ON sign_related.sign_id = sign.id
-        JOIN sign AS related
-        ON sign_related.related_id = related.id
-
-        
-        WHERE sign.phrase LIKE "${phrase.toLowerCase().trim()}"
-        GROUP BY sign.id
+        LEFT JOIN
+            (SELECT * FROM sign WHERE sign.id IN
+                (SELECT sign_id from sign_related where related_id = sign.id
+                UNION
+                SELECT related_id from sign_related where sign_id = sign.id
+                )
+            ) as related
+            WHERE sign.phrase LIKE "${phrase.toLowerCase().trim()}"
+            GROUP BY sign.id
     `
     const signs = await query(stmt)
-    let sign = signs[0]
-    if (sign) {
-        sign['youtube_ids'] = sign['youtube_ids']
-            .split(',')
-            .sort((a: any, b: any) => {
-                let rank1 = a.split(':')[0]
-                let rank2 = b.split(':')[0]
-                return rank1 - rank2
-            })
-            .map((video: any) => {
-                return video.split(':')[1]
-            })
-
-        sign['efnisflokkar'] = sign['efnisflokkar'].split(',')
-        console.log(sign.youtube_ids)
-        sign['related_signs'] = sign['related_signs']
-            .split(',')
-            .map((sign: any) => {
-                const [phrase, id] = sign.split(':')
-                return { id, phrase }
-            })
-    }
-    console.log('getsignbyid')
-    return signs[0]
+    console.log(signs)
+    console.log(signs[0])
+    console.log(signs[0].sign_json)
+    console.log(JSON.parse(signs[0].sign_json))
+    let sign: {
+        id: string
+        phrase: string
+        videos: { rank: number; video_id: string }[]
+        efnisflokkar: string[]
+        related_signs: { phrase: string; id: number }[]
+        myndunarstadur: string
+        ordflokkur: string
+    } = JSON.parse(signs[0].sign_json)
+    sign.videos = sign.videos
+        .sort((a: any, b: any) => {
+            return a.rank - b.rank
+        })
+        .map((video: any) => {
+            return video.video_id
+        })
+        console.log(sign)
+    return sign
 }
 
 const searchSigns = async (searchValue: string, collectionId: number = 3) => {

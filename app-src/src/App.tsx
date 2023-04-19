@@ -3,13 +3,21 @@ import { useState, useEffect, FormEvent } from 'react'
 import SignPage from './Components/SignPage'
 import { AllSignsPage } from './Components/AllSignsPage'
 import Home from './Components/Home'
-import { query, getSignById, getSignByPhrase, getSignByIdJson, searchPagedCollectionById } from './db'
+import {
+    query,
+    getSignById,
+    getSignByPhrase,
+    getSignByIdJson,
+    searchPagedCollectionById,
+} from './db'
 // import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import {
     ReactLocation,
     Router,
     useMatch,
     useSearch,
+    Link,
+    Outlet,
 } from '@tanstack/react-location'
 import PlaceholderScreen from './Components/PlaceholderScreen'
 
@@ -22,6 +30,7 @@ import {
 } from '@tanstack/react-query'
 import { AppNavBar } from './Components/AppNavBar'
 import { Place } from '@mui/icons-material'
+import { Handform } from './Components/Handform'
 
 const reactLocation = new ReactLocation()
 
@@ -90,14 +99,32 @@ function App() {
                                 collectionId: search.collection ?? 1,
                                 page: search.page ?? 1,
                             }),
-                        })
+                        }),
                     },
+                    {path: 'handforms',
+                element:<Handform/>},
                     {
                         path: 'signs',
                         children: [
                             {
                                 path: '/',
                                 element: <AllSignsPage />,
+                            },
+                            {
+                                path: 'phrase',
+                                children: [
+                                    {
+                                        path: ':phrase',
+                                        element: <SignPage />,
+                                        loader: async ({ params }) => ({
+                                            sign: await getSignByPhrase(
+                                                decodeURIComponent(
+                                                    params.phrase
+                                                )
+                                            ),
+                                        }),
+                                    },
+                                ],
                             },
                             {
                                 path: ':id',
@@ -144,9 +171,16 @@ function App() {
                     {
                         // Passing no route is equivalent to passing `path: '*'`
                         element: `This would render as the fallback when '/' or '/about' were not matched`,
-                      },
+                    },
                 ]}
-            />
+            >
+                <header>
+                    <Link to={'/'} className="heading">
+                        <b>ÍTM</b>
+                    </Link>
+                </header>
+                <Outlet />
+            </Router>
         </QueryClientProvider>
     )
 }

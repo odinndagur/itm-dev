@@ -29,7 +29,6 @@ type MyLocationGenerics = MakeGenerics<{
 
 export function AllSignsPage() {
     const inputRef = useRef<HTMLInputElement>(null)
-    // const [oldSearch, setOldSearch] = useState<URLSearchParams>()
     const [page, setPage] = useState(1)
     const scrollRef = useRef<HTMLDivElement>(null)
     const params = new URLSearchParams(window.location.search)
@@ -46,41 +45,18 @@ export function AllSignsPage() {
 
     const handleSearch = (query: string) => {
         setSearchValue(query)
-        // const params = new URLSearchParams(window.location.search)
-        // params.set('query', query)
-        // params.set('page', '1')
-        // window.history.replaceState(
-        //     params.toString(),
-        //     '',
-        //     `?${params.toString()}`
-        // )
         if(query[query.length-1] != '´'){
             navigate({
                 search: (old) => ({ ...old, query: query, page: 1 }),
             })
             scrollRef.current?.scrollTo({ top: 0 })
         }
-        // setOldSearch(params)
-        // params.set('query', query)
-        // location.search = params.toString()
-        // window.history.replaceState(null, '', location)
     }
 
     const updatePage = (page: number) => {
-        // const params = new URLSearchParams(window.location.search)
-        // params.set('page', String(page))
-        // newLocation.search = params.toString()
-        // let newLocation = window.location
-        //     .toString()
-        //     .replace(window.location.search, params.toString())
-        // window.history.pushState(null, '', newLocation)
-        // window.history.pushState(null, '', `?${params.toString()}`)
-
         navigate({
             search: (old) => ({ ...old, query: searchValue, page: page }),
         })
-        // window.location.search = params.toString()
-        // setPage(page)
         scrollRef.current?.scrollTo({ top: 0 })
     }
     const search = useSearch<MyLocationGenerics>()
@@ -103,12 +79,6 @@ export function AllSignsPage() {
     if (isError) {
         return 'Error.'
     }
-    // const {
-    //     data: {
-    //         // You can access any data merged in from parent loaders as well
-    //         signs,
-    //     },
-    // } = useMatch()
 
     function Pagination({
         offset,
@@ -126,10 +96,7 @@ export function AllSignsPage() {
         const signCountOnPage = Math.min(totalSignCount - offset, limit)
         return (
             <>
-                {/* <div>{offset}</div>
-                <div>{totalPages}</div>
-                <div>{totalSignCount}</div>
-                <div>signs on page {Math.min(totalSignCount-offset, limit)}</div> */}
+                
                     <div className='center pad'>
                         Sýni tákn {offset}-{offset+signCountOnPage} af {totalSignCount}.
                     </div>
@@ -155,12 +122,11 @@ export function AllSignsPage() {
     }
 
     return (
-        // <div className="flexcol">
         <>
             <header>
-                <Link to={'/'}>
+                {/* <Link to={'/'}>
                     <h1 className="heading">ÍTM</h1>
-                </Link>
+                </Link> */}
                 {/* <h3>{collectionName}</h3> */}
                 <div className="search">
                     <input
@@ -221,9 +187,6 @@ export function AllSignsPage() {
             ) : (
                 ''
             )}
-            {/* <AppNavBar/> */}
-            {/* <SignWikiCredits/> */}
         </>
-        // </div>
     )
 }
