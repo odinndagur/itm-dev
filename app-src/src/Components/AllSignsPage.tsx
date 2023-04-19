@@ -115,6 +115,13 @@ export function AllSignsPage() {
             </header>
             {data || isPlaceholderData ? (
                 <div className="signlist" ref={scrollRef}>
+                    <div className="pagination">
+                        <a onClick={() => updatePage(page - 1)}>
+                            {page > 0 ? page : ''}
+                        </a>
+                        <a className="active">{page + 1}</a>
+                        <a onClick={() => updatePage(page + 1)}>{page + 2}</a>
+                    </div>
                     {data.map((sign) => {
                         return (
                             <Link
