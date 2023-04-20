@@ -33,8 +33,8 @@ function process_description(description: string) {
         output.push(before)
         output.push(
             <Link
-            to={`/signs/phrase/${word}`}
-            search={(old) => ({ ...old.lastSearch })}
+                to={`/signs/phrase/${word}`}
+                search={(old) => ({ ...old.lastSearch })}
             >
                 {word.toLocaleLowerCase()}
             </Link>
@@ -75,10 +75,14 @@ function SignPage() {
             {search.lastSearch && (
                 <Link
                     className="temp-card"
+                    style={{width:'fit-content'}}
                     to={'/signs'}
                     search={search.lastSearch}
                 >
-                    Til baka í leit <i>(„{search.lastSearch.query}“)</i>
+                    Til baka í leit{' '}
+                    {search.lastSearch.query && (
+                        <i>(„{search.lastSearch.query}“)</i>
+                    )}
                 </Link>
             )}
             <div>
@@ -127,15 +131,13 @@ function SignPage() {
                     )}
                     {sign.handform && (
                         <div className="sign-info-item">
-                            <h3>Handform</h3>
-                            <img
-                                src={`/itm-dev/assets/itm-images/handform/${sign.handform}.png`}
-                            />
-                            <div>
-                                <Link to={`/handform/${sign.handform}`}>
-                                    {sign.handform}
-                                </Link>
-                            </div>
+                            <Link to={`/handform/${sign.handform}`}>
+                                <h3>Handform</h3>
+                                <img className='handform-img'
+                                    src={`/itm-dev/assets/itm-images/handform/${sign.handform}.png`}
+                                />
+                                <div>{sign.handform}</div>
+                            </Link>
                         </div>
                     )}
                     {sign.description && (

@@ -101,8 +101,7 @@ function App() {
                             }),
                         }),
                     },
-                    {path: 'handforms',
-                element:<Handform/>},
+                    { path: 'handforms', element: <Handform /> },
                     {
                         path: 'signs',
                         children: [

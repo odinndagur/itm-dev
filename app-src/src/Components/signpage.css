@@ -33,12 +33,16 @@
 }
 
 .sign-info {
-    padding: 0rem 1rem;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
+    padding: 1rem 1rem;
+    /* display: flex; */
+    /* flex-wrap: wrap; */
+    /* flex-direction: row; */
+    /* justify-content: space-between; */
+    /* align-items: flex-start; */
+    display: grid;
+    /* grid-template-rows: 1fr 1fr; */
+    grid-template-columns: 1fr 1fr;
+    /* background-color: aqua; */
 }
 
 .sign-info-item {
@@ -48,6 +52,14 @@
     /* border: 1px solid black; */
 }
 
+img {
+    max-width: 20%;
+}
+
+.sign-info-item > h3 {
+/* padding: 0; */
+    margin: 0.3rem 0;
+}
 
 .related-signs{
     justify-content: space-evenly;
