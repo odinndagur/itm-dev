@@ -22,9 +22,6 @@ type MyLocationGenerics = MakeGenerics<{
 
 function process_description(description: string) {
     const matches = description.matchAll(/\[\[[a-zA-Z0-9|\p{L}]*\]\]/gmu)
-    if (!matches.length) {
-        return description
-    }
     let output = []
     let temp_last
     for (let match of matches) {
@@ -36,8 +33,8 @@ function process_description(description: string) {
         output.push(before)
         output.push(
             <Link
-                to={`/signs/phrase/${word}`}
-                search={(old) => ({ ...old.lastSearch })}
+            to={`/signs/phrase/${word}`}
+            search={(old) => ({ ...old.lastSearch })}
             >
                 {word.toLocaleLowerCase()}
             </Link>
@@ -46,6 +43,9 @@ function process_description(description: string) {
         // output.push(after)
     }
     output.push(temp_last)
+    if (!output.length) {
+        return description
+    }
     console.log('process description\n', output)
     return output
 }

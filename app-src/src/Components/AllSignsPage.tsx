@@ -151,9 +151,8 @@ export function AllSignsPage() {
                         return (
                             <Link
                                 key={sign.sign_id}
-                                to={`/itm-dev/sign`}
+                                to={`/itm-dev/signs/${sign.sign_id}`}
                                 search={(search) => ({
-                                    id: sign.sign_id,
                                     lastSearch: {
                                         ...search,
                                         query: searchValue,
