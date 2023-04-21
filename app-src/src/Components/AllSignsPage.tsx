@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { Pagination } from './Pagination'
 import {
     getCollectionById,
     getSignByIdJson,
@@ -45,7 +46,7 @@ export function AllSignsPage() {
 
     const handleSearch = (query: string) => {
         setSearchValue(query)
-        if(query[query.length-1] != '´'){
+        if (query[query.length - 1] != '´') {
             navigate({
                 search: (old) => ({ ...old, query: query, page: 1 }),
             })
@@ -80,47 +81,6 @@ export function AllSignsPage() {
         return 'Error.'
     }
 
-    function Pagination({
-        offset,
-        totalPages,
-        totalSignCount,
-        updatePage,
-        limit,
-    }: {
-        offset: number
-        totalPages: number
-        totalSignCount: number
-        updatePage: (page: number) => void
-        limit: number
-    }) {
-        const signCountOnPage = Math.min(totalSignCount - offset, limit)
-        return (
-            <>
-                
-                    <div className='center pad'>
-                        Sýni tákn {offset}-{offset+signCountOnPage} af {totalSignCount}.
-                    </div>
-                <div className="pagination">
-                    {/* <a onClick={() => updatePage(page - 1)}>
-                        {page > 1 ? page - 1 : ''}
-                    </a> */}
-                    <a onClick={() => updatePage(page - 1)} className="">
-                        Fyrri
-                    </a>
-                    <a onClick={() => updatePage(1)} className="">
-                        1
-                    </a>
-                    <a className="active">{page}</a>
-                    <a onClick={() => updatePage(totalPages)} className="">
-                        {totalPages}
-                    </a>
-                    {/* <a onClick={() => updatePage(page + 1)}>{page + 1}</a> */}
-                    <a onClick={() => updatePage(page + 1)}>Næsta</a>
-                </div>
-            </>
-        )
-    }
-
     return (
         <>
             <header>
@@ -146,6 +106,7 @@ export function AllSignsPage() {
                         totalSignCount={data.totalSignCount}
                         updatePage={updatePage}
                         limit={data.limit}
+                        currentPage={page}
                     />
                     {data.signs.map((sign) => {
                         return (
@@ -181,6 +142,7 @@ export function AllSignsPage() {
                         totalSignCount={data.totalSignCount}
                         updatePage={updatePage}
                         limit={data.limit}
+                        currentPage={page}
                     />
                 </div>
             ) : (

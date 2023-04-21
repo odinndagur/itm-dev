@@ -52,7 +52,7 @@
     /* border: 1px solid black; */
 }
 
-img {
+.handform-img {
     max-width: 20%;
 }
 
@@ -69,4 +69,8 @@ img {
 .center {
     text-align: center;
     margin: auto;
+}
+
+.small {
+    width: min-content;
 }
