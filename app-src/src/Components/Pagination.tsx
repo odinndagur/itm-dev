@@ -18,7 +18,9 @@ export function Pagination({
     const firstLink = currentPage < 7 ? 1 : currentPage - 5
     const maxLastLink = totalPages
     let linkArr = []
-    for (let i = firstLink; i < firstLink + paginationLinkCount; i++) {
+    const realLinkCount = Math.min(paginationLinkCount, maxLastLink - firstLink)
+    const showLastLink = realLinkCount >= paginationLinkCount
+    for (let i = firstLink; i <= firstLink + realLinkCount; i++) {
         linkArr.push(i)
     }
     // < 1 2 3 4 5 6 ... 121 >
@@ -58,7 +60,7 @@ export function Pagination({
                 <a onClick={() => alert('velja')} className="">
                     ...
                 </a>
-                {currentPage != totalPages && (
+                {showLastLink && (
                     <a onClick={() => updatePage(totalPages)} className="">
                         {totalPages}
                     </a>

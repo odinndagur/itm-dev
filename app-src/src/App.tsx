@@ -179,6 +179,7 @@ function App() {
                     </Link>
                 </header>
                 <Outlet />
+                <AppNavBar />
             </Router>
         </QueryClientProvider>
     )

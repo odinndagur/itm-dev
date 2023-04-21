@@ -1,11 +1,31 @@
+@media (prefers-color-scheme: light) {
+    :root {
+        --background-color: #fff;
+        --main-text-color: #000;
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-color: #212121;
+        --main-text-color: rgba(255, 255, 255, 0.9);
+        --secondary-color: rgb(100, 100, 100);
+        --accent-color: rgba(200, 100, 100, 0.9);
+    }
+}
 :root {
-    --background-color-light: #fff;
-    --background-color-dark: #212121;
+    /* --background-color-light: #fff;
+    --background-color-dark: #212121; */
 
+    color: var(--main-text-color);
     --background-color-active: rgba(0, 0, 0, 0.1);
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
         Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
         sans-serif;
+}
+
+:root input {
+    background-color: var(--secondary-color);
+    color: var(--main-text-color);
 }
 
 @media screen and (max-width: 767px) {
@@ -21,15 +41,17 @@ body {
     margin: auto;
     padding-right: env(safe-area-inset-right, 0.3rem);
     padding-left: env(safe-area-inset-left, 0.3rem);
+    /* padding-bottom: calc(env(safe-area-inset-bottom, 0.3rem) + 0.5rem); */
     /* height: calc(100% + env(safe-area-inset-bottom)); */
     /* height: calc(100% + env(safe-area-inset-top)); */
     height: 100%;
     /* padding-top: env(safe-area-inset-top); */
     width: calc(min(100%, 800px));
+    background-color: var(--background-color);
 }
 
 a {
-    color: black;
+    color: var(--main-text-color);
 }
 
 #root {
@@ -56,12 +78,12 @@ header {
     top: 0;
     /* flex-shrink: 0; */
     /* margin: 2rem 1rem; */
-    background-color: var(--background-color-light);
+    background-color: var(--background-color);
 }
 
 .heading {
     text-align: center;
-    color: #000;
+    color: var(--main-text-color);
     font-family: 'Faustina';
     font-size: 30pt;
     font-style: italic;
@@ -73,7 +95,7 @@ header {
 }
 
 .material-icons {
-    color: black;
+    color: var(--main-text-color);
 }
 
 .round-button {

@@ -29,19 +29,19 @@
 }
 
 .pagination a {
-    color: black;
+    color: var(--main-text-color);
     float: left;
     padding: 8px 16px;
     text-decoration: none;
 }
 
 .pagination a.active {
-    background-color: #4caf50;
-    color: white;
+    background-color: var(--accent-color);
+    color: var(--background-color);
 }
 
 .pagination a:hover:not(.active) {
-    background-color: #ddd;
+    background-color: var(--secondary-color);
 }
 
 .pagination a {
