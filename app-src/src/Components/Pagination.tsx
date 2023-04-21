@@ -14,7 +14,7 @@ export function Pagination({
     currentPage: number
 }) {
     const signCountOnPage = Math.min(totalSignCount - offset, limit)
-    const paginationLinkCount = 6
+    const paginationLinkCount = 4
     const firstLink = currentPage < 7 ? 1 : currentPage - 5
     const maxLastLink = totalPages
     let linkArr = []
