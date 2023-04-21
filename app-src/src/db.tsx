@@ -80,7 +80,7 @@ const getSignByIdJson = async (id: number) => {
         .map((video: any) => {
             return video.video_id
         })
-        console.log(sign)
+    console.log(sign)
     return sign
 }
 
@@ -169,7 +169,7 @@ const getSignByPhrase = async (phrase: string) => {
                 SELECT related_id from sign_related where sign_id = sign.id
                 )
             ) as related
-            WHERE sign.phrase LIKE "${phrase.toLowerCase().trim()}"
+            WHERE sign.phrase LIKE "${String(phrase).toLowerCase().trim()}"
             GROUP BY sign.id
     `
     const signs = await query(stmt)
@@ -193,7 +193,7 @@ const getSignByPhrase = async (phrase: string) => {
         .map((video: any) => {
             return video.video_id
         })
-        console.log(sign)
+    console.log(sign)
     return sign
 }
 
@@ -422,8 +422,8 @@ const searchPagedCollectionById = async ({
         join sign_fts
         on sign.id = sign_fts.id`)
         totalSignCount = tempCount[0].sign_count
-        totalPages = Math.ceil(totalSignCount/limit)
-        console.log({offset,tempCount,totalSignCount,totalPages})
+        totalPages = Math.ceil(totalSignCount / limit)
+        console.log({ offset, tempCount, totalSignCount, totalPages })
         stmt = `select distinct sign.id as sign_id,
             sign.phrase as phrase,
             sign_video.video_id as youtube_id,
@@ -453,8 +453,8 @@ const searchPagedCollectionById = async ({
         on sign.id = sign_fts.id
         where sign.phrase like "%${searchValue.substring(1)}%"`)
         totalSignCount = tempCount[0].sign_count
-        totalPages = Math.ceil(totalSignCount/limit)
-        console.log({offset,tempCount,totalSignCount,totalPages})
+        totalPages = Math.ceil(totalSignCount / limit)
+        console.log({ offset, tempCount, totalSignCount, totalPages })
         stmt = `select distinct sign.id as sign_id,
             sign.phrase as phrase,
             sign_video.video_id as youtube_id,
@@ -487,8 +487,8 @@ const searchPagedCollectionById = async ({
         join sign on sign.id = sign_fts.id
         where sign_fts match "${searchValue}"`)
         totalSignCount = tempCount[0].sign_count
-        totalPages = Math.ceil(totalSignCount/limit)
-        console.log({offset,tempCount,totalSignCount,totalPages})
+        totalPages = Math.ceil(totalSignCount / limit)
+        console.log({ offset, tempCount, totalSignCount, totalPages })
         stmt = `select distinct sign.id as sign_id,
             sign.phrase as phrase,
             sign_video.video_id as youtube_id,
@@ -520,7 +520,7 @@ const searchPagedCollectionById = async ({
         collection_name: string
         in_collection: boolean
     }[] = await query(stmt)
-    return {signs:result,totalPages,totalSignCount,offset,limit}
+    return { signs: result, totalPages, totalSignCount, offset, limit }
 }
 
 export {

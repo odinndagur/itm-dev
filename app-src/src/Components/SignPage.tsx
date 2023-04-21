@@ -26,9 +26,15 @@ function process_description(description: string) {
     let temp_last
     for (let match of matches) {
         console.log(match[0])
-        const word = match[0].split('|')[0].replace('[[', '')
+        const word = match[0].includes('|')
+            ? match[0].split('|')[0].replace('[[', '')
+            : match[0].replace('[[', '').replace(']]', '')
         console.log(word)
-        const [before, after] = description.split(match[0])
+        console.log({ description: description, match: match[0] })
+        const [before, _] = description.split(match[0])
+        description = description.replace(before, '')
+        console.log({ before })
+        const after = description.replace(match[0], '')
         description = after
         output.push(before)
         output.push(
@@ -75,7 +81,7 @@ function SignPage() {
             {search.lastSearch && (
                 <Link
                     className="temp-card"
-                    style={{width:'fit-content'}}
+                    style={{ width: 'fit-content' }}
                     to={'/signs'}
                     search={search.lastSearch}
                 >
@@ -133,7 +139,8 @@ function SignPage() {
                         <div className="sign-info-item">
                             <Link to={`/handform/${sign.handform}`}>
                                 <h3>Handform</h3>
-                                <img className='handform-img'
+                                <img
+                                    className="handform-img"
                                     src={`/itm-dev/assets/itm-images/handform/${sign.handform}.png`}
                                 />
                                 <div>{sign.handform}</div>
