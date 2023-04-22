@@ -37,9 +37,9 @@ export function AllSignsPage() {
     const [scroll, setScroll] = useState(0)
     useEffect(() => {
         setTimeout(() => {
-            const scrollTarget = Number(params.get('scroll')) ?? 0
+            const scrollTarget = Number(search.scroll) ?? 0
             window.scrollTo({ top: scrollTarget })
-        }, 100)
+        }, 200)
     }, [])
     let lastScroll = 0
     useEffect(() => {
@@ -127,6 +127,15 @@ export function AllSignsPage() {
                     <h1 className="heading">ÍTM</h1>
                 </Link> */}
                 {/* <h3>{collectionName}</h3> */}
+                {/* <header> */}
+                <Link
+                    to={'/'}
+                    search={(old) => ({ ...old })}
+                    className="heading"
+                >
+                    <b>ÍTM</b>
+                </Link>
+                {/* </header> */}
                 <div className="search">
                     <input
                         onChange={(event) => handleSearch(event.target.value)}

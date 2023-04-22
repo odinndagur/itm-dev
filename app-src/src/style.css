@@ -87,7 +87,7 @@ a {
     flex-direction: column;
     justify-content: space-between;
     /* padding-top: calc(env(safe-area-inset-top, 1rem) + 1em); */
-    padding-top: calc(env(safe-area-inset-top, 1rem));
+    /* padding-top: calc(env(safe-area-inset-top, 1rem)); */
     /* padding-top: calc(env(safe-area-inset-top, 3rem) + 1em); */
     box-sizing: border-box;
     /* background-color: red; */
@@ -103,7 +103,9 @@ header {
     padding-right: env(safe-area-inset-right,0.3rem);
     padding-left: env(safe-area-inset-left,0.3rem); */
     padding-top: env(safe-area-inset-top);
+    /* box-sizing: border-box; */
     top: 0;
+    /* top: 0; */
     /* flex-shrink: 0; */
     /* margin: 2rem 1rem; */
     background-color: var(--background-color);

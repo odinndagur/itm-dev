@@ -165,11 +165,6 @@ function App() {
                     },
                 ]}
             >
-                <header>
-                    <Link to={'/'} className="heading">
-                        <b>ÍTM</b>
-                    </Link>
-                </header>
                 <Outlet />
                 <AppNavBar />
             </Router>
