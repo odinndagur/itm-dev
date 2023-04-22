@@ -25,6 +25,7 @@ type MyLocationGenerics = MakeGenerics<{
     Search: {
         page?: number
         query?: string
+        scroll?: number
     }
 }>
 
@@ -40,17 +41,23 @@ export function AllSignsPage() {
             window.scrollTo({ top: scrollTarget })
         }, 100)
     }, [])
+    let lastScroll = 0
     useEffect(() => {
         const handleScroll = (event: any) => {
-            setScroll(window.scrollY)
-            // console.log(window.scrollY)
-            navigate({
-                search: (old) => ({
-                    ...old,
-                    scroll: window.scrollY,
-                }),
-                replace: true,
-            })
+            // setScroll(window.scrollY)
+            console.log(window.scrollY)
+            console.log(event.currentTarget.scrollY)
+            const currentScroll = window.scrollY
+            if (Math.abs(currentScroll - lastScroll) > 10) {
+                lastScroll = currentScroll
+                navigate({
+                    search: (old) => ({
+                        ...old,
+                        scroll: window.scrollY,
+                    }),
+                    replace: true,
+                })
+            }
         }
         window.addEventListener('scroll', handleScroll)
 

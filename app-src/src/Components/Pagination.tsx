@@ -48,6 +48,7 @@ export function Pagination({
                 {linkArr.map((index) => {
                     return (
                         <a
+                            key={index}
                             className={index == currentPage ? 'active' : ''}
                             onClick={() => updatePage(index)}
                         >
