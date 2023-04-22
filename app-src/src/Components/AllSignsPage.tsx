@@ -31,8 +31,35 @@ type MyLocationGenerics = MakeGenerics<{
 export function AllSignsPage() {
     const inputRef = useRef<HTMLInputElement>(null)
     const [page, setPage] = useState(1)
+    const [scroll, setScroll] = useState(0)
     const scrollRef = useRef<HTMLDivElement>(null)
     const params = new URLSearchParams(window.location.search)
+    useEffect(() => {
+        setTimeout(() => {
+            const scrollTarget = Number(params.get('scroll')) ?? 0
+            window.scrollTo({ top: scrollTarget })
+        }, 100)
+    }, [])
+    useEffect(() => {
+        const handleScroll = (event: any) => {
+            setScroll(window.scrollY)
+            // console.log(window.scrollY)
+            navigate({
+                search: (old) => ({
+                    ...old,
+                    scroll: window.scrollY,
+                }),
+                replace: true,
+            })
+        }
+        window.addEventListener('scroll', handleScroll)
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+        }
+    }, [])
+
+    const search = useSearch<MyLocationGenerics>()
     useEffect(() => {
         setPage(Number(params.get('page') ?? 1))
         setSearchValue(params.get('query') ?? '')
@@ -40,7 +67,8 @@ export function AllSignsPage() {
             inputRef.current.value = ''
             inputRef.current.value = params.get('query') ?? ''
         }
-    }, [window.location.search])
+        window.scrollTo({ top: 0 })
+    }, [search.page, search.query])
 
     const [searchValue, setSearchValue] = useState('')
 
@@ -48,19 +76,23 @@ export function AllSignsPage() {
         setSearchValue(query)
         if (query[query.length - 1] != '´') {
             navigate({
-                search: (old) => ({ ...old, query: query, page: 1 }),
+                search: (old) => ({ ...old, query: query, page: 1, scroll: 0 }),
             })
-            scrollRef.current?.scrollTo({ top: 0 })
+            // scrollRef.current?.scrollTo({ top: 0 })
         }
     }
 
     const updatePage = (page: number) => {
         navigate({
-            search: (old) => ({ ...old, query: searchValue, page: page }),
+            search: (old) => ({
+                ...old,
+                query: searchValue,
+                page: page,
+                scroll: 0,
+            }),
         })
-        scrollRef.current?.scrollTo({ top: 0 })
+        // scrollRef.current?.scrollTo({ top: 0 })
     }
-    const search = useSearch<MyLocationGenerics>()
     const navigate = useNavigate<MyLocationGenerics>()
 
     const { data, isPlaceholderData, isLoading, isError } = useQuery({
@@ -116,6 +148,7 @@ export function AllSignsPage() {
                                 search={(search) => ({
                                     lastSearch: {
                                         ...search,
+                                        scroll: scroll,
                                         query: searchValue,
                                         page: page,
                                     },

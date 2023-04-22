@@ -75,14 +75,6 @@ function App() {
     }
     return (
         <QueryClientProvider client={queryClient}>
-            {/* <Router basename={import.meta.env.BASE_URL}>
-                <Routes>
-                    <Route exact path={''} element={<AllSignsPage />}></Route>
-                    <Route exact path={`/signs`} element={<AllSignsPage />} />
-                    <Route exact path={`/signs/:id`} element={<SignPage />} />
-                    <Route render={() => <div>404 Not Found</div>} />
-                </Routes>
-            </Router> */}
             <Router
                 location={reactLocation}
                 basepath="itm-dev"
