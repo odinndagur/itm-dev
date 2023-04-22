@@ -65,6 +65,32 @@ function SignPage() {
 
     const navigate = useNavigate()
     const search = useSearch<MyLocationGenerics>()
+    // const [scroll, setScroll] = useState(0)
+    useEffect(() => {
+        setTimeout(() => {
+            const scrollTarget = Number(search.scroll) ?? 0
+            window.scrollTo({ top: scrollTarget })
+        }, 100)
+    }, [])
+    useEffect(() => {
+        const handleScroll = (event: any) => {
+            // setScroll(window.scrollY)
+            console.log(window.scrollY)
+            navigate({
+                search: (old) => ({
+                    ...old,
+                    scroll: window.scrollY,
+                }),
+                replace: true,
+                fromCurrent: true,
+            })
+        }
+        window.addEventListener('scroll', handleScroll)
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+        }
+    }, [])
 
     // if (!sign) {
     //     return <Navigate to={'/'} />

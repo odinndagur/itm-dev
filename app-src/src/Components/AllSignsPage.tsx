@@ -31,9 +31,9 @@ type MyLocationGenerics = MakeGenerics<{
 export function AllSignsPage() {
     const inputRef = useRef<HTMLInputElement>(null)
     const [page, setPage] = useState(1)
-    const [scroll, setScroll] = useState(0)
     const scrollRef = useRef<HTMLDivElement>(null)
     const params = new URLSearchParams(window.location.search)
+    const [scroll, setScroll] = useState(0)
     useEffect(() => {
         setTimeout(() => {
             const scrollTarget = Number(params.get('scroll')) ?? 0
