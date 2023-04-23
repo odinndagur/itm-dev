@@ -1,18 +1,25 @@
-@media (prefers-color-scheme: light) {
-    :root {
-        --background-color: #fff;
-        --main-text-color: #000;
-        --secondary-color: rgb(100, 100, 100);
-        --accent-color: rgba(255, 50, 120, 0.8);
-    }
+/* @media (prefers-color-scheme: light) { */
+:root {
+    --background-color: #fff;
+    --main-text-color: #000;
+    --secondary-color: rgb(220, 220, 220);
+    --accent-color: rgba(255, 50, 120, 0.8);
 }
+/* } */
 @media (prefers-color-scheme: dark) {
-    :root {
+    /* :root {
         --background-color: #212121;
         --main-text-color: rgba(255, 255, 255, 0.9);
         --secondary-color: rgb(50, 50, 50);
         --accent-color: rgba(200, 100, 100, 0.9);
-    }
+    } */
+}
+
+.dark-mode {
+    --background-color: #212121;
+    --main-text-color: rgba(255, 255, 255, 0.9);
+    --secondary-color: rgb(50, 50, 50);
+    --accent-color: rgba(200, 100, 100, 0.9);
 }
 :root {
     /* --background-color-light: #fff;

@@ -130,7 +130,7 @@ export function AllSignsPage() {
                 {/* <header> */}
                 <Link
                     to={'/'}
-                    search={(old) => ({ ...old })}
+                    search={(old) => ({ ...old, scroll: 0 })}
                     className="heading"
                 >
                     <b>ÍTM</b>

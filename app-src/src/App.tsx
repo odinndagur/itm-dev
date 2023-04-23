@@ -31,6 +31,7 @@ import {
 import { AppNavBar } from './Components/AppNavBar'
 import { Place } from '@mui/icons-material'
 import { Handform } from './Components/Handform'
+import { SettingsPage } from './Components/SettingsPage'
 
 const reactLocation = new ReactLocation()
 
@@ -155,6 +156,13 @@ function App() {
                         search: (search) => {
                             return 'test' in search
                         },
+                        // loader: async ({ search }) => ({
+                        //     sign: await getSignById(search.id),
+                        // }),
+                    },
+                    {
+                        path: 'settings',
+                        element: <SettingsPage />,
                         // loader: async ({ search }) => ({
                         //     sign: await getSignById(search.id),
                         // }),

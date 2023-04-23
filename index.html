@@ -31,6 +31,38 @@
                 }
             })(window.location)
         </script>
+        <script>
+            // IE doesn't get the dark mode option – I use IntersectionObserver as a proxy for IE
+            if ('IntersectionObserver' in window) {
+                window.dark = JSON.parse(
+                    window.localStorage.getItem('theme_mode')
+                )
+                if (window.dark === null) {
+                    // First time - use prefers color to set the theme
+                    if (
+                        window.matchMedia &&
+                        window.matchMedia('(prefers-color-scheme: dark)')
+                            .matches
+                    ) {
+                        window.dark = true
+                        document.documentElement.className =
+                            document.documentElement.classList.add('dark-mode')
+                    } else {
+                        window.dark = false
+                    }
+                    localStorage.setItem(
+                        'theme_mode',
+                        JSON.stringify(window.dark)
+                    )
+                } else if (window.dark === true) {
+                    // Returning user - prefers dark
+                    document.documentElement.classList.add('dark-mode')
+                } // Returning user - prefers light - window.dark is false
+            } else {
+                // Browser is IE - hide dark mode stuff
+                document.documentElement.classList.add(' ie')
+            }
+        </script>
         <!-- End Single Page Apps for GitHub Pages -->
         <link rel="manifest" href="/itm-dev/assets/manifest.webmanifest" />
         <link rel="dns-prefetch" href="//youtube.com" />
@@ -318,8 +350,8 @@
         />
         <title>Íslenskt táknmál</title>
         <link rel="canonical" href="https://odinndagur.github.io/itm-dev/" />
-      <script type="module" crossorigin src="/itm-dev/assets/index-607c8ddd.js"></script>
-      <link rel="stylesheet" href="/itm-dev/assets/index-20228bce.css">
+      <script type="module" crossorigin src="/itm-dev/assets/index-a2656b57.js"></script>
+      <link rel="stylesheet" href="/itm-dev/assets/index-eeff0b8c.css">
     </head>
     <body>
         <script>
