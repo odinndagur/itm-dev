@@ -38,6 +38,7 @@
                     window.localStorage.getItem('theme_mode')
                 )
                 if (window.dark === null) {
+                    console.log('first time use prefers-color-scheme')
                     // First time - use prefers color to set the theme
                     if (
                         window.matchMedia &&
@@ -47,15 +48,22 @@
                         window.dark = true
                         document.documentElement.className =
                             document.documentElement.classList.add('dark-mode')
+                        console.log('first time - prefers dark mode')
                     } else {
                         window.dark = false
+                        console.log('first time - prefers light mode')
                     }
                     localStorage.setItem(
                         'theme_mode',
                         JSON.stringify(window.dark)
                     )
+                    console.log(
+                        'setting theme_mode ',
+                        JSON.stringify(window.dark)
+                    )
                 } else if (window.dark === true) {
                     // Returning user - prefers dark
+                    console.log('returning user - prefers dark')
                     document.documentElement.classList.add('dark-mode')
                 } // Returning user - prefers light - window.dark is false
             } else {
@@ -350,7 +358,7 @@
         />
         <title>Íslenskt táknmál</title>
         <link rel="canonical" href="https://odinndagur.github.io/itm-dev/" />
-      <script type="module" crossorigin src="/itm-dev/assets/index-a2656b57.js"></script>
+      <script type="module" crossorigin src="/itm-dev/assets/index-76d6cafe.js"></script>
       <link rel="stylesheet" href="/itm-dev/assets/index-eeff0b8c.css">
     </head>
     <body>

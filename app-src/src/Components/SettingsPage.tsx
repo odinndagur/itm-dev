@@ -1,6 +1,11 @@
 import { Link } from '@tanstack/react-location'
 import { DarkModeSwitch } from './DarkModeSwitch'
+
 export function SettingsPage() {
+    const userCollections = [
+        { name: 'nett tákn', count: 100 },
+        { name: 'sponson', count: 25 },
+    ]
     return (
         <>
             <header>
@@ -18,6 +23,16 @@ export function SettingsPage() {
                 </Link>
             </header>
 
+            <div className="center pad">
+                {userCollections.map((collection) => {
+                    return (
+                        <div className="card" key={collection.name}>
+                            <h1>{collection.name}</h1>
+                            <i>{collection.count} tákn</i>
+                        </div>
+                    )
+                })}
+            </div>
             <DarkModeSwitch />
         </>
     )
