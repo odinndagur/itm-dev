@@ -1,15 +1,17 @@
 .video-responsive {
     overflow: hidden;
-    padding-bottom: 56.25%;
+    /* padding-bottom: 56.25%; */
+    padding-bottom: 106.25%;
     position: relative;
     height: 0;
 }
 
 .video-responsive iframe {
-    left: 0;
+    left: 1rem;
     top: 0;
-    height: calc(100% - 1rem);
-    width: calc(100% - 1rem);
-    padding: 0.5rem;
+    height: calc(100% - 2rem);
+    width: calc(100% - 2rem);
+    /* padding: 0.5rem; */
     position: absolute;
+    border-radius: 10px;
 }
