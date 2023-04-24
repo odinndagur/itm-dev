@@ -175,7 +175,7 @@ function App() {
                 ]}
             >
                 <Outlet />
-                <AppNavBar />
+                <AppNavBar type="mobile" />
             </Router>
         </QueryClientProvider>
     )

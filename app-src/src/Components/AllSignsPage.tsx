@@ -20,6 +20,7 @@ import {
     QueryClient,
     QueryClientProvider,
 } from '@tanstack/react-query'
+import { AppNavBar } from './AppNavBar'
 
 type MyLocationGenerics = MakeGenerics<{
     Search: {
@@ -128,6 +129,7 @@ export function AllSignsPage() {
                 </Link> */}
                 {/* <h3>{collectionName}</h3> */}
                 {/* <header> */}
+
                 <Link
                     to={'/'}
                     search={(old) => ({ ...old, scroll: 0 })}
@@ -135,6 +137,7 @@ export function AllSignsPage() {
                 >
                     <b>ÍTM</b>
                 </Link>
+                <AppNavBar type="desktop" />
                 {/* </header> */}
                 <div className="search">
                     <input

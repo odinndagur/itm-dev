@@ -221,14 +221,15 @@ function SignPage() {
                     <div className="flexcol related-signs">
                         {sign.related_signs.map((related_sign) => {
                             return (
-                                <div key={related_sign.id}>
-                                    <Link
-                                        to={`/signs/${related_sign.id}`}
-                                        search={(old) => ({ ...old })}
-                                    >
+                                <Link
+                                    key={related_sign.id}
+                                    to={`/signs/${related_sign.id}`}
+                                    search={(old) => ({ ...old })}
+                                >
+                                    <div className="card">
                                         {related_sign.phrase}
-                                    </Link>
-                                </div>
+                                    </div>
+                                </Link>
                             )
                         })}
                     </div>

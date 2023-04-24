@@ -18,10 +18,12 @@ function NavItem({
     )
 }
 
-export function AppNavBar() {
+export function AppNavBar({ type }: { type: 'mobile' | 'desktop' }) {
     return (
-        <footer className="footer">
-            <nav className="app-navbar">
+        <div className="nav-container">
+            <nav
+                className={type === 'mobile' ? 'app-navbar' : 'desktop-navbar'}
+            >
                 <NavItem route="/" icon="home" name="Heim" />
                 <NavItem route="/signs" icon="sign_language" name="Öll tákn" />
                 <NavItem route="/leit" icon="search" name="Leit" />
@@ -32,6 +34,6 @@ export function AppNavBar() {
                     name="Stillingar"
                 />
             </nav>
-        </footer>
+        </div>
     )
 }
