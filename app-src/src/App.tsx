@@ -34,6 +34,7 @@ import { Place } from '@mui/icons-material'
 import { Handform } from './Components/Handform'
 import { SettingsPage } from './Components/SettingsPage'
 import { DarkModeSwitch } from './Components/DarkModeSwitch'
+import { NotFound } from './NotFound'
 
 const reactLocation = new ReactLocation()
 
@@ -171,7 +172,7 @@ function App() {
                     },
                     {
                         // Passing no route is equivalent to passing `path: '*'`
-                        element: `This would render as the fallback when '/' or '/about' were not matched`,
+                        element: <NotFound />,
                     },
                 ]}
             >
