@@ -33,6 +33,7 @@ import { AppNavBar } from './Components/AppNavBar'
 import { Place } from '@mui/icons-material'
 import { Handform } from './Components/Handform'
 import { SettingsPage } from './Components/SettingsPage'
+import { DarkModeSwitch } from './Components/DarkModeSwitch'
 
 const reactLocation = new ReactLocation()
 
@@ -176,6 +177,16 @@ function App() {
             >
                 <Outlet />
                 <AppNavBar type="mobile" />
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: '0',
+                        right: '0',
+                        padding: '1rem',
+                    }}
+                >
+                    <DarkModeSwitch />
+                </div>
             </Router>
         </QueryClientProvider>
     )

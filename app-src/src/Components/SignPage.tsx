@@ -111,7 +111,7 @@ function SignPage() {
                     to={'/signs'}
                     search={search.lastSearch}
                 >
-                    Til baka í leit{' '}
+                    &lt; Til baka í leit{' '}
                     {search.lastSearch.query && (
                         <i>(„{search.lastSearch.query}“)</i>
                     )}

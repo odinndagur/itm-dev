@@ -62,7 +62,7 @@ export function SettingsPage() {
                     )
                 })} */}
             </div>
-            <DarkModeSwitch />
+            {/* <DarkModeSwitch /> */}
         </>
     )
 }
