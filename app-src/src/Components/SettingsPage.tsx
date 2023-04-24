@@ -36,14 +36,14 @@ export function SettingsPage() {
                 </Link>
             </header>
 
-            <div className="center pad">
+            <div className="">
                 {user ? (
-                    <div className="card user">
+                    <div className="card">
                         <h1>{user.name}</h1>
                         {user.collections.map((collection) => {
                             return (
                                 <div key={collection.id}>
-                                    <h1>{collection.name}</h1>
+                                    <b>{collection.name} </b>
                                     <i>{collection.id}</i>
                                 </div>
                             )
@@ -52,6 +52,7 @@ export function SettingsPage() {
                 ) : (
                     ''
                 )}
+                <input type="text" className="card" />
                 {/* {userCollections.map((collection) => {
                     return (
                         <div className="card" key={collection.name}>
