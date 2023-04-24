@@ -499,7 +499,7 @@ const searchPagedCollectionById = async ({
             where sign.phrase like "%${searchValue.substring(1)}%"
             and collection.id = ${collectionId}
             group by sign.id
-            order by sign.phrase asc
+            order by levenshtein(sign.phrase,${searchValue.substring(1)}) asc
             limit ${limit}
             offset ${offset}`
     }
@@ -532,7 +532,7 @@ const searchPagedCollectionById = async ({
             where sign_fts match "${searchValue}"
             and collection.id = ${collectionId}
             group by sign.id
-            order by sign.phrase asc,sign_fts.rank
+            order by levenshtein(sign.phrase,"${searchValue.substring(1)}") asc
             limit ${limit}
             offset ${offset}`
     }
