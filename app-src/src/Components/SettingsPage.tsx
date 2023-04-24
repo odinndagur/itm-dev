@@ -1,11 +1,17 @@
-import { Link } from '@tanstack/react-location'
+import { Link, useMatch } from '@tanstack/react-location'
 import { DarkModeSwitch } from './DarkModeSwitch'
-
 export function SettingsPage() {
     const userCollections = [
         { name: 'nett tákn', count: 100 },
         { name: 'sponson', count: 25 },
     ]
+    const {
+        data: {
+            // You can access any data merged in from parent loaders as well
+            user,
+        },
+    } = useMatch()
+
     return (
         <>
             <header>
@@ -24,6 +30,7 @@ export function SettingsPage() {
             </header>
 
             <div className="center pad">
+                {user && <h1>{user.name}</h1>}
                 {userCollections.map((collection) => {
                     return (
                         <div className="card" key={collection.name}>

@@ -84,6 +84,31 @@ const getSignByIdJson = async (id: number) => {
     return sign
 }
 
+const getUserById = async (id: number) => {
+    console.log(`Getting user by id: ${id}`)
+    const stmt = `
+        SELECT
+        json_object(
+            'id',user.id,
+            'name',user.name,
+            'collections', json_group_array(distinct json_object('id',collection.id,'name', collection.name))
+        ) as user_json
+        FROM user
+        LEFT JOIN collection
+        ON user.id = collection.user_id
+        WHERE user.id = ${id}
+        GROUP BY user.id
+    `
+    const users = await query(stmt)
+    let user: {
+        id: string
+        name: string
+        collections: { id: number; name: string }[]
+    } = JSON.parse(users[0].user_json)
+    console.log(user)
+    return user
+}
+
 const getSignById = async (id: number) => {
     console.log('getting sign by id: ' + id)
     const stmt = `
@@ -535,4 +560,5 @@ export {
     deleteSignFromCollection,
     searchPagedCollectionById,
     getSignByIdJson,
+    getUserById,
 }

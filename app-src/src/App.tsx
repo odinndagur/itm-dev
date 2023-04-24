@@ -9,6 +9,7 @@ import {
     getSignByPhrase,
     getSignByIdJson,
     searchPagedCollectionById,
+    getUserById,
 } from './db'
 // import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import {
@@ -163,9 +164,9 @@ function App() {
                     {
                         path: 'settings',
                         element: <SettingsPage />,
-                        // loader: async ({ search }) => ({
-                        //     sign: await getSignById(search.id),
-                        // }),
+                        loader: async () => ({
+                            user: await getUserById(3),
+                        }),
                     },
                     {
                         // Passing no route is equivalent to passing `path: '*'`
