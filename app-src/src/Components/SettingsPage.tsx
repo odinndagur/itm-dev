@@ -1,16 +1,23 @@
-import { Link, useMatch } from '@tanstack/react-location'
+import { Link, MakeGenerics, useMatch } from '@tanstack/react-location'
 import { DarkModeSwitch } from './DarkModeSwitch'
+
+type UserGenerics = MakeGenerics<{
+    LoaderData: {
+        user?: {
+            name: string
+            id: number
+            collections: [{ name: string; id: number }]
+        }
+    }
+}>
+
 export function SettingsPage() {
-    const userCollections = [
-        { name: 'nett tákn', count: 100 },
-        { name: 'sponson', count: 25 },
-    ]
     const {
         data: {
             // You can access any data merged in from parent loaders as well
             user,
         },
-    } = useMatch()
+    } = useMatch<UserGenerics>()
 
     return (
         <>
@@ -30,15 +37,29 @@ export function SettingsPage() {
             </header>
 
             <div className="center pad">
-                {user && <h1>{user.name}</h1>}
-                {userCollections.map((collection) => {
+                {user ? (
+                    <div className="card user">
+                        <h1>{user.name}</h1>
+                        {user.collections.map((collection) => {
+                            return (
+                                <div key={collection.id}>
+                                    <h1>{collection.name}</h1>
+                                    <i>{collection.id}</i>
+                                </div>
+                            )
+                        })}
+                    </div>
+                ) : (
+                    ''
+                )}
+                {/* {userCollections.map((collection) => {
                     return (
                         <div className="card" key={collection.name}>
                             <h1>{collection.name}</h1>
                             <i>{collection.count} tákn</i>
                         </div>
                     )
-                })}
+                })} */}
             </div>
             <DarkModeSwitch />
         </>

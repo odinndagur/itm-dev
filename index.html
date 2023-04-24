@@ -1,6 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <link href="/itm-dev/dark.css" rel="alternate stylesheet" title="dark" />
+        <link href="/itm-dev/light.css" rel="alternate stylesheet" title="light" />
+        <script>
+            <!-- Switch to a named alternate stylesheet -->
+            function setActiveStyleSheet(title) {
+                /* Grab a list of all alternate style sheets */
+                let css = `link[rel="alternate stylesheet"]`
+                let stylesheets = document.querySelectorAll(css)
+                /* Walk all alternate style sheets and disable them */
+                stylesheets.forEach((sheet) => (sheet.disabled = true))
+                /* Select style sheet we want to "turn on" */
+                let selector = `link[title="${title}"]`
+                let stylesheet = document.querySelector(selector)
+                /* Enable the style sheet */
+                stylesheet.disabled = false
+            }
+            window.setActiveStyleSheet = setActiveStyleSheet
+            function initDarkMode() {
+                const darkModeEnabled = JSON.parse(
+                    window.localStorage.getItem('theme_mode') ?? 'light'
+                )
+                // if (darkModeEnabled === null) {}
+                if (darkModeEnabled === 'dark') {
+                    window.setActiveStyleSheet('dark')
+                } else {
+                    window.setActiveStyleSheet('light')
+                }
+            }
+            initDarkMode()
+        </script>
         <!-- Start Single Page Apps for GitHub Pages -->
         <script type="text/javascript">
             // Single Page Apps for GitHub Pages
@@ -358,8 +388,8 @@
         />
         <title>Íslenskt táknmál</title>
         <link rel="canonical" href="https://odinndagur.github.io/itm-dev/" />
-      <script type="module" crossorigin src="/itm-dev/assets/index-76d6cafe.js"></script>
-      <link rel="stylesheet" href="/itm-dev/assets/index-eeff0b8c.css">
+      <script type="module" crossorigin src="/itm-dev/assets/index-fdacefdc.js"></script>
+      <link rel="stylesheet" href="/itm-dev/assets/index-0a5ffa79.css">
     </head>
     <body>
         <!-- <script>
