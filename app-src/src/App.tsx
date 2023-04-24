@@ -182,7 +182,7 @@ function App() {
                 className='dark-mode-switch-container'
                     style={{
                         position: 'fixed',
-                        top: '0',
+                        top: 'env(safe-area-inset-top)',
                         right: '0',
                         padding: '1rem',
                         zIndex: 999,
