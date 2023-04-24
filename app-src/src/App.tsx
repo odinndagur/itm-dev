@@ -184,6 +184,7 @@ function App() {
                         top: '0',
                         right: '0',
                         padding: '1rem',
+                        zIndex: 999,
                     }}
                 >
                     <DarkModeSwitch />
