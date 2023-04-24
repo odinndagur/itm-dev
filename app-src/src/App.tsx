@@ -179,6 +179,7 @@ function App() {
                 <Outlet />
                 <AppNavBar type="mobile" />
                 <div
+                className='dark-mode-switch-container'
                     style={{
                         position: 'fixed',
                         top: '0',

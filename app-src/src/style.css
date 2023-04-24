@@ -9,6 +9,10 @@
         sans-serif;
 }
 
+.dark-mode-switch-container {
+    padding: calc(env(safe-area-inset-top) + 1rem);
+}
+
 :root input {
     background-color: var(--secondary-color);
     color: var(--main-text-color);
