@@ -35,6 +35,7 @@ import { Handform } from './Components/Handform'
 import { SettingsPage } from './Components/SettingsPage'
 import { DarkModeSwitch } from './Components/DarkModeSwitch'
 import { NotFound } from './NotFound'
+import SignWikiCredits from './Components/SignWikiCredits'
 
 const reactLocation = new ReactLocation()
 
@@ -179,7 +180,7 @@ function App() {
                 <Outlet />
                 <AppNavBar type="mobile" />
                 <div
-                className='dark-mode-switch-container'
+                    className="dark-mode-switch-container"
                     style={{
                         position: 'fixed',
                         top: 'env(safe-area-inset-top)',
@@ -191,6 +192,7 @@ function App() {
                     <DarkModeSwitch />
                 </div>
             </Router>
+            <SignWikiCredits className="center pad" />
         </QueryClientProvider>
     )
 }

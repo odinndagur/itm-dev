@@ -30,6 +30,46 @@ const levenshteinDistance = (str1 = '', str2 = '') => {
     return track[str2.length][str1.length]
 }
 
+const commonPrefixLength = (str1 = '', str2 = '') => {
+    let i = 0
+    while (i < str1.length && i < str2.length && str1[i] === str2[i]) {
+        i += 1
+    }
+    return i
+}
+
+const levenshteinDistanceWithStartPenalty = (str1 = '', str2 = '') => {
+    const track = Array(str2.length + 1)
+        .fill(null)
+        .map(() => Array(str1.length + 1).fill(null))
+    const commonPrefixLen = commonPrefixLength(str1, str2)
+    const startPenalty = Math.min(
+        commonPrefixLen,
+        Math.min(str1.length, str2.length)
+    )
+    for (let i = 0; i <= str1.length; i += 1) {
+        track[0][i] = i
+    }
+    for (let j = 0; j <= str2.length; j += 1) {
+        track[j][0] = j
+    }
+    for (let j = 1; j <= str2.length; j += 1) {
+        for (let i = 1; i <= str1.length; i += 1) {
+            const indicator = str1[i - 1] === str2[j - 1] ? 0 : 1
+            let cost = Math.min(
+                track[j][i - 1] + 1, // deletion
+                track[j - 1][i] + 1, // insertion
+                track[j - 1][i - 1] + indicator // substitution
+            )
+            if (i - 1 < startPenalty && j - 1 < startPenalty) {
+                cost -= startPenalty - Math.min(i - 1, j - 1)
+            }
+            track[j][i] = cost
+        }
+    }
+    return track[str2.length][str1.length]
+}
+
 async function run() {
     console.log('yo')
     let SQL
@@ -68,7 +108,7 @@ async function run() {
     }
     db.query = (...args: any[]) => toObjects(db!.exec(...args))
     db.create_function('levenshtein', (a: string, b: string) =>
-        levenshteinDistance(a, b)
+        levenshteinDistanceWithStartPenalty(a, b)
     )
 
     const currentVersion = 4

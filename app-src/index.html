@@ -44,9 +44,7 @@
             }
             window.setActiveStyleSheet = setActiveStyleSheet
             function initDarkMode() {
-                const themeMode = JSON.parse(
-                    window.localStorage.getItem('theme_mode')
-                )
+                const themeMode = window.localStorage.getItem('theme_mode')
                 console.log('themeMode: ', themeMode)
                 // if (themeMode === null) {}
                 if (!themeMode) {
