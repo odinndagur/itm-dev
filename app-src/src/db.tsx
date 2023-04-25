@@ -60,10 +60,10 @@ const getSignByIdJson = async (id: number) => {
         GROUP BY sign.id
     `
     const signs = await query(stmt)
-    console.log(signs)
-    console.log(signs[0])
-    console.log(signs[0].sign_json)
-    console.log(JSON.parse(signs[0].sign_json))
+    // console.log(signs)
+    // console.log(signs[0])
+    // console.log(signs[0].sign_json)
+    // console.log(JSON.parse(signs[0].sign_json))
     let sign: {
         id: string
         phrase: string
@@ -80,7 +80,7 @@ const getSignByIdJson = async (id: number) => {
         .map((video: any) => {
             return video.video_id
         })
-    console.log(sign)
+    // console.log(sign)
     return sign
 }
 
@@ -105,7 +105,7 @@ const getUserById = async (id: number) => {
         name: string
         collections: { id: number; name: string }[]
     } = JSON.parse(users[0].user_json)
-    console.log(user)
+    // console.log(user)
     return user
 }
 
@@ -156,8 +156,8 @@ const getSignById = async (id: number) => {
 
     sign['efnisflokkar'] = sign['efnisflokkar'].split(',')
 
-    console.log('getsignbyid')
-    console.log(sign)
+    // console.log('getsignbyid')
+    // console.log(sign)
     return signs[0]
 }
 
@@ -198,10 +198,10 @@ const getSignByPhrase = async (phrase: string) => {
             GROUP BY sign.id
     `
     const signs = await query(stmt)
-    console.log(signs)
-    console.log(signs[0])
-    console.log(signs[0].sign_json)
-    console.log(JSON.parse(signs[0].sign_json))
+    // console.log(signs)
+    // console.log(signs[0])
+    // console.log(signs[0].sign_json)
+    // console.log(JSON.parse(signs[0].sign_json))
     let sign: {
         id: string
         phrase: string
@@ -218,7 +218,7 @@ const getSignByPhrase = async (phrase: string) => {
         .map((video: any) => {
             return video.video_id
         })
-    console.log(sign)
+    // console.log(sign)
     return sign
 }
 
@@ -423,7 +423,7 @@ const checkSignInCollection = async ({
             end
             as in_collection;
         `)
-    console.log(res)
+    // console.log(res)
     return res[0].in_collection
 }
 

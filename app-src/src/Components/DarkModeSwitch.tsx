@@ -1,4 +1,3 @@
-import { useNavigate } from '@tanstack/react-location'
 import { useState } from 'react'
 
 //@ts-nocheck
@@ -18,12 +17,12 @@ export function DarkModeSwitch() {
             // document.documentElement.classList.add('dark-mode')
             window.setActiveStyleSheet('light')
             setCurrentTheme('light')
-            localStorage.setItem('theme_mode', JSON.stringify('light'))
+            localStorage.setItem('theme_mode', 'light')
         } else {
             // document.documentElement.classList.remove('dark-mode')
             window.setActiveStyleSheet('dark')
             setCurrentTheme('dark')
-            localStorage.setItem('theme_mode', JSON.stringify('dark'))
+            localStorage.setItem('theme_mode', 'dark')
         }
         // console.log('just toggled darkmode')
         // setTimeout(() => {

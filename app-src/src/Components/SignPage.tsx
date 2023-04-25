@@ -26,15 +26,15 @@ function process_description(description: string) {
     let output = []
     let temp_last
     for (let match of matches) {
-        console.log(match[0])
+        // console.log(match[0])
         const word = match[0].includes('|')
             ? match[0].split('|')[0].replace('[[', '')
             : match[0].replace('[[', '').replace(']]', '')
-        console.log(word)
-        console.log({ description: description, match: match[0] })
+        // console.log(word)
+        // console.log({ description: description, match: match[0] })
         const [before, _] = description.split(match[0])
         description = description.replace(before, '')
-        console.log({ before })
+        // console.log({ before })
         const after = description.replace(match[0], '')
         description = after
         output.push(before)
@@ -53,7 +53,7 @@ function process_description(description: string) {
     if (!output.length) {
         return description
     }
-    console.log('process description\n', output)
+    // console.log('process description\n', output)
     return output
 }
 function SignPage() {
@@ -100,7 +100,7 @@ function SignPage() {
     // }
 
     return (
-        <div className="sign" id={sign.sign_id}>
+        <div className="sign" id={sign.sign_id} key={sign.sign_id}>
             {/* <button onClick={() => window.history.back()}>lalalalala</button> */}
             {/* <header>
                 <Link to={'/'} className="heading">
@@ -179,7 +179,13 @@ function SignPage() {
                     {sign.description && (
                         <div className="sign-info-item">
                             <h3>Lýsing</h3>
-                            <div>{process_description(sign.description)}</div>
+                            <div>
+                                {process_description(sign.description).map(
+                                    (part, idx) => {
+                                        return <span key={idx}>{part}</span>
+                                    }
+                                )}
+                            </div>
                         </div>
                     )}
                 </div>
