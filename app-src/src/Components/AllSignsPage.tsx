@@ -169,12 +169,7 @@ export function AllSignsPage() {
                                 key={sign.sign_id}
                                 to={`/itm-dev/signs/${sign.sign_id}`}
                                 search={(search) => ({
-                                    lastSearch: {
-                                        ...search,
-                                        scroll: scroll,
-                                        query: searchValue,
-                                        page: page,
-                                    },
+                                    ...search,
                                     scroll: 0,
                                 })}
                             >

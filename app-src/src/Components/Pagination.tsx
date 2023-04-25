@@ -36,10 +36,6 @@ export function Pagination({
     // < 1 2 3 4 5 6 ... 121 >
     return (
         <>
-            <div className="center pad">
-                Sýni tákn {offset}-{offset + signCountOnPage} af{' '}
-                {totalSignCount}.
-            </div>
             <div className="pagination">
                 <a
                     onClick={() => updatePage(Math.max(1, currentPage - 1))}
@@ -83,6 +79,10 @@ export function Pagination({
                 >
                     &gt;
                 </a>
+            </div>
+            <div className="center">
+                Sýni tákn {offset}-{offset + signCountOnPage} af{' '}
+                {totalSignCount}.
             </div>
         </>
     )

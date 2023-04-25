@@ -99,6 +99,11 @@ header {
     background-color: var(--background-color);
     z-index: 10;
 }
+@media screen and (max-height: 400px) {
+    header {
+        position: relative;
+    }
+}
 
 .heading {
     text-align: center;

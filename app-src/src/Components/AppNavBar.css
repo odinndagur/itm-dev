@@ -62,7 +62,7 @@
 .nav-item {
     color: var(--main-text-color);
     /* display: flex; */
-    flex-direction: column;
+    /* flex-direction: row; */
     justify-content: center;
     text-align: center;
     /* font-style: italic; */
@@ -83,4 +83,22 @@
     font-size: 0.7rem;
     text-align: center;
     padding: 0.2rem 0;
+}
+
+.nav-item-desktop > .nav-text {
+    display: flex;
+    flex-direction: row;
+    font-size: large;
+    justify-content: space-between;
+}
+
+.nav-item-desktop {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border: none;
+}
+
+.nav-item-desktop > .material-symbols-outlined {
+    display: none;
 }
