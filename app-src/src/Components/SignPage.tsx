@@ -16,7 +16,8 @@ type MyLocationGenerics = MakeGenerics<{
     Search: {
         page?: number
         query?: string
-        lastSearch: { page?: number; query?: string }
+        scroll?: number
+        lastSearch: { page?: number; query?: string; scroll: number }
     }
 }>
 
@@ -67,24 +68,26 @@ function SignPage() {
     const search = useSearch<MyLocationGenerics>()
     // const [scroll, setScroll] = useState(0)
     useEffect(() => {
+        console.log('opened page - handling scroll')
         setTimeout(() => {
             const scrollTarget = Number(search.scroll) ?? 0
+            console.log('scrolltarget: ', scrollTarget)
             window.scrollTo({ top: scrollTarget })
         }, 100)
-    }, [])
+    }, [sign])
+    const handleScroll = (event: any) => {
+        // setScroll(window.scrollY)
+        console.log(window.scrollY)
+        navigate({
+            search: (old) => ({
+                ...old,
+                scroll: window.scrollY,
+            }),
+            replace: true,
+            fromCurrent: true,
+        })
+    }
     useEffect(() => {
-        const handleScroll = (event: any) => {
-            // setScroll(window.scrollY)
-            console.log(window.scrollY)
-            navigate({
-                search: (old) => ({
-                    ...old,
-                    scroll: window.scrollY,
-                }),
-                replace: true,
-                fromCurrent: true,
-            })
-        }
         window.addEventListener('scroll', handleScroll)
 
         return () => {
@@ -118,7 +121,7 @@ function SignPage() {
                 </Link>
             )}
             <div>
-                <div>
+                <div style={{ maxWidth: 'max(80%,400px)', margin: 'auto' }}>
                     <h2 className="sign-phrase">{sign.phrase}</h2>
                     <YoutubeEmbed embedId={sign.videos[0]} />
                 </div>
@@ -181,13 +184,7 @@ function SignPage() {
                     )}
                 </div>
             </div>
-            <div
-                className={
-                    sign.videos.length > 1 || sign.islenska || sign.taknmal
-                        ? 'card'
-                        : ''
-                }
-            >
+            <div className={sign.islenska || sign.taknmal ? 'card' : ''}>
                 <div className="alternate-videos">
                     {sign.videos.slice(1).map((id) => {
                         return (
@@ -224,7 +221,7 @@ function SignPage() {
                                 <Link
                                     key={related_sign.id}
                                     to={`/signs/${related_sign.id}`}
-                                    search={(old) => ({ ...old })}
+                                    search={(old) => ({ ...old, scroll: 0 })}
                                 >
                                     <div className="card">
                                         {related_sign.phrase}

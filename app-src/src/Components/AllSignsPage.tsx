@@ -27,6 +27,11 @@ type MyLocationGenerics = MakeGenerics<{
         page?: number
         query?: string
         scroll?: number
+        lastSearch?: {
+            page?: number
+            query?: string
+            scroll?: number
+        }
     }
 }>
 
@@ -38,7 +43,7 @@ export function AllSignsPage() {
     const [scroll, setScroll] = useState(0)
     useEffect(() => {
         setTimeout(() => {
-            const scrollTarget = Number(search.scroll) ?? 0
+            const scrollTarget = Number(search.lastSearch?.scroll) ?? 0
             window.scrollTo({ top: scrollTarget })
         }, 200)
     }, [])
@@ -55,6 +60,10 @@ export function AllSignsPage() {
                     search: (old) => ({
                         ...old,
                         scroll: window.scrollY,
+                        lastSearch: {
+                            ...old?.lastSearch,
+                            scroll: window.scrollY,
+                        },
                     }),
                     replace: true,
                 })
@@ -124,12 +133,6 @@ export function AllSignsPage() {
     return (
         <>
             <header>
-                {/* <Link to={'/'}>
-                    <h1 className="heading">ÍTM</h1>
-                </Link> */}
-                {/* <h3>{collectionName}</h3> */}
-                {/* <header> */}
-
                 <Link
                     to={'/'}
                     search={(old) => ({ ...old, scroll: 0 })}
@@ -138,7 +141,6 @@ export function AllSignsPage() {
                     <b>ÍTM</b>
                 </Link>
                 <AppNavBar type="desktop" />
-                {/* </header> */}
                 <div className="search">
                     <input
                         onChange={(event) => handleSearch(event.target.value)}
@@ -173,6 +175,7 @@ export function AllSignsPage() {
                                         query: searchValue,
                                         page: page,
                                     },
+                                    scroll: 0,
                                 })}
                             >
                                 <div className="temp-card">

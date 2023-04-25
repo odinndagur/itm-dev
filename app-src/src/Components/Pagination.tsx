@@ -16,11 +16,21 @@ export function Pagination({
     const signCountOnPage = Math.min(totalSignCount - offset, limit)
     const paginationLinkCount = 4
     const firstLink = currentPage < 3 ? 1 : currentPage - 2
+    const showFirstLink = currentPage < firstLink
     const maxLastLink = totalPages
+    const lastLink = Math.min(maxLastLink, firstLink + paginationLinkCount)
     let linkArr = []
-    const realLinkCount = Math.min(paginationLinkCount, maxLastLink - firstLink)
-    const showLastLink = realLinkCount >= paginationLinkCount
-    for (let i = firstLink; i <= firstLink + realLinkCount; i++) {
+    const realLinkCount = Math.min(paginationLinkCount, lastLink - firstLink)
+    const showLastLink = totalPages >= firstLink + realLinkCount
+    for (
+        let i = firstLink;
+        i <=
+        firstLink +
+            realLinkCount -
+            Number(showFirstLink) -
+            Number(showLastLink);
+        i++
+    ) {
         linkArr.push(i)
     }
     // < 1 2 3 4 5 6 ... 121 >

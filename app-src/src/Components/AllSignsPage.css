@@ -37,7 +37,7 @@
 
 .pagination a.active {
     background-color: var(--accent-color);
-    color: var(--background-color);
+    color: var(--main-text-color);
 }
 
 .pagination a:hover:not(.active) {

@@ -8,6 +8,7 @@ export function DarkModeSwitch() {
     )
 
     const toggleDarkMode = () => {
+        console.log(currentTheme)
         // console.log('darkmode')
         // const currentTheme = JSON.parse(
         //     window.localStorage.getItem('theme_mode') ?? 'light'
