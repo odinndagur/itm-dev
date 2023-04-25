@@ -2,7 +2,10 @@ import { useEffect } from 'react'
 import './YoutubeEmbed.css'
 export const YoutubeEmbed = ({ embedId }: { embedId: string }) => {
     useEffect(() => {
-        fetch(`http://www.youtube.com/embed/${embedId}`, { mode: 'no-cors' })
+        fetch(
+            `http://www.youtube.com/embed/${embedId}?mute=1&rel=0&loop=1&playlist=${embedId}&controls=0&playsinline=0&modestbranding=1&origin=https://odinndagur.github.io/itm-dev/`,
+            { mode: 'no-cors' }
+        )
     }, [])
     return (
         <div
