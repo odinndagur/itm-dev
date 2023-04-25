@@ -21,6 +21,20 @@ type MyLocationGenerics = MakeGenerics<{
     }
 }>
 
+type SignGenerics = MakeGenerics<{
+    LoaderData: {
+        sign?: {
+            id: string
+            phrase: string
+            videos: { rank: number; video_id: string }[]
+            efnisflokkar: string[]
+            related_signs: { phrase: string; id: number }[]
+            myndunarstadur: string
+            ordflokkur: string
+        }
+    }
+}>
+
 function process_description(description: string) {
     const matches = description.matchAll(/\[\[[a-zA-Z0-9|\p{L}]*\]\]/gmu)
     let output = []
@@ -62,7 +76,7 @@ function SignPage() {
             // You can access any data merged in from parent loaders as well
             sign,
         },
-    } = useMatch()
+    } = useMatch<SignGenerics>()
 
     const navigate = useNavigate()
     const search = useSearch<MyLocationGenerics>()
@@ -137,7 +151,10 @@ function SignPage() {
             <div>
                 <div style={{ maxWidth: 'max(80%,400px)', margin: 'auto' }}>
                     <h2 className="sign-phrase">{sign.phrase}</h2>
-                    <YoutubeEmbed embedId={sign.videos[0]} />
+                    <YoutubeEmbed
+                        embedId={sign.videos[0]}
+                        title={sign.phrase}
+                    />
                 </div>
                 <div className="sign-info card">
                     {sign.efnisflokkar && (
@@ -210,7 +227,10 @@ function SignPage() {
                         return (
                             id && (
                                 <div className="alternate-video" key={id}>
-                                    <YoutubeEmbed embedId={id} />
+                                    <YoutubeEmbed
+                                        embedId={id}
+                                        title={sign.phrase}
+                                    />
                                 </div>
                             )
                         )
