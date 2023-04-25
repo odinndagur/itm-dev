@@ -75,19 +75,36 @@ function SignPage() {
             window.scrollTo({ top: scrollTarget })
         }, 100)
     }, [sign])
-
+    let lastScroll
     const handleScroll = (event: any) => {
         // setScroll(window.scrollY)
         console.log(window.scrollY)
-        navigate({
-            search: (old) => ({
-                ...old,
-                scroll: window.scrollY,
-            }),
-            replace: true,
-            fromCurrent: true,
-        })
+        console.log(event.currentTarget.scrollY)
+        const currentScroll = window.scrollY
+        if (Math.abs(currentScroll - lastScroll) > 10) {
+            lastScroll = currentScroll
+            navigate({
+                search: (old) => ({
+                    ...old,
+                    scroll: window.scrollY,
+                }),
+                replace: true,
+            })
+        }
     }
+
+    // const handleScroll = (event: any) => {
+    //     // setScroll(window.scrollY)
+    //     console.log(window.scrollY)
+    //     navigate({
+    //         search: (old) => ({
+    //             ...old,
+    //             scroll: window.scrollY,
+    //         }),
+    //         replace: true,
+    //         fromCurrent: true,
+    //     })
+    // }
     useEffect(() => {
         window.addEventListener('scroll', handleScroll)
 
@@ -96,19 +113,8 @@ function SignPage() {
         }
     }, [])
 
-    for (const video_id of sign.videos) {
-        fetch(
-            `https://www.youtube.com/embed/${video_id}?mute=1&rel=0&loop=1&playlist=${video_id}&controls=0&playsinline=0&modestbranding=1&origin=https://odinndagur.github.io/itm-dev/`,
-            { cors: 'no-cors' }
-        )
-    }
-
-    // if (!sign) {
-    //     return <Navigate to={'/'} />
-    // }
-
     return (
-        <div className="sign" id={sign.sign_id} key={sign.id}>
+        <div className="sign" id={sign.id} key={sign.id}>
             {/* <button onClick={() => window.history.back()}>lalalalala</button> */}
             {/* <header>
                 <Link to={'/'} className="heading">

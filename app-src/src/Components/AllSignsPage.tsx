@@ -60,10 +60,6 @@ export function AllSignsPage() {
                     search: (old) => ({
                         ...old,
                         scroll: window.scrollY,
-                        lastSearch: {
-                            ...old?.lastSearch,
-                            scroll: window.scrollY,
-                        },
                     }),
                     replace: true,
                 })

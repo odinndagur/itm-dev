@@ -192,7 +192,7 @@ function App() {
                     <DarkModeSwitch />
                 </div>
             </Router>
-            <SignWikiCredits className="center pad" />
+            <SignWikiCredits className="center pad" style={{}} />
         </QueryClientProvider>
     )
 }
