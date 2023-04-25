@@ -20,9 +20,7 @@ export function DarkModeSwitch() {
             setCurrentTheme('light')
             localStorage.setItem('theme_mode', JSON.stringify('light'))
         } else {
-            // document.documen
-
-            tElement.classList.remove('dark-mode')
+            // document.documentElement.classList.remove('dark-mode')
             window.setActiveStyleSheet('dark')
             setCurrentTheme('dark')
             localStorage.setItem('theme_mode', JSON.stringify('dark'))
