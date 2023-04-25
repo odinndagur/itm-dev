@@ -172,6 +172,10 @@ function App() {
                         }),
                     },
                     {
+                        path: 'leit',
+                        element: <PlaceholderScreen />,
+                    },
+                    {
                         // Passing no route is equivalent to passing `path: '*'`
                         element: <NotFound />,
                     },

@@ -1,12 +1,12 @@
 .sign {
     display: flex;
     flex-direction: column;
-    width: min(80vw, 800px);
+    width: min(95vw, 800px);
     height: 100%;
     justify-content: space-between;
     margin: auto;
-    padding: 1rem 1rem;
-    box-sizing: border-box;
+    padding: 0.5rem 0.5rem;
+    /* box-sizing: border-box; */
 }
 
 .sign-phrase {
@@ -45,8 +45,22 @@
     /* background-color: aqua; */
 }
 
+@media screen and (max-width: 767px) {
+    .sign-info {
+        /* padding: 1rem 1rem; */
+        /* display: flex; */
+        /* flex-wrap: wrap; */
+        /* flex-direction: row; */
+        /* justify-content: space-between; */
+        /* align-items: flex-start; */
+        /* display: grid; */
+        /* grid-template-rows: 1fr 1fr; */
+        grid-template-columns: 1fr;
+        /* background-color: aqua; */
+    }
+}
 .sign-info-item {
-    padding: 0.5rem 0.5rem;
+    padding: 0.3rem 0.3rem;
     /* flex-basis: 50%; */
     text-align: left;
     /* border: 1px solid black; */
@@ -58,12 +72,12 @@
 
 .sign-info-item > h3 {
     /* padding: 0; */
-    margin: 0.3rem 0;
+    margin: 0.2rem 0;
 }
 
 .related-signs {
     justify-content: space-evenly;
-    padding: 1rem 0;
+    /* padding: 1rem 0; */
 }
 
 .center {

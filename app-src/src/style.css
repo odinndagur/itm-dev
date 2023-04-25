@@ -162,8 +162,10 @@ header {
 }
 .placeholder-image-container {
     position: absolute;
-    top: env(safe-area-inset-top);
-    left: env(safe-area-inset-top);
+    /* top: env(safe-area-inset-top);
+    left: env(safe-area-inset-top); */
+    top: 0;
+    left: 0;
     display: flex;
     justify-content: center;
     align-items: center;
