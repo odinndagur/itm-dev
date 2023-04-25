@@ -208,9 +208,11 @@ function SignPage() {
                 <div className="alternate-videos">
                     {sign.videos.slice(1).map((id) => {
                         return (
-                            <div className="alternate-video" key={id}>
-                                <YoutubeEmbed embedId={id} />
-                            </div>
+                            id && (
+                                <div className="alternate-video" key={id}>
+                                    <YoutubeEmbed embedId={id} />
+                                </div>
+                            )
                         )
                     })}
                 </div>
