@@ -75,6 +75,7 @@ function SignPage() {
             window.scrollTo({ top: scrollTarget })
         }, 100)
     }, [sign])
+
     const handleScroll = (event: any) => {
         // setScroll(window.scrollY)
         console.log(window.scrollY)
@@ -100,7 +101,7 @@ function SignPage() {
     // }
 
     return (
-        <div className="sign" id={sign.sign_id} key={sign.sign_id}>
+        <div className="sign" id={sign.sign_id} key={sign.id}>
             {/* <button onClick={() => window.history.back()}>lalalalala</button> */}
             {/* <header>
                 <Link to={'/'} className="heading">
