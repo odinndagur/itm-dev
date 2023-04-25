@@ -99,7 +99,7 @@ header {
     background-color: var(--background-color);
     z-index: 10;
 }
-@media screen and (max-height: 400px) {
+@media screen and ((max-height: 400px) or (min-aspect-ratio: 2/1)) {
     header {
         position: relative;
     }
