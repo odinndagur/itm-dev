@@ -44,7 +44,7 @@
             }
             window.setActiveStyleSheet = setActiveStyleSheet
             function initDarkMode() {
-                const themeMode = window.localStorage.getItem('theme_mode')
+                let themeMode = window.localStorage.getItem('theme_mode')
                 console.log('themeMode: ', themeMode)
                 // if (themeMode === null) {}
                 if (!themeMode) {
@@ -375,13 +375,13 @@
             href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@200&display=block"
             rel="stylesheet"
         />
-        <link
+        <!-- <link
             rel="preload"
             href="https://fonts.gstatic.com/s/materialicons/v41/flUhRq6tzZclQEJ-Vdg-IuiaDsNZ.ttf"
             as="font"
             type="font/ttf"
             crossorigin="anonymous"
-        />
+        /> -->
 
         <!-- <style>
             @font-face {
