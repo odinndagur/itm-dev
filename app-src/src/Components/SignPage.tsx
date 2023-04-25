@@ -96,6 +96,13 @@ function SignPage() {
         }
     }, [])
 
+    for (const video_id of sign.videos) {
+        fetch(
+            `https://www.youtube.com/embed/${video_id}?mute=1&rel=0&loop=1&playlist=${video_id}&controls=0&playsinline=0&modestbranding=1&origin=https://odinndagur.github.io/itm-dev/`,
+            { cors: 'no-cors' }
+        )
+    }
+
     // if (!sign) {
     //     return <Navigate to={'/'} />
     // }
