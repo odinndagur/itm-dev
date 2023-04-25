@@ -142,9 +142,6 @@ export function AllSignsPage() {
                         onChange={(event) => handleSearch(event.target.value)}
                         type="search"
                         placeholder="Leita að tákni"
-                        style={{
-                            padding: '0.4rem 1rem',
-                        }}
                         ref={inputRef}
                     />
                 </div>

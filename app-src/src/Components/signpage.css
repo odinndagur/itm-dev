@@ -1,7 +1,7 @@
 .sign {
     display: flex;
     flex-direction: column;
-    /* max-width: 80vw; */
+    width: min(80vw, 800px);
     height: 100%;
     justify-content: space-between;
     margin: auto;
@@ -57,11 +57,11 @@
 }
 
 .sign-info-item > h3 {
-/* padding: 0; */
+    /* padding: 0; */
     margin: 0.3rem 0;
 }
 
-.related-signs{
+.related-signs {
     justify-content: space-evenly;
     padding: 1rem 0;
 }

@@ -77,3 +77,12 @@
 .pad {
     padding: 0.5rem;
 }
+
+input {
+    fill: red;
+    -webkit-appearance: none; /* this removed the default styling */
+    padding: 0.4rem 1rem;
+    margin-top: 1rem;
+    border-radius: 10px;
+    /* appearance: red; */
+}

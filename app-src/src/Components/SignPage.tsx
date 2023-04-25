@@ -253,11 +253,11 @@ function SignPage() {
             </div>
 
             {sign.related_signs && (
-                <div className="sign-info-item card center">
-                    <div>
-                        <b>Tengd tákn</b>
-                    </div>
-                    <div className="flexcol related-signs">
+                <div className="sign-info-item">
+                    <div className="flexcol related-signs card">
+                        <div>
+                            <h3>Tengd tákn</h3>
+                        </div>
                         {sign.related_signs.map((related_sign) => {
                             return (
                                 <Link
@@ -265,7 +265,10 @@ function SignPage() {
                                     to={`/signs/${related_sign.id}`}
                                     search={(old) => ({ ...old, scroll: 0 })}
                                 >
-                                    <div className="card">
+                                    <div
+                                        className="pad"
+                                        style={{ fontSize: '1.3rem' }}
+                                    >
                                         {related_sign.phrase}
                                     </div>
                                 </Link>

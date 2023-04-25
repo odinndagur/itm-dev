@@ -84,7 +84,7 @@ function App() {
                 location={reactLocation}
                 basepath="itm-dev"
                 // defaultLinkPreloadMaxAge={Infinity}
-                defaultPendingElement={<PlaceholderScreen />}
+                // defaultPendingElement={<PlaceholderScreen />}
                 // defaultLoaderMaxAge={Infinity}
                 routes={[
                     {
