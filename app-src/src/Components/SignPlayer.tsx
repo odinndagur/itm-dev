@@ -34,7 +34,6 @@ export function SignPlayer(props: any) {
                 opts={opts}
                 onReady={() => setPlayerReady(true)}
                 style={{ visibility: playerReady ? undefined : 'hidden' }}
-                loading="lazy"
             />
         </div>
     )
