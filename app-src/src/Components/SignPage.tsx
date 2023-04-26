@@ -150,7 +150,7 @@ function SignPage() {
             )}
             <div>
                 <div style={{ maxWidth: 'max(80%,400px)', margin: 'auto' }}>
-                    <h2 className="sign-phrase"><Link>{sign.phrase}</Link></h2>
+                    <h2 className="sign-phrase">{sign.phrase}</h2>
                     <YoutubeEmbed
                         embedId={sign.videos[0]}
                         title={sign.phrase}
