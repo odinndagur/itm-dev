@@ -33,7 +33,8 @@ export function SignPlayer(props: any) {
                 {...props}
                 opts={opts}
                 onReady={() => setPlayerReady(true)}
-                style={{ visibility: playerReady ? undefined : 'hidden' }}
+                onError={() => console.log('ERROR')}
+                style={{ display: playerReady ? undefined : 'none' }}
             />
         </div>
     )

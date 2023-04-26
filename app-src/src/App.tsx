@@ -36,6 +36,7 @@ import { SettingsPage } from './Components/SettingsPage'
 import { DarkModeSwitch } from './Components/DarkModeSwitch'
 import { NotFound } from './Components/NotFound'
 import SignWikiCredits from './Components/SignWikiCredits'
+import { CollectionsPage } from './Components/CollectionsPage'
 
 const reactLocation = new ReactLocation()
 
@@ -167,6 +168,13 @@ function App() {
                     {
                         path: 'settings',
                         element: <SettingsPage />,
+                        loader: async () => ({
+                            user: await getUserById(3),
+                        }),
+                    },
+                    {
+                        path: 'collections',
+                        element: <CollectionsPage />,
                         loader: async () => ({
                             user: await getUserById(3),
                         }),

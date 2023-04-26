@@ -6,14 +6,15 @@
     position: relative;
     border-radius: 10px;
     transform: translateZ(0);
-    background-color: black;
+    /* background-color: black; */
     /* box-sizing: border-box; */
     /* background-color: red; */
     /* height: 0; */
+    box-shadow: var(--card-box-shadow);
 }
 
 .video-responsive iframe {
-    border: 4px solid black;
+    /* border: 4px solid rgba(0, 0, 0, 0.5); */
     box-sizing: border-box;
     /* left: 1rem; */
     top: 0;
