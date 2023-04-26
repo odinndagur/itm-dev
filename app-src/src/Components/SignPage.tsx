@@ -9,6 +9,7 @@ import {
     Navigate,
 } from '@tanstack/react-location'
 import { YoutubeEmbed } from './YoutubeEmbed'
+import YouTube from 'react-youtube'
 import './signpage.css'
 import { useEffect } from 'react'
 
@@ -151,10 +152,11 @@ function SignPage() {
             <div>
                 <div style={{ maxWidth: 'max(80%,400px)', margin: 'auto' }}>
                     <h2 className="sign-phrase">{sign.phrase}</h2>
-                    <YoutubeEmbed
+                    {/* <YoutubeEmbed
                         embedId={sign.videos[0]}
                         title={sign.phrase}
-                    />
+                    /> */}
+                    <YouTube id={sign.videos[0]} />
                 </div>
                 <div className="sign-info card">
                     {sign.efnisflokkar && (
