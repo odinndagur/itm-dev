@@ -22,6 +22,7 @@
 .flexrow {
     display: flex;
     flex-direction: row;
+    justify-content: space-evenly;
 }
 
 .alternate-video {
@@ -43,21 +44,6 @@
     /* grid-template-rows: 1fr 1fr; */
     grid-template-columns: 1fr 1fr;
     /* background-color: aqua; */
-}
-
-@media screen and (max-width: 767px) {
-    .sign-info {
-        /* padding: 1rem 1rem; */
-        /* display: flex; */
-        /* flex-wrap: wrap; */
-        /* flex-direction: row; */
-        /* justify-content: space-between; */
-        /* align-items: flex-start; */
-        /* display: grid; */
-        /* grid-template-rows: 1fr 1fr; */
-        grid-template-columns: 1fr;
-        /* background-color: aqua; */
-    }
 }
 .sign-info-item {
     padding: 0.3rem 0.3rem;

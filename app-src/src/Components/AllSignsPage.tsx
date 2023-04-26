@@ -21,6 +21,7 @@ import {
     QueryClientProvider,
 } from '@tanstack/react-query'
 import { AppNavBar } from './AppNavBar'
+import { Header } from './Header'
 
 type MyLocationGenerics = MakeGenerics<{
     Search: {
@@ -43,7 +44,7 @@ export function AllSignsPage() {
     const [scroll, setScroll] = useState(0)
     useEffect(() => {
         setTimeout(() => {
-            const scrollTarget = Number(search.lastSearch?.scroll) ?? 0
+            const scrollTarget = Number(search.scroll) ?? 0
             window.scrollTo({ top: scrollTarget })
         }, 200)
     }, [])
@@ -128,15 +129,7 @@ export function AllSignsPage() {
 
     return (
         <>
-            <header>
-                <Link
-                    to={'/'}
-                    search={(old) => ({ ...old, scroll: 0 })}
-                    className="heading"
-                >
-                    <b>ÍTM</b>
-                </Link>
-                <AppNavBar type="desktop" />
+            <Header>
                 <div className="search">
                     <input
                         onChange={(event) => handleSearch(event.target.value)}
@@ -145,7 +138,7 @@ export function AllSignsPage() {
                         ref={inputRef}
                     />
                 </div>
-            </header>
+            </Header>
             {data || isPlaceholderData ? (
                 <div className="signlist" ref={scrollRef}>
                     <Pagination
@@ -162,7 +155,9 @@ export function AllSignsPage() {
                                 key={sign.sign_id}
                                 to={`/itm-dev/signs/${sign.sign_id}`}
                                 search={(search) => ({
-                                    ...search,
+                                    lastSearch: {
+                                        ...search,
+                                    },
                                     scroll: 0,
                                 })}
                             >

@@ -46,7 +46,8 @@ html {
     }
 
     #root {
-        padding-bottom: 8rem;
+        --navbar-padding-bottom: 4rem;
+        padding-bottom: var(--navbar-padding-bottom);
     }
 }
 
@@ -131,16 +132,15 @@ header {
 .card {
     padding: 1rem;
     margin: 1rem;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: var(--card-box-shadow);
     transition: 0.3s;
     border-radius: 10px; /* 5px rounded corners */
 }
 
 /* On mouse-over, add a deeper shadow */
 .card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: var(--card-hover-box-shadow);
 }
-
 .sign {
     display: 'flex';
     /* justifyContent: 'space-around'; */

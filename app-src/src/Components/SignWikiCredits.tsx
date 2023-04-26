@@ -1,6 +1,11 @@
+import './SignWikiCredits.css'
 function SignWikiCredits(props: any) {
     return (
-        <div style={{ fontSize: '1rem' }} {...props}>
+        <div
+            // style={{ fontSize: '1rem' }}
+            className="sign-wiki-credits"
+            {...props}
+        >
             <p>
                 Öll gögn frá{' '}
                 <a href="https://is.signwiki.org/index.php/Forsíða">

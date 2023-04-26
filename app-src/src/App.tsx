@@ -34,7 +34,7 @@ import { Place } from '@mui/icons-material'
 import { Handform } from './Components/Handform'
 import { SettingsPage } from './Components/SettingsPage'
 import { DarkModeSwitch } from './Components/DarkModeSwitch'
-import { NotFound } from './NotFound'
+import { NotFound } from './Components/NotFound'
 import SignWikiCredits from './Components/SignWikiCredits'
 
 const reactLocation = new ReactLocation()
@@ -196,7 +196,7 @@ function App() {
                     <DarkModeSwitch />
                 </div>
             </Router>
-            <SignWikiCredits className="center pad" style={{}} />
+            <SignWikiCredits />
         </QueryClientProvider>
     )
 }

@@ -12,6 +12,7 @@ import { YoutubeEmbed } from './YoutubeEmbed'
 import YouTube from 'react-youtube'
 import './signpage.css'
 import { useEffect } from 'react'
+import { SignPlayer } from './SignPlayer'
 
 type MyLocationGenerics = MakeGenerics<{
     Search: {
@@ -37,15 +38,16 @@ type SignGenerics = MakeGenerics<{
 }>
 
 function process_description(description: string) {
-    const matches = description.matchAll(/\[\[[a-zA-Z0-9|\p{L}]*\]\]/gmu)
+    const matches = description.matchAll(/\[\[[a-zA-Z0-9| \p{L}]*\]\]/gmu)
     let output = []
     let temp_last
     for (let match of matches) {
-        // console.log(match[0])
+        console.log(match[0])
+        // console.log(matches)
         const word = match[0].includes('|')
-            ? match[0].split('|')[0].replace('[[', '')
+            ? match[0].split('|')[0].replace('[[', '').replace(']]', '')
             : match[0].replace('[[', '').replace(']]', '')
-        // console.log(word)
+        console.log(word)
         // console.log({ description: description, match: match[0] })
         const [before, _] = description.split(match[0])
         description = description.replace(before, '')
@@ -53,6 +55,7 @@ function process_description(description: string) {
         const after = description.replace(match[0], '')
         description = after
         output.push(before)
+        console.log(output)
         output.push(
             <Link
                 to={`/signs/phrase/${word}`}
@@ -68,7 +71,7 @@ function process_description(description: string) {
     if (!output.length) {
         return description
     }
-    // console.log('process description\n', output)
+    console.log('process description\n', output)
     return output
 }
 function SignPage() {
@@ -83,10 +86,10 @@ function SignPage() {
     const search = useSearch<MyLocationGenerics>()
     // const [scroll, setScroll] = useState(0)
     useEffect(() => {
-        console.log('opened page - handling scroll')
+        // console.log('opened page - handling scroll')
         setTimeout(() => {
             const scrollTarget = Number(search.scroll) ?? 0
-            console.log('scrolltarget: ', scrollTarget)
+            // console.log('scrolltarget: ', scrollTarget)
             window.scrollTo({ top: scrollTarget })
         }, 100)
     }, [sign])
@@ -133,10 +136,10 @@ function SignPage() {
             {/* <button onClick={() => window.history.back()}>lalalalala</button> */}
             {/* <header>
                 <Link to={'/'} className="heading">
-                    <b>ÍTM</b>
+                    <h3>ÍTM</h3>
                 </Link>
             </header> */}
-            {search.lastSearch && (
+            {search.lastSearch ? (
                 <Link
                     className="temp-card"
                     style={{ width: 'fit-content' }}
@@ -148,6 +151,14 @@ function SignPage() {
                         <i>(„{search.lastSearch.query}“)</i>
                     )}
                 </Link>
+            ) : (
+                <Link
+                    className="temp-card"
+                    style={{ width: 'fit-content' }}
+                    to={'/signs'}
+                >
+                    &lt; Öll tákn{' '}
+                </Link>
             )}
             <div>
                 <div style={{ maxWidth: 'max(80%,400px)', margin: 'auto' }}>
@@ -156,11 +167,15 @@ function SignPage() {
                         embedId={sign.videos[0]}
                         title={sign.phrase}
                     /> */}
-                    <YouTube id={sign.videos[0]} />
+                    <SignPlayer
+                        iframeClassName="video-responsive"
+                        videoId={sign.videos[0]}
+                        title={sign.phrase}
+                    />
                 </div>
-                <div className="sign-info card">
+                <div className="sign-info">
                     {sign.efnisflokkar && (
-                        <div className="sign-info-item">
+                        <div className="sign-info-item card">
                             <h3>Efnisflokkar</h3>
                             {sign.efnisflokkar.map((efnisflokkur) => {
                                 return (
@@ -176,7 +191,7 @@ function SignPage() {
                         </div>
                     )}
                     {sign.ordflokkur && (
-                        <div className="sign-info-item">
+                        <div className="sign-info-item card">
                             <h3>Orðflokkur</h3>
                             <div>
                                 <Link to={`/ordflokkar/${sign.ordflokkur}`}>
@@ -186,7 +201,7 @@ function SignPage() {
                         </div>
                     )}
                     {sign.myndunarstadur && (
-                        <div className="sign-info-item">
+                        <div className="sign-info-item card">
                             <h3>Myndunarstaður</h3>
                             <div>
                                 <Link
@@ -198,7 +213,7 @@ function SignPage() {
                         </div>
                     )}
                     {sign.handform && (
-                        <div className="sign-info-item">
+                        <div className="sign-info-item card">
                             <Link to={`/handform/${sign.handform}`}>
                                 <h3>Handform</h3>
                                 <img
@@ -210,9 +225,11 @@ function SignPage() {
                         </div>
                     )}
                     {sign.description && (
-                        <div className="sign-info-item">
+                        <div className="sign-info-item card">
                             <h3>Lýsing</h3>
                             <div>
+                                {/* {sign.description} */}
+                                {/* {process_description(sign.description)} */}
                                 {process_description(sign.description).map(
                                     (part, idx) => {
                                         return <span key={idx}>{part}</span>
@@ -229,8 +246,12 @@ function SignPage() {
                         return (
                             id && (
                                 <div className="alternate-video" key={id}>
-                                    <YoutubeEmbed
+                                    {/* <YoutubeEmbed
                                         embedId={id}
+                                        title={sign.phrase}
+                                    /> */}
+                                    <SignPlayer
+                                        videoId={id}
                                         title={sign.phrase}
                                     />
                                 </div>
@@ -240,14 +261,14 @@ function SignPage() {
                 </div>
                 <div className="flexrow">
                     {sign.islenska && (
-                        <div className="sign-info-item">
-                            <b>Íslenska</b>
+                        <div className="sign-info-item card">
+                            <h3>Íslenska</h3>
                             <div>{sign.islenska}</div>
                         </div>
                     )}
                     {sign.taknmal && (
-                        <div className="sign-info-item">
-                            <b>Táknmál</b>
+                        <div className="sign-info-item card">
+                            <h3>Táknmál</h3>
                             <div>{sign.taknmal}</div>
                         </div>
                     )}

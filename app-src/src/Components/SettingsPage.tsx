@@ -1,5 +1,7 @@
 import { Link, MakeGenerics, useMatch } from '@tanstack/react-location'
 import { DarkModeSwitch } from './DarkModeSwitch'
+import { AppNavBar } from './AppNavBar'
+import { Header } from './Header'
 
 type UserGenerics = MakeGenerics<{
     LoaderData: {
@@ -21,20 +23,7 @@ export function SettingsPage() {
 
     return (
         <>
-            <header>
-                {/* <Link to={'/'}>
-            <h1 className="heading">ÍTM</h1>
-        </Link> */}
-                {/* <h3>{collectionName}</h3> */}
-                {/* <header> */}
-                <Link
-                    to={'/'}
-                    search={(old) => ({ ...old, scroll: 0 })}
-                    className="heading"
-                >
-                    <b>ÍTM</b>
-                </Link>
-            </header>
+            <Header></Header>
 
             <div className="">
                 {user ? (
