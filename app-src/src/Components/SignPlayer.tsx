@@ -26,6 +26,7 @@ export function SignPlayer(props: any) {
         <div
             className="video-container"
             style={{ visibility: playerReady ? undefined : 'hidden' }}
+            key={playerReady ? 'playerReady' : 'playerNotReady'}
         >
             <YouTube
                 className="video-responsive"
