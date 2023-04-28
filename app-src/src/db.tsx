@@ -548,6 +548,18 @@ const searchPagedCollectionById = async ({
     return { signs: result, totalPages, totalSignCount, offset, limit }
 }
 
+const getRandomSign = async () => {
+    const res = await query('select count(*) as sign_count from sign')
+    // console.log(res)
+    const count = parseInt(res[0].sign_count)
+    // console.log(count)
+    const index = Math.floor(Math.random() * count)
+    // console.log(index)
+    const signs = await query(`select * from sign  limit 1 offset ${index}`)
+    // console.log(signs)
+    return signs[0].id
+}
+
 export {
     query,
     getSignById,
@@ -561,4 +573,5 @@ export {
     searchPagedCollectionById,
     getSignByIdJson,
     getUserById,
+    getRandomSign,
 }

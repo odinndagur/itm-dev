@@ -10,6 +10,7 @@ import {
     getSignByIdJson,
     searchPagedCollectionById,
     getUserById,
+    getRandomSign,
 } from './db'
 // import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import {
@@ -100,6 +101,13 @@ function App() {
                         }),
                     },
                     { path: 'handforms', element: <Handform /> },
+                    {
+                        path: 'random',
+                        element: <SignPage />,
+                        loader: async () => ({
+                            sign: await getSignByIdJson(await getRandomSign()),
+                        }),
+                    },
                     {
                         path: 'signs',
                         children: [
