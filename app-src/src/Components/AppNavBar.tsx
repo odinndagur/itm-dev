@@ -19,6 +19,7 @@ function NavItem({
             getActiveProps={() => ({
                 style: { fontWeight: 'bold' },
             })}
+            search={(old) => ({ ...old })}
         >
             <div className="material-symbols-outlined">{icon}</div>
             <div className="nav-text">{name}</div>

@@ -20,6 +20,7 @@ import {
     useSearch,
     Link,
     Outlet,
+    Navigate,
 } from '@tanstack/react-location'
 import PlaceholderScreen from './Components/PlaceholderScreen'
 
@@ -38,6 +39,7 @@ import { DarkModeSwitch } from './Components/DarkModeSwitch'
 import { NotFound } from './Components/NotFound'
 import SignWikiCredits from './Components/SignWikiCredits'
 import { CollectionsPage } from './Components/CollectionsPage'
+import { RandomSign } from './Components/RandomSign'
 
 const reactLocation = new ReactLocation()
 
@@ -103,7 +105,7 @@ function App() {
                     { path: 'handforms', element: <Handform /> },
                     {
                         path: 'random',
-                        element: <SignPage />,
+                        element: <RandomSign />,
                         loader: async () => ({
                             sign: await getSignByIdJson(await getRandomSign()),
                         }),
