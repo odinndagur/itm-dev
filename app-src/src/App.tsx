@@ -2,7 +2,7 @@
 import { useState, useEffect, FormEvent } from 'react'
 import SignPage from './Components/SignPage'
 import { AllSignsPage } from './Components/AllSignsPage'
-import Home from './Components/Home'
+import HomePage from './Components/Home'
 import {
     query,
     getSignById,
@@ -93,7 +93,7 @@ function App() {
                 routes={[
                     {
                         path: '/',
-                        element: <AllSignsPage />,
+                        element: <HomePage />,
                         loader: async ({ search }) => ({
                             signs: await searchPagedCollectionById({
                                 searchValue: search.query ?? '',
@@ -116,6 +116,13 @@ function App() {
                             {
                                 path: '/',
                                 element: <AllSignsPage />,
+                                loader: async ({ search }) => ({
+                                    signs: await searchPagedCollectionById({
+                                        searchValue: search.query ?? '',
+                                        collectionId: search.collection ?? 1,
+                                        page: search.page ?? 1,
+                                    }),
+                                }),
                             },
                             {
                                 path: 'phrase',

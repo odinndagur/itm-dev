@@ -1,5 +1,5 @@
 import './Home.css'
-function Home() {
+export function HomePage() {
     return (
         <div>
             <div className="home">
@@ -12,9 +12,15 @@ function Home() {
                         alt=""
                     />
                 </div>
+                <div style={{ display: 'flex' }}>
+                    <div className="card">lol</div>
+                    <div className="card">nett</div>
+                    <div className="card">yo</div>
+                    <div className="card">what</div>
+                </div>
             </div>
         </div>
     )
 }
 
-export default Home
+export default HomePage
