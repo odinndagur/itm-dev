@@ -52,6 +52,12 @@ export function AppNavBar({ type }: { type: 'mobile' | 'desktop' }) {
                     name="Stillingar"
                     type={type}
                 />
+                <NavItem
+                    route="/random"
+                    icon="shuffle"
+                    name="Tákn af handahófi"
+                    type={type}
+                />
             </nav>
         </div>
     )
