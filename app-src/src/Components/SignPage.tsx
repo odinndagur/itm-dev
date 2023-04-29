@@ -68,7 +68,7 @@ function process_description(description: string) {
         // output.push(after)
     }
     output.push(temp_last)
-    if (!output.length) {
+    if (!output.length || output.join('') == '') {
         return description
     }
     console.log('process description\n', output)
