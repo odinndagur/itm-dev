@@ -69,7 +69,7 @@ function process_description(description: string) {
     }
     output.push(temp_last)
     if (!output.length || output.join('') == '') {
-        return description
+        return false
     }
     console.log('process description\n', output)
     return output
@@ -230,11 +230,11 @@ function SignPage() {
                             <div>
                                 {/* {sign.description} */}
                                 {/* {process_description(sign.description)} */}
-                                {process_description(sign.description).map(
+                                {process_description(sign.description) ? process_description(sign.description).map(
                                     (part, idx) => {
                                         return <span key={idx}>{part}</span>
                                     }
-                                )}
+                                ): sign.description}
                             </div>
                         </div>
                     )}
