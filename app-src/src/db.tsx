@@ -545,6 +545,7 @@ const searchPagedCollectionById = async ({
         collection_name: string
         in_collection: boolean
     }[] = await query(stmt)
+    console.log(result)
     return { signs: result, totalPages, totalSignCount, offset, limit }
 }
 

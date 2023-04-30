@@ -40,6 +40,7 @@ import { NotFound } from './Components/NotFound'
 import SignWikiCredits from './Components/SignWikiCredits'
 import { CollectionsPage } from './Components/CollectionsPage'
 import { RandomSign } from './Components/RandomSign'
+import { SignCollectionPage } from './Components/SignCollectionPage'
 
 const reactLocation = new ReactLocation()
 
@@ -101,6 +102,30 @@ function App() {
                                 page: search.page ?? 1,
                             }),
                         }),
+                    },
+                    {
+                        path: 'collection',
+                        children: [
+                            {
+                                search: (search) => 'id' in search,
+                                element: <SignCollectionPage />,
+                                loader: async ({ search }) => ({
+                                    data: await searchPagedCollectionById({
+                                        collectionId: search.id,
+                                        page: search.page ?? 1,
+                                        searchValue: search.query ?? '',
+                                    }),
+                                }),
+                            },
+                        ],
+                        // element: <HomePage />,
+                        // loader: async ({ search }) => ({
+                        //     signs: await searchPagedCollectionById({
+                        //         searchValue: search.query ?? '',
+                        //         collectionId: search.collection ?? 1,
+                        //         page: search.page ?? 1,
+                        //     }),
+                        // }),
                     },
                     { path: 'handforms', element: <Handform /> },
                     {

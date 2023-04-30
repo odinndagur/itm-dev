@@ -1,11 +1,10 @@
+import { Header } from './Header'
 import './Home.css'
 export function HomePage() {
     return (
         <div>
+            <Header />
             <div className="home">
-                <header>
-                    <h1 className="heading">Íslenskt táknmál</h1>
-                </header>
                 <div>
                     <img
                         src="/assets/images/manifest-icon-512.maskable.png"
