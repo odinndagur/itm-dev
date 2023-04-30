@@ -244,41 +244,43 @@ function SignPage() {
                     )}
                 </div>
             </div>
-            <div className={sign.islenska || sign.taknmal ? 'card' : ''}>
-                <h2 className="center pad">Fleiri dæmi</h2>
-                <div className="alternate-videos">
-                    {sign.videos.slice(1).map((id) => {
-                        return (
-                            id && (
-                                <div className="alternate-video" key={id}>
-                                    {/* <YoutubeEmbed
+            {(sign.islenska || sign.taknmal) && (
+                <div className="card">
+                    <h2 className="center pad">Fleiri dæmi</h2>
+                    <div className="alternate-videos">
+                        {sign.videos.slice(1).map((id) => {
+                            return (
+                                id && (
+                                    <div className="alternate-video" key={id}>
+                                        {/* <YoutubeEmbed
                                         embedId={id}
                                         title={sign.phrase}
                                     /> */}
-                                    <SignPlayer
-                                        videoId={id}
-                                        title={sign.phrase}
-                                    />
-                                </div>
+                                        <SignPlayer
+                                            videoId={id}
+                                            title={sign.phrase}
+                                        />
+                                    </div>
+                                )
                             )
-                        )
-                    })}
+                        })}
+                    </div>
+                    <div className="sign-info">
+                        {sign.islenska && (
+                            <div className="sign-info-item pad">
+                                <h3>Íslenska</h3>
+                                <div>{sign.islenska}</div>
+                            </div>
+                        )}
+                        {sign.taknmal && (
+                            <div className="sign-info-item pad">
+                                <h3>Táknmál</h3>
+                                <div>{sign.taknmal}</div>
+                            </div>
+                        )}
+                    </div>
                 </div>
-                <div className="flexrow">
-                    {sign.islenska && (
-                        <div className="sign-info-item pad">
-                            <h3>Íslenska</h3>
-                            <div>{sign.islenska}</div>
-                        </div>
-                    )}
-                    {sign.taknmal && (
-                        <div className="sign-info-item pad">
-                            <h3>Táknmál</h3>
-                            <div>{sign.taknmal}</div>
-                        </div>
-                    )}
-                </div>
-            </div>
+            )}
 
             {sign.related_signs && (
                 <div className="sign-info-item">
