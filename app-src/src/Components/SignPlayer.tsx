@@ -1,5 +1,5 @@
 import YouTube from 'react-youtube'
-import './YoutubeEmbed.css'
+import './SignPlayer.css'
 import { useState } from 'react'
 
 export function SignPlayer(props: any) {
@@ -11,13 +11,13 @@ export function SignPlayer(props: any) {
         height: '480',
         playerVars: {
             // https://developers.google.com/youtube/player_parameters
-            autoplay: 1,
+            autoplay: 0,
             modestbranding: 1,
             mute: 1,
             rel: 0,
             loop: 1,
             playlist: props.videoId,
-            playsinline: 0,
+            playsinline: 1,
             controls: 0,
             // origin: 'https://odinndagur.github.io/itm-dev/',
         },

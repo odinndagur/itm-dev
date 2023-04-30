@@ -160,7 +160,7 @@ function SignPage() {
                     &lt; Öll tákn{' '}
                 </Link>
             )}
-            <div>
+            <div className="card">
                 <div style={{ maxWidth: 'max(80%,400px)', margin: 'auto' }}>
                     <h2 className="sign-phrase">{sign.phrase}</h2>
                     {/* <YoutubeEmbed
@@ -175,7 +175,7 @@ function SignPage() {
                 </div>
                 <div className="sign-info">
                     {sign.efnisflokkar && (
-                        <div className="sign-info-item card">
+                        <div className="sign-info-item">
                             <h3>Efnisflokkar</h3>
                             {sign.efnisflokkar.map((efnisflokkur) => {
                                 return (
@@ -191,7 +191,7 @@ function SignPage() {
                         </div>
                     )}
                     {sign.ordflokkur && (
-                        <div className="sign-info-item card">
+                        <div className="sign-info-item">
                             <h3>Orðflokkur</h3>
                             <div>
                                 <Link to={`/ordflokkar/${sign.ordflokkur}`}>
@@ -201,7 +201,7 @@ function SignPage() {
                         </div>
                     )}
                     {sign.myndunarstadur && (
-                        <div className="sign-info-item card">
+                        <div className="sign-info-item">
                             <h3>Myndunarstaður</h3>
                             <div>
                                 <Link
@@ -213,7 +213,7 @@ function SignPage() {
                         </div>
                     )}
                     {sign.handform && (
-                        <div className="sign-info-item card">
+                        <div className="sign-info-item">
                             <Link to={`/handform/${sign.handform}`}>
                                 <h3>Handform</h3>
                                 <img
@@ -225,22 +225,27 @@ function SignPage() {
                         </div>
                     )}
                     {sign.description && (
-                        <div className="sign-info-item card">
+                        <div className="sign-info-item">
                             <h3>Lýsing</h3>
                             <div>
                                 {/* {sign.description} */}
                                 {/* {process_description(sign.description)} */}
-                                {process_description(sign.description) ? process_description(sign.description).map(
-                                    (part, idx) => {
-                                        return <span key={idx}>{part}</span>
-                                    }
-                                ): sign.description}
+                                {process_description(sign.description)
+                                    ? process_description(sign.description).map(
+                                          (part, idx) => {
+                                              return (
+                                                  <span key={idx}>{part}</span>
+                                              )
+                                          }
+                                      )
+                                    : sign.description}
                             </div>
                         </div>
                     )}
                 </div>
             </div>
             <div className={sign.islenska || sign.taknmal ? 'card' : ''}>
+                <h2 className="center pad">Fleiri dæmi</h2>
                 <div className="alternate-videos">
                     {sign.videos.slice(1).map((id) => {
                         return (
@@ -261,13 +266,13 @@ function SignPage() {
                 </div>
                 <div className="flexrow">
                     {sign.islenska && (
-                        <div className="sign-info-item card">
+                        <div className="sign-info-item pad">
                             <h3>Íslenska</h3>
                             <div>{sign.islenska}</div>
                         </div>
                     )}
                     {sign.taknmal && (
-                        <div className="sign-info-item card">
+                        <div className="sign-info-item pad">
                             <h3>Táknmál</h3>
                             <div>{sign.taknmal}</div>
                         </div>
