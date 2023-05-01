@@ -24,6 +24,19 @@ const deleteSignFromCollection = async ({ signId, collectionId }) => {
     and collection_id = ${collectionId}`)
 }
 
+const createCollection = async ({
+    userId,
+    collectionName,
+}: {
+    userId: string | number
+    collectionName: string
+}) => {
+    exec(`
+    INSERT INTO collection(name,user_id)
+    VALUES ("${collectionName}",${userId})
+    `)
+}
+
 const getSignByIdJson = async (id: number) => {
     console.log('getting sign by id with json: ' + id)
     const stmt = `
@@ -575,4 +588,5 @@ export {
     getSignByIdJson,
     getUserById,
     getRandomSign,
+    createCollection,
 }

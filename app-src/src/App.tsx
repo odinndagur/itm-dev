@@ -22,6 +22,8 @@ import {
     Outlet,
     Navigate,
 } from '@tanstack/react-location'
+import { ReactLocationDevtools } from '@tanstack/react-location-devtools'
+
 import PlaceholderScreen from './Components/PlaceholderScreen'
 
 import {
@@ -109,6 +111,7 @@ function App() {
                             {
                                 search: (search) => 'id' in search,
                                 element: <SignCollectionPage />,
+
                                 loader: async ({ search }) => ({
                                     data: await searchPagedCollectionById({
                                         collectionId: search.id,
@@ -217,9 +220,11 @@ function App() {
                     {
                         path: 'collections',
                         element: <CollectionsPage />,
+
                         loader: async () => ({
                             user: await getUserById(3),
                         }),
+                        loaderMaxAge: 100,
                     },
                     {
                         path: 'leit',
@@ -244,6 +249,7 @@ function App() {
                     }}
                 >
                     <DarkModeSwitch />
+                    <ReactLocationDevtools />
                 </div>
             </Router>
             <SignWikiCredits />

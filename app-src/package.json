@@ -13,6 +13,7 @@
         "@emotion/styled": "^11.10.6",
         "@jlongster/sql.js": "^1.6.7",
         "@tanstack/react-location": "^3.7.4",
+        "@tanstack/react-location-devtools": "^3.4.4",
         "@tanstack/react-query": "^4.29.1",
         "@tanstack/react-query-devtools": "^4.29.1",
         "absurd-sql": "^0.0.46",
@@ -30,5 +31,10 @@
         "prettier": "2.8.7",
         "typescript": "^5.0.2",
         "vite": "^4.2.0"
+    },
+    "overrides": {
+        "@tanstack/react-location-devtools": {
+            "@tanstack/react-location": "^3.7.4"
+        }
     }
 }
