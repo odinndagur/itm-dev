@@ -224,7 +224,6 @@ function App() {
                         loader: async () => ({
                             user: await getUserById(3),
                         }),
-                        loaderMaxAge: 100,
                     },
                     {
                         path: 'leit',
@@ -249,7 +248,7 @@ function App() {
                     }}
                 >
                     <DarkModeSwitch />
-                    <ReactLocationDevtools />
+                    {/* <ReactLocationDevtools /> */}
                 </div>
             </Router>
             <SignWikiCredits />
