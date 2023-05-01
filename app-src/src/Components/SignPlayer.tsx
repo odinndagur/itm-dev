@@ -17,7 +17,7 @@ export function SignPlayer(props: any) {
             rel: 0,
             loop: 1,
             playlist: props.videoId,
-            playsinline: 1,
+            playsinline: 0,
             controls: 0,
             // origin: 'https://odinndagur.github.io/itm-dev/',
         },
