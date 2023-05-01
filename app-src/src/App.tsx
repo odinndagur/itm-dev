@@ -43,6 +43,7 @@ import SignWikiCredits from './Components/SignWikiCredits'
 import { CollectionsPage } from './Components/CollectionsPage'
 import { RandomSign } from './Components/RandomSign'
 import { SignCollectionPage } from './Components/SignCollectionPage'
+import { HeadlessUITest } from './Components/HeadlessUITest'
 
 const reactLocation = new ReactLocation()
 
@@ -228,6 +229,10 @@ function App() {
                     {
                         path: 'leit',
                         element: <PlaceholderScreen />,
+                    },
+                    {
+                        path: 'headlessuitest',
+                        element: <HeadlessUITest />,
                     },
                     {
                         // Passing no route is equivalent to passing `path: '*'`

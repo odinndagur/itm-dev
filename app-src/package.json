@@ -11,6 +11,7 @@
     "dependencies": {
         "@emotion/react": "^11.10.6",
         "@emotion/styled": "^11.10.6",
+        "@headlessui/react": "^1.7.14",
         "@jlongster/sql.js": "^1.6.7",
         "@tanstack/react-location": "^3.7.4",
         "@tanstack/react-location-devtools": "^3.4.4",

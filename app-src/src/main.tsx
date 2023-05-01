@@ -14,7 +14,7 @@ initBackend(worker)
 window.worker = worker
 window.promiseWorker = promiseWorker
 
-document.addEventListener('keydown', function (e) {
+document.addEventListener('keydown', (e) => {
     if (e.code == 'Enter') {
         let element: HTMLElement = document!.activeElement! as HTMLElement
         element.click()
