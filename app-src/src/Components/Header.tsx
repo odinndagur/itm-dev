@@ -11,7 +11,7 @@ export function Header({ children }: { children?: any }) {
             >
                 <b>ÍTM</b>
             </Link>
-            <AppNavBar type="desktop" />
+            <AppNavBar type="header" />
             {children}
         </header>
     )

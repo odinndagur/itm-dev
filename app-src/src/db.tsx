@@ -338,9 +338,9 @@ const getCollectionById = async (
             sign.phrase as phrase,
             sign_video.video_id as youtube_id,
             sign_fts.related_signs as related_signs,
-            collection.id as collection_id,
-            collection.name as collection_name,
-                case when sign_collection.collection_id = ${userCollection} then true else false end as in_collection
+            json_group_array(
+                distinct json_object('collection_name',collection.name,'collection_id',collection.id)
+                )
             from sign
             join sign_fts
             on sign.id = sign_fts.id
@@ -350,7 +350,6 @@ const getCollectionById = async (
             on collection.id = sign_collection.collection_id
             LEFT JOIN sign_video
             ON sign.id = sign_video.sign_id
-            where collection.id = ${collectionId}
             group by sign.id
             order by sign.phrase asc
             limit ${limit}
@@ -467,9 +466,7 @@ const searchPagedCollectionById = async ({
             sign.phrase as phrase,
             sign_video.video_id as youtube_id,
             sign_fts.related_signs as related_signs,
-            collection.id as collection_id,
-            collection.name as collection_name,
-                case when sign_collection.collection_id = ${userCollection} then true else false end as in_collection
+            group_concat(collection.id) as collections
             from sign
             join sign_fts
             on sign.id = sign_fts.id
@@ -479,7 +476,6 @@ const searchPagedCollectionById = async ({
             on collection.id = sign_collection.collection_id
             LEFT JOIN sign_video
             ON sign.id = sign_video.sign_id
-            where collection.id = ${collectionId}
             group by sign.id
             order by sign.phrase asc
             limit ${limit}
@@ -498,9 +494,7 @@ const searchPagedCollectionById = async ({
             sign.phrase as phrase,
             sign_video.video_id as youtube_id,
             sign_fts.related_signs as related_signs,
-            collection.id as collection_id,
-            collection.name as collection_name,
-                case when sign_collection.collection_id = ${userCollection} then true else false end as in_collection
+            group_concat(collection.id) as collections
             from sign
             join sign_fts
             on sign.id = sign_fts.id
@@ -511,7 +505,6 @@ const searchPagedCollectionById = async ({
             LEFT JOIN sign_video
             ON sign.id = sign_video.sign_id
             where sign.phrase like "%${searchValue.substring(1)}%"
-            and collection.id = ${collectionId}
             group by sign.id
             order by levenshtein(sign.phrase,${searchValue.substring(1)}) asc
             limit ${limit}
@@ -532,9 +525,7 @@ const searchPagedCollectionById = async ({
             sign.phrase as phrase,
             sign_video.video_id as youtube_id,
             sign_fts.related_signs as related_signs,
-            collection.id as collection_id,
-            collection.name as collection_name,
-                case when sign_collection.collection_id = ${userCollection} then true else false end as in_collection
+            group_concat(collection.id) as collections
             from sign_fts
             join sign on sign.id = sign_fts.id
             left join sign_collection
@@ -544,20 +535,20 @@ const searchPagedCollectionById = async ({
             LEFT JOIN sign_video
             ON sign.id = sign_video.sign_id
             where sign_fts match "${searchValue}"
-            and collection.id = ${collectionId}
             group by sign.id
             order by levenshtein(sign.phrase,"${searchValue.substring(1)}") asc
             limit ${limit}
             offset ${offset}`
     }
-    const result: {
+    let result: {
         sign_id: number
         phrase: string
         youtube_id: string
         related_signs: string
-        collection_id: number
-        collection_name: string
-        in_collection: boolean
+        collections: string
+        collection_id?: number
+        collection_name?: string
+        in_collection?: boolean
     }[] = await query(stmt)
     console.log(result)
     return { signs: result, totalPages, totalSignCount, offset, limit }

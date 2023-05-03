@@ -42,16 +42,7 @@ export function SettingsPage() {
                     ''
                 )}
                 <input type="text" className="card" />
-                {/* {userCollections.map((collection) => {
-                    return (
-                        <div className="card" key={collection.name}>
-                            <h1>{collection.name}</h1>
-                            <i>{collection.count} tákn</i>
-                        </div>
-                    )
-                })} */}
             </div>
-            {/* <DarkModeSwitch /> */}
         </>
     )
 }

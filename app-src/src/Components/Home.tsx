@@ -1,15 +1,27 @@
+import { useContext, useEffect, useState } from 'react'
 import { Header } from './Header'
 import './Home.css'
+import { ThemeContext } from './ThemeContext'
 export function HomePage() {
+    const currentTheme = useContext(ThemeContext)
+    const [img, setImg] = useState(
+        '/assets/images/manifest-icon-512.maskable.png'
+    )
+    useEffect(() => {
+        setImg(
+            currentTheme == 'light'
+                ? '/assets/images/manifest-icon-512.maskable.png'
+                : '/assets/images/manifest-icon-dark-512.maskable.png'
+        )
+    }, [currentTheme])
+    console.log(currentTheme)
+
     return (
         <div>
             <Header />
             <div className="home">
-                <div>
-                    <img
-                        src="/assets/images/manifest-icon-512.maskable.png"
-                        alt=""
-                    />
+                <div key={currentTheme}>
+                    <img src={img} alt="" />
                 </div>
                 <div style={{ display: 'flex' }}>
                     <div className="card">lol</div>

@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect } from 'react'
 import { Pagination } from './Pagination'
+import { Listbox, Transition } from '@headlessui/react'
 import {
     getCollectionById,
     getSignByIdJson,
+    getUserById,
     searchPagedCollectionById,
 } from '../db'
 import {
@@ -22,6 +24,7 @@ import {
 } from '@tanstack/react-query'
 import { AppNavBar } from './AppNavBar'
 import { Header } from './Header'
+import { SignCollectionGenerics } from './Generics'
 
 type MyLocationGenerics = MakeGenerics<{
     Search: {
@@ -35,11 +38,77 @@ type MyLocationGenerics = MakeGenerics<{
         }
     }
 }>
+function AddSign({ id, collections }: { id: number; collections: number[] }) {
+    return (
+        <div>
+            <div className="">
+                <Listbox value={'nett'}>
+                    <div className="">
+                        <Listbox.Button className="">
+                            <span className="">{'söfn'}</span>
+                        </Listbox.Button>
+                        {/* <Transition
+                            leave="transition ease-in duration-100"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
+                        > */}
+                        <Listbox.Options className="absolute max-h-60 overflow-auto rounded-md bg-white divide-y">
+                            {collections.map((collection, collectionIdx) => (
+                                <Listbox.Option
+                                    key={collectionIdx}
+                                    className={({ active }) =>
+                                        `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
+                                            active
+                                                ? 'bg-amber-100 text-amber-900'
+                                                : 'text-gray-900'
+                                        }`
+                                    }
+                                    value={collection.id}
+                                >
+                                    {({ selected }) => (
+                                        <>
+                                            <span
+                                                className={`block truncate ${
+                                                    selected
+                                                        ? 'font-medium'
+                                                        : 'font-normal'
+                                                }`}
+                                            >
+                                                {collection.name}
+                                            </span>
+                                        </>
+                                    )}
+                                </Listbox.Option>
+                            ))}
+                        </Listbox.Options>
+                        {/* </Transition> */}
+                    </div>
+                </Listbox>
+            </div>
+        </div>
+
+        // return (
+        //     <Listbox value="nettur">
+        //         <Listbox.Options>
+        //             <Listbox.Option value="lol" key={1}>
+        //                 lol
+        //             </Listbox.Option>
+        //         </Listbox.Options>
+        //     </Listbox>
+        // <button
+        //     onClick={() => addSign(sign.sign_id)}
+        //     className="material-icons"
+        //     style={{}}
+        // >
+        //     add
+        // </button>
+    )
+}
 
 export function SignCollectionPage() {
     const {
-        data: { data },
-    } = useMatch()
+        data: { signCollection, user },
+    } = useMatch<SignCollectionGenerics>()
     const inputRef = useRef<HTMLInputElement>(null)
     const [page, setPage] = useState(1)
     const scrollRef = useRef<HTMLDivElement>(null)
@@ -108,27 +177,8 @@ export function SignCollectionPage() {
                 scroll: 0,
             }),
         })
-        // scrollRef.current?.scrollTo({ top: 0 })
     }
     const navigate = useNavigate<MyLocationGenerics>()
-
-    // const { data, isPlaceholderData, isLoading, isError } = useQuery({
-    //     queryKey: ['signs', searchValue ?? null, page],
-    //     queryFn: () =>
-    //         searchPagedCollectionById({
-    //             searchValue: searchValue,
-    //             collectionId: 1,
-    //             page: page,
-    //         }),
-    //     keepPreviousData: true,
-    // })
-
-    // if (isLoading) {
-    //     return ''
-    // }
-    // if (isError) {
-    //     return 'Error.'
-    // }
 
     return (
         <>
@@ -142,29 +192,51 @@ export function SignCollectionPage() {
                     />
                 </div>
             </Header>
-            {data || isPlaceholderData ? (
+            {signCollection && (
                 <div className="signlist" ref={scrollRef}>
                     <Pagination
-                        offset={data.offset}
-                        totalPages={data.totalPages}
-                        totalSignCount={data.totalSignCount}
+                        offset={signCollection.offset}
+                        totalPages={signCollection.totalPages}
+                        totalSignCount={signCollection.totalSignCount}
                         updatePage={updatePage}
-                        limit={data.limit}
+                        limit={signCollection.limit}
                         currentPage={page}
                     />
-                    {data.signs.map((sign) => {
+                    {signCollection.signs.map((sign) => {
                         return (
-                            <Link
-                                key={sign.sign_id}
-                                to={`/itm-dev/signs/${sign.sign_id}`}
-                                search={(search) => ({
-                                    lastSearch: {
-                                        ...search,
-                                    },
-                                    scroll: 0,
-                                })}
+                            <div
+                                style={{
+                                    margin: 'auto',
+                                    // width: '100vw',
+                                    // height: 'max-content',
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                }}
+                                className="card"
                             >
-                                <div className="temp-card">
+                                <Link
+                                    key={sign.sign_id}
+                                    to={`/itm-dev/signs/${sign.sign_id}`}
+                                    search={(search) => ({
+                                        lastSearch: {
+                                            ...search,
+                                        },
+                                        scroll: 0,
+                                    })}
+                                    style={{
+                                        border: '1px solid red',
+                                        minHeight: '2rem',
+                                        flexGrow: 1,
+                                    }}
+                                >
+                                    {/* <div
+                                        className=""
+                                        style={{
+                                            border: '1px solid red',
+                                            flexGrow: 1,
+                                        }}
+                                    > */}
                                     <b>{sign.phrase}</b>
                                     <div>
                                         <i>
@@ -175,21 +247,24 @@ export function SignCollectionPage() {
                                                 : sign.related_signs}
                                         </i>
                                     </div>
-                                </div>
-                            </Link>
+                                    {/* </div> */}
+                                </Link>
+                                <AddSign
+                                    id={sign.sign_id}
+                                    collections={user.collections}
+                                />
+                            </div>
                         )
                     })}
                     <Pagination
-                        offset={data.offset}
-                        totalPages={data.totalPages}
-                        totalSignCount={data.totalSignCount}
+                        offset={signCollection.offset}
+                        totalPages={signCollection.totalPages}
+                        totalSignCount={signCollection.totalSignCount}
                         updatePage={updatePage}
-                        limit={data.limit}
+                        limit={signCollection.limit}
                         currentPage={page}
                     />
                 </div>
-            ) : (
-                ''
             )}
         </>
     )
