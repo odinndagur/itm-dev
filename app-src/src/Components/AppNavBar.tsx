@@ -41,7 +41,7 @@ export function AppNavBar({ type }: { type: 'footer' | 'header' }) {
     const navItems = [
         { route: '/home', icon: 'home', name: 'Heim', type: type },
         {
-            route: '/signs',
+            route: '/collection?id=1',
             icon: 'sign_language',
             name: 'Öll tákn',
             type: type,
