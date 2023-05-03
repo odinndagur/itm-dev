@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { Pagination } from './Pagination'
 import { Listbox, Transition } from '@headlessui/react'
 import {
+    addSignToCollection,
     getCollectionById,
     getSignByIdJson,
     getUserById,
@@ -38,36 +39,60 @@ type MyLocationGenerics = MakeGenerics<{
         }
     }
 }>
-function AddSign({ id, collections }: { id: number; collections: number[] }) {
+function AddSign({
+    id,
+    collections,
+}: {
+    id: number
+    collections: { id: number; name: string }[]
+}) {
     return (
         <div>
             <div className="">
                 <Listbox value={'nett'}>
                     <div className="">
                         <Listbox.Button className="">
-                            <span className="">{'söfn'}</span>
+                            <span className="material-icons">add</span>
                         </Listbox.Button>
                         {/* <Transition
                             leave="transition ease-in duration-100"
                             leaveFrom="opacity-100"
                             leaveTo="opacity-0"
                         > */}
-                        <Listbox.Options className="absolute max-h-60 overflow-auto rounded-md bg-white divide-y">
+                        <Listbox.Options
+                            style={{
+                                position: 'absolute',
+                                maxHeight: '60%',
+                                width: 'fit-content',
+                                backgroundColor: 'var(--background-color)',
+                                cursor: 'pointer',
+                            }}
+                            // className="absolute max-h-60 overflow-auto rounded-md bg-white divide-y"
+                        >
                             {collections.map((collection, collectionIdx) => (
                                 <Listbox.Option
-                                    key={collectionIdx}
-                                    className={({ active }) =>
-                                        `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
-                                            active
-                                                ? 'bg-amber-100 text-amber-900'
-                                                : 'text-gray-900'
-                                        }`
-                                    }
+                                    key={collection.id}
+                                    style={{
+                                        position: 'relative',
+                                        right: '50%',
+                                        textAlign: 'center',
+                                        backgroundColor:
+                                            'var(--background-color)',
+                                        borderBottom: '1px solid gray',
+                                        padding: '0.5rem 0.5rem',
+                                    }}
                                     value={collection.id}
                                 >
                                     {({ selected }) => (
                                         <>
                                             <span
+                                                onClick={() =>
+                                                    addSignToCollection({
+                                                        signId: id,
+                                                        collectionId:
+                                                            collection.id,
+                                                    })
+                                                }
                                                 className={`block truncate ${
                                                     selected
                                                         ? 'font-medium'
@@ -214,9 +239,9 @@ export function SignCollectionPage() {
                                     alignItems: 'center',
                                 }}
                                 className="card"
+                                key={sign.sign_id}
                             >
                                 <Link
-                                    key={sign.sign_id}
                                     to={`/itm-dev/signs/${sign.sign_id}`}
                                     search={(search) => ({
                                         lastSearch: {
@@ -225,7 +250,7 @@ export function SignCollectionPage() {
                                         scroll: 0,
                                     })}
                                     style={{
-                                        border: '1px solid red',
+                                        // border: '1px solid red',
                                         minHeight: '2rem',
                                         flexGrow: 1,
                                     }}

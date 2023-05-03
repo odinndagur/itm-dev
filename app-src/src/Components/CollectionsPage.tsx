@@ -3,6 +3,7 @@ import {
     MakeGenerics,
     Navigate,
     useNavigate,
+    Link,
 } from '@tanstack/react-location'
 import { Header } from './Header'
 import { FormEvent, useState } from 'react'
@@ -61,7 +62,13 @@ export function CollectionsPage() {
                             <li key={collection.id} className="card">
                                 {Object.keys(collection).map((key) => {
                                     return (
-                                        <div
+                                        <Link
+                                            to={'/collection'}
+                                            search={(old) => ({
+                                                ...old,
+                                                scroll: 0,
+                                                id: collection.id,
+                                            })}
                                             style={{
                                                 display: 'flex',
                                                 justifyContent: 'space-between',
@@ -69,7 +76,7 @@ export function CollectionsPage() {
                                         >
                                             <div>{key}</div>
                                             <div>{collection[key]}</div>
-                                        </div>
+                                        </Link>
                                     )
                                 })}
                                 {/* <div className="card">{collection.name}</div> */}

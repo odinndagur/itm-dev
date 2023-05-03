@@ -466,7 +466,7 @@ const searchPagedCollectionById = async ({
             sign.phrase as phrase,
             sign_video.video_id as youtube_id,
             sign_fts.related_signs as related_signs,
-            group_concat(collection.id) as collections
+            group_concat(multiCollection.id) as collections
             from sign
             join sign_fts
             on sign.id = sign_fts.id
@@ -474,8 +474,11 @@ const searchPagedCollectionById = async ({
             on sign.id = sign_collection.sign_id
             left join collection
             on collection.id = sign_collection.collection_id
+            left join collection as multiCollection
+            on multiCollection.id = sign_collection.collection_id
             LEFT JOIN sign_video
             ON sign.id = sign_video.sign_id
+            where collection.id = ${collectionId}
             group by sign.id
             order by sign.phrase asc
             limit ${limit}
@@ -502,9 +505,12 @@ const searchPagedCollectionById = async ({
             on sign.id = sign_collection.sign_id
             left join collection
             on collection.id = sign_collection.collection_id
+            left join collection as multiCollection
+            on multiCollection.id = sign_collection.collection_id
             LEFT JOIN sign_video
             ON sign.id = sign_video.sign_id
             where sign.phrase like "%${searchValue.substring(1)}%"
+            and collection.id = ${collectionId}
             group by sign.id
             order by levenshtein(sign.phrase,${searchValue.substring(1)}) asc
             limit ${limit}
@@ -532,9 +538,12 @@ const searchPagedCollectionById = async ({
             on sign.id = sign_collection.sign_id
             left join collection
             on collection.id = sign_collection.collection_id
+            left join collection as multiCollection
+            on multiCollection.id = sign_collection.collection_id
             LEFT JOIN sign_video
             ON sign.id = sign_video.sign_id
             where sign_fts match "${searchValue}"
+            and collection.id = ${collectionId}
             group by sign.id
             order by levenshtein(sign.phrase,"${searchValue.substring(1)}") asc
             limit ${limit}
