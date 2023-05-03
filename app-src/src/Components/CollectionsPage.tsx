@@ -58,8 +58,21 @@ export function CollectionsPage() {
                 <ul className="">
                     {data?.collections.map((collection) => {
                         return (
-                            <li key={collection.id}>
-                                <div className="card">{collection.name}</div>
+                            <li key={collection.id} className="card">
+                                {Object.keys(collection).map((key) => {
+                                    return (
+                                        <div
+                                            style={{
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                            }}
+                                        >
+                                            <div>{key}</div>
+                                            <div>{collection[key]}</div>
+                                        </div>
+                                    )
+                                })}
+                                {/* <div className="card">{collection.name}</div> */}
                             </li>
                         )
                     })}

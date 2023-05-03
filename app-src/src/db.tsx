@@ -51,7 +51,8 @@ const getSignByIdJson = async (id: number) => {
             'ordflokkur',sign.ordflokkur,
             'islenska',sign.islenska,
             'taknmal',sign.taknmal,
-            'description',sign.description
+            'description',sign.description,
+            'munnhreyfing', sign.munnhreyfing
         ) as sign_json
         FROM sign
         LEFT JOIN sign_video
@@ -104,7 +105,7 @@ const getUserById = async (id: number) => {
         json_object(
             'id',user.id,
             'name',user.name,
-            'collections', json_group_array(distinct json_object('id',collection.id,'name', collection.name))
+            'collections', json_group_array(distinct json_object('id',collection.id,'name', collection.name, 'user_id', collection.user_id, 'created_at', collection.created_at))
         ) as user_json
         FROM user
         LEFT JOIN collection
