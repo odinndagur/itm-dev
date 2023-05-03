@@ -119,13 +119,13 @@ function App() {
                             path: 'collection',
                             children: [
                                 {
-                                    search: (search) => 'id' in search,
+                                    //search: (search) => 'id' in search,
                                     element: <SignCollectionPage />,
 
                                     loader: async ({ search }) => ({
                                         signCollection:
                                             await searchPagedCollectionById({
-                                                collectionId: search.id,
+                                                collectionId: search.id ?? 1,
                                                 page: search.page ?? 1,
                                                 searchValue: search.query ?? '',
                                             }),
