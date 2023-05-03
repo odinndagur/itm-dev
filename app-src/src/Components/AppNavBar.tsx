@@ -33,7 +33,7 @@ export function AppNavBar({ type }: { type: 'mobile' | 'desktop' }) {
             <nav
                 className={type === 'mobile' ? 'app-navbar' : 'desktop-navbar'}
             >
-                <NavItem route="/" icon="home" name="Heim" type={type} />
+                <NavItem route="/home" icon="home" name="Heim" type={type} />
                 <NavItem
                     route="/signs"
                     icon="sign_language"

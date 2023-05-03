@@ -1,4 +1,4 @@
-@media screen and (max-width: 767px) {
+@media screen and ((max-width: 767px) or (display-mode:standalone)) {
     nav {
         display: flex;
         /* padding: 0 2rem; */
@@ -27,7 +27,7 @@
     }
 }
 
-@media screen and ((min-width: 768px) or (display-mode:standalone)) {
+@media screen and ((min-width: 768px) or (display-mode:browser)) {
     .app-navbar {
         display: none;
     }

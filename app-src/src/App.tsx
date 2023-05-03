@@ -97,7 +97,7 @@ function App() {
                 routes={[
                     {
                         path: '/',
-                        element: <HomePage />,
+                        element: <Navigate to={'/signs'} />,
                         loader: async ({ search }) => ({
                             signs: await searchPagedCollectionById({
                                 searchValue: search.query ?? '',
@@ -105,6 +105,10 @@ function App() {
                                 page: search.page ?? 1,
                             }),
                         }),
+                    },
+                    {
+                        path: 'home',
+                        element: <HomePage />,
                     },
                     {
                         path: 'collection',
@@ -228,7 +232,14 @@ function App() {
                     },
                     {
                         path: 'leit',
-                        element: <PlaceholderScreen />,
+                        element: <AllSignsPage />,
+                        loader: async ({ search }) => ({
+                            signs: await searchPagedCollectionById({
+                                searchValue: search.query ?? '',
+                                collectionId: search.collection ?? 1,
+                                page: search.page ?? 1,
+                            }),
+                        }),
                     },
                     {
                         path: 'headlessuitest',

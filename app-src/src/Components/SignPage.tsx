@@ -13,6 +13,7 @@ import YouTube from 'react-youtube'
 import './signpage.css'
 import { useEffect } from 'react'
 import { SignPlayer } from './SignPlayer'
+import { Header } from './Header'
 
 type MyLocationGenerics = MakeGenerics<{
     Search: {
@@ -139,6 +140,7 @@ function SignPage() {
                     <h3>ÍTM</h3>
                 </Link>
             </header> */}
+            <Header />
             {search.lastSearch ? (
                 <Link
                     className="temp-card"
