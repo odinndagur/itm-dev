@@ -1,4 +1,46 @@
-@media screen and ((max-width: 767px) or (display-mode:standalone)) {
+.desktop-navbar {
+    background-color: red;
+    width: 100%;
+    /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
+    min-height: 4em;
+    /* padding: 0 2rem; */
+    /* max-height: 5em; */
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0.3rem));
+    /* position: fixed; */
+    background-color: var(--background-color);
+    /* top: 0;
+    left: 0; */
+}
+.app-navbar {
+    width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    min-height: 4em;
+    /* padding: 0 2rem; */
+    /* max-height: 5em; */
+    display: flex;
+    align-items: center;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0.3rem));
+    position: fixed;
+    background-color: var(--background-color);
+    bottom: 0;
+    left: 0;
+}
+@media screen and (display-mode: browser) {
+    .app-navbar {
+        display: none;
+    }
+    .desktop-navbar {
+        display: flex;
+    }
+}
+
+@media screen and (display-mode: standalone) {
+    .app-navbar {
+        display: flex;
+    }
     nav {
         display: flex;
         /* padding: 0 2rem; */
@@ -7,45 +49,8 @@
         justify-content: space-evenly;
     }
 
-    .app-navbar {
-        width: 100%;
-        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-        min-height: 4em;
-        /* padding: 0 2rem; */
-        /* max-height: 5em; */
-        display: flex;
-        align-items: center;
-        padding-bottom: calc(env(safe-area-inset-bottom, 0.3rem));
-        position: fixed;
-        background-color: var(--background-color);
-        bottom: 0;
-        left: 0;
-    }
-
     .desktop-navbar {
         display: none;
-    }
-}
-
-@media screen and ((min-width: 768px) or (display-mode:browser)) {
-    .app-navbar {
-        display: none;
-    }
-    .desktop-navbar {
-        background-color: red;
-        width: 100%;
-        /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
-        min-height: 4em;
-        /* padding: 0 2rem; */
-        /* max-height: 5em; */
-        display: flex;
-        align-items: center;
-        justify-content: space-evenly;
-        padding-bottom: calc(env(safe-area-inset-bottom, 0.3rem));
-        /* position: fixed; */
-        background-color: var(--background-color);
-        /* top: 0;
-        left: 0; */
     }
 }
 
