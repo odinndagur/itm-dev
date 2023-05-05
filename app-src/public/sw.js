@@ -49,7 +49,13 @@ self.addEventListener('activate', (event) => {
 // from the network before returning it to the page.
 self.addEventListener('fetch', (event) => {
     // Skip cross-origin requests, like those for Google Analytics.
-    if (event.request.url.startsWith(self.location.origin)) {
+    const URLS_TO_CHECK = [
+        self.location.origin,
+        'https://fonts.googleapis.com/**',
+        'https://fonts.gstatic.com/**',
+    ]
+    // if (event.request.url.startsWith(self.location.origin)) {
+    if (URLS_TO_CHECK.some((url) => event.request.url.startsWith(url))) {
         event.respondWith(
             caches.match(event.request).then((cachedResponse) => {
                 if (cachedResponse) {
