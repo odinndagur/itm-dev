@@ -8,6 +8,8 @@ const query = async (query: string) => {
 }
 
 const exec = async (query: string) => {
+    console.log(query)
+
     window.promiseWorker.postMessage({ type: 'exec', query: query })
 }
 

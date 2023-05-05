@@ -98,14 +98,23 @@ export function CollectionsPage() {
                                         {/* <div>{collection[key]}</div> */}
                                     </Link>
                                     <button
+                                        style={{
+                                            display: 'flex',
+                                            alignContent: 'center',
+                                            justifyContent: 'center',
+                                        }}
                                         onClick={() =>
                                             handleDeleteCollection(
                                                 collection.id
                                             )
                                         }
-                                        className="material-icons"
                                     >
-                                        delete
+                                        <span className="material-icons">
+                                            delete
+                                        </span>
+                                        <span style={{ alignSelf: 'center' }}>
+                                            Eyða
+                                        </span>
                                     </button>
                                 </li>
                             )

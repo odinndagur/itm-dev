@@ -127,7 +127,7 @@ function SignPage() {
                 <Link
                     className="temp-card"
                     style={{ width: 'fit-content' }}
-                    to={'/signs'}
+                    to={'/collection'}
                     search={search.lastSearch}
                 >
                     &lt; Til baka í leit{' '}
