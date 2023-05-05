@@ -9,6 +9,9 @@ const PRECACHE_URLS = [
     '/itm-dev/assets/manifest.webmanifest',
     '/itm-dev/assets/sql-wasm.js',
     '/itm-dev/assets/sql-wasm.wasm',
+    '/itm-dev/assets/sign_tables.txt',
+    '/itm-dev/assets/sign_db_data.txt',
+    '/itm-dev/assets/signftstableftsdata.txt',
     // '/itm-dev/src_index_worker_js.js',
 ]
 
@@ -49,13 +52,13 @@ self.addEventListener('activate', (event) => {
 // from the network before returning it to the page.
 self.addEventListener('fetch', (event) => {
     // Skip cross-origin requests, like those for Google Analytics.
-    const URLS_TO_CHECK = [
-        self.location.origin,
-        'https://fonts.googleapis.com/**',
-        'https://fonts.gstatic.com/**',
-    ]
-    // if (event.request.url.startsWith(self.location.origin)) {
-    if (URLS_TO_CHECK.some((url) => event.request.url.startsWith(url))) {
+    // const URLS_TO_CHECK = [
+    //     self.location.origin,
+    //     'https://fonts.googleapis.com/**',
+    //     'https://fonts.gstatic.com/**',
+    // ]
+    if (event.request.url.startsWith(self.location.origin)) {
+        // if (URLS_TO_CHECK.some((url) => event.request.url.startsWith(url))) {
         event.respondWith(
             caches.match(event.request).then((cachedResponse) => {
                 if (cachedResponse) {
