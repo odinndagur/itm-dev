@@ -119,7 +119,7 @@ const getUserById = async (id: number) => {
         name: string
         collections: { id: number; name: string }[]
     } = JSON.parse(users[0].user_json)
-    // console.log(user)
+    console.log(user)
     return user
 }
 
@@ -458,7 +458,12 @@ const searchPagedCollectionById = async ({
     if (!searchValue) {
         const tempCount = await query(`select count(*) as sign_count from sign
         join sign_fts
-        on sign.id = sign_fts.id`)
+        on sign.id = sign_fts.id
+        left join sign_collection on sign.id = sign_collection.sign_id
+        left join collection
+        on collection.id = sign_collection.collection_id
+        where collection.id = ${collectionId}
+        `)
         totalSignCount = tempCount[0].sign_count
         totalPages = Math.ceil(totalSignCount / limit)
         console.log({ offset, tempCount, totalSignCount, totalPages })
@@ -489,7 +494,12 @@ const searchPagedCollectionById = async ({
         from sign
         join sign_fts
         on sign.id = sign_fts.id
-        where sign.phrase like "%${searchValue.substring(1)}%"`)
+        left join sign_collection on sign.id = sign_collection.sign_id
+        left join collection
+        on collection.id = sign_collection.collection_id
+        where sign.phrase like "%${searchValue.substring(1)}%"
+        and collection.id = ${collectionId}
+        `)
         totalSignCount = tempCount[0].sign_count
         totalPages = Math.ceil(totalSignCount / limit)
         console.log({ offset, tempCount, totalSignCount, totalPages })
@@ -523,7 +533,12 @@ const searchPagedCollectionById = async ({
         const tempCount = await query(`
         select count(*) as sign_count from sign_fts
         join sign on sign.id = sign_fts.id
-        where sign_fts match "${searchValue}"`)
+        left join sign_collection on sign.id = sign_collection.sign_id
+        left join collection
+        on collection.id = sign_collection.collection_id
+        where sign_fts match "${searchValue}"
+        and collection.id = ${collectionId}
+        `)
         totalSignCount = tempCount[0].sign_count
         totalPages = Math.ceil(totalSignCount / limit)
         console.log({ offset, tempCount, totalSignCount, totalPages })
@@ -549,6 +564,7 @@ const searchPagedCollectionById = async ({
             limit ${limit}
             offset ${offset}`
     }
+    console.log(stmt)
     let result: {
         sign_id: number
         phrase: string

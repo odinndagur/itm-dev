@@ -116,6 +116,24 @@ export function SignCollectionPage() {
     }
     const navigate = useNavigate<MyLocationGenerics>()
 
+    const { data, isPlaceholderData, isLoading, isError } = useQuery({
+        queryKey: ['signs', searchValue, page, 'collectionId: ' + search.id],
+        queryFn: () =>
+            searchPagedCollectionById({
+                searchValue: searchValue ?? '',
+                collectionId: search.id,
+                page: page,
+            }),
+        keepPreviousData: true,
+    })
+
+    // if (isLoading) {
+    //     return ''
+    // }
+    // if (isError) {
+    //     return 'Error.'
+    // }
+
     return (
         <>
             <Header>
@@ -128,17 +146,17 @@ export function SignCollectionPage() {
                     />
                 </div>
             </Header>
-            {signCollection && (
+            {data && (
                 <div className="signlist" ref={scrollRef}>
                     <Pagination
-                        offset={signCollection.offset}
-                        totalPages={signCollection.totalPages}
-                        totalSignCount={signCollection.totalSignCount}
+                        offset={data.offset}
+                        totalPages={data.totalPages}
+                        totalSignCount={data.totalSignCount}
                         updatePage={updatePage}
-                        limit={signCollection.limit}
+                        limit={data.limit}
                         currentPage={page}
                     />
-                    {signCollection.signs.map((sign) => {
+                    {data.signs.map((sign) => {
                         return (
                             <div
                                 style={{
@@ -193,11 +211,11 @@ export function SignCollectionPage() {
                         )
                     })}
                     <Pagination
-                        offset={signCollection.offset}
-                        totalPages={signCollection.totalPages}
-                        totalSignCount={signCollection.totalSignCount}
+                        offset={data.offset}
+                        totalPages={data.totalPages}
+                        totalSignCount={data.totalSignCount}
                         updatePage={updatePage}
-                        limit={signCollection.limit}
+                        limit={data.limit}
                         currentPage={page}
                     />
                 </div>

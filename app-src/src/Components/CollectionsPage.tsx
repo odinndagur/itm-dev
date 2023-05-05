@@ -40,9 +40,10 @@ export function CollectionsPage() {
     } = useMatch<UserGenerics>()
 
     const { data, isPlaceholderData, isLoading, isError } = useQuery({
-        queryKey: ['collections', collectionsKey ?? null],
+        queryKey: ['collections', collectionsKey ?? null, collectionsKey],
         queryFn: () => getUserById(user!.id),
         keepPreviousData: true,
+        cacheTime: 0,
     })
 
     if (isLoading) {
@@ -55,9 +56,9 @@ export function CollectionsPage() {
         <>
             <Header></Header>
             <div className="" key={collectionsKey}>
-                <h1>{user?.name}</h1>
+                <h1>{data?.name}</h1>
                 <ul className="">
-                    {user?.collections.map((collection) => {
+                    {data?.collections.map((collection) => {
                         return (
                             <Link
                                 key={collection.id}

@@ -131,6 +131,7 @@ function App() {
                                             }),
                                         user: await getUserById(3),
                                     }),
+                                    loaderMaxAge: 0,
                                 },
                             ],
                             // element: <HomePage />,
@@ -234,12 +235,12 @@ function App() {
                         // },
                         {
                             path: 'settings',
-                            loaderMaxAge: 0,
 
                             element: <CollectionsPage />,
                             loader: async () => ({
                                 user: await getUserById(3),
                             }),
+                            loaderMaxAge: 0,
                         },
                         {
                             path: 'leit',
