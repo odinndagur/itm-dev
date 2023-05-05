@@ -36,53 +36,55 @@ export function Pagination({
     // < 1 2 3 4 5 6 ... 121 >
     return (
         <>
-            <div className="pagination">
-                <a
-                    onClick={() => updatePage(Math.max(1, currentPage - 1))}
-                    className=""
-                >
-                    &lt;
-                </a>
-                {firstLink != 1 && (
-                    <a onClick={() => updatePage(1)} className="">
-                        1
+            {totalPages > 1 && (
+                <div className="pagination">
+                    <a
+                        onClick={() => updatePage(Math.max(1, currentPage - 1))}
+                        className=""
+                    >
+                        &lt;
                     </a>
-                )}
-                {/* <a onClick={() => updatePage(firstLink)} className="">
+                    {firstLink != 1 && (
+                        <a onClick={() => updatePage(1)} className="">
+                            1
+                        </a>
+                    )}
+                    {/* <a onClick={() => updatePage(firstLink)} className="">
                     {firstLink}
                 </a> */}
-                {linkArr.map((index) => {
-                    return (
-                        <a
-                            key={index}
-                            className={index == currentPage ? 'active' : ''}
-                            onClick={() => updatePage(index)}
-                        >
-                            {index}
-                        </a>
-                    )
-                })}
+                    {linkArr.map((index) => {
+                        return (
+                            <a
+                                key={index}
+                                className={index == currentPage ? 'active' : ''}
+                                onClick={() => updatePage(index)}
+                            >
+                                {index}
+                            </a>
+                        )
+                    })}
 
-                {/* <a className="active">{currentPage}</a> */}
-                <a onClick={() => alert('velja')} className="">
-                    ...
-                </a>
-                {showLastLink && (
-                    <a onClick={() => updatePage(totalPages)} className="">
-                        {totalPages}
+                    {/* <a className="active">{currentPage}</a> */}
+                    <a onClick={() => alert('velja')} className="">
+                        ...
                     </a>
-                )}
-                <a
-                    onClick={() =>
-                        updatePage(Math.min(totalPages, currentPage + 1))
-                    }
-                >
-                    &gt;
-                </a>
-            </div>
-            <div className="center">
-                Sýni tákn {offset}-{offset + signCountOnPage} af{' '}
-                {totalSignCount}.
+                    {showLastLink && (
+                        <a onClick={() => updatePage(totalPages)} className="">
+                            {totalPages}
+                        </a>
+                    )}
+                    <a
+                        onClick={() =>
+                            updatePage(Math.min(totalPages, currentPage + 1))
+                        }
+                    >
+                        &gt;
+                    </a>
+                </div>
+            )}
+            <div className="center" style={{ padding: '0.5rem 0' }}>
+                Sýni tákn {totalSignCount > 0 ? offset + 1 : 0}-
+                {offset + signCountOnPage} af {totalSignCount}.
             </div>
         </>
     )

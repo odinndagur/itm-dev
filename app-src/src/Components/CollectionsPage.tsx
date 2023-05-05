@@ -54,13 +54,32 @@ export function CollectionsPage() {
     return (
         <>
             <Header></Header>
-            <div className="card">
+            <div className="">
                 <h1>{data?.name}</h1>
                 <ul className="">
                     {data?.collections.map((collection) => {
                         return (
-                            <li key={collection.id} className="card">
-                                {Object.keys(collection).map((key) => {
+                            <Link
+                                className="card"
+                                to={'/collection'}
+                                search={(old) => ({
+                                    ...old,
+                                    scroll: 0,
+                                    id: collection.id,
+                                })}
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                }}
+                            >
+                                <li key={collection.id}>
+                                    <div>{collection.name}</div>
+                                    {/* <div>{collection[key]}</div> */}
+                                </li>
+                            </Link>
+                        )
+                        {
+                            /* {Object.keys(collection).map((key) => {
                                     return (
                                         <Link
                                             to={'/collection'}
@@ -78,10 +97,11 @@ export function CollectionsPage() {
                                             <div>{collection[key]}</div>
                                         </Link>
                                     )
-                                })}
-                                {/* <div className="card">{collection.name}</div> */}
-                            </li>
-                        )
+                                })} */
+                        }
+                        {
+                            /* <div className="card">{collection.name}</div> */
+                        }
                     })}
                 </ul>
             </div>

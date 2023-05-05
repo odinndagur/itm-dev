@@ -6,6 +6,7 @@ import {
 } from '@tanstack/react-location'
 import { Menu, Transition } from '@headlessui/react'
 import './AppNavBar.css'
+import { StyleHTMLAttributes } from 'react'
 
 function NavItem({
     route,
@@ -14,6 +15,7 @@ function NavItem({
     type,
     style,
     className,
+    search,
 }: {
     route: string
     icon: string
@@ -21,15 +23,17 @@ function NavItem({
     type: 'footer' | 'header'
     style?: any
     className?: string
+    search?: any
 }) {
     return (
         <Link
             className={className + ' nav-item nav-item-' + type}
             to={route}
+            style={style}
             getActiveProps={() => ({
-                style: { fontWeight: 'bold' },
+                style: { ...style, fontWeight: 'bold' },
             })}
-            search={(old) => ({ ...old, scroll: 0 })}
+            search={(old) => ({ ...search, scroll: 0 })}
         >
             <div className="material-symbols-outlined">{icon}</div>
             <div className="nav-text">{name}</div>
@@ -45,8 +49,14 @@ export function AppNavBar({ type }: { type: 'footer' | 'header' }) {
             icon: 'sign_language',
             name: 'Öll tákn',
             type: type,
+            search: { id: 1 },
         },
-        { route: '/leit', icon: 'search', name: 'Leit', type: type },
+        {
+            route: '/leit',
+            icon: 'search',
+            name: 'Leit',
+            type: type,
+        },
         {
             route: '/settings',
             icon: 'account_box',
@@ -73,9 +83,9 @@ export function AppNavBar({ type }: { type: 'footer' | 'header' }) {
             currentRouteName = route.name
             console.log(route)
         } else {
-            currentRouteName = currentPathName
-                .replace(basePath!, '')
-                .replaceAll('/', '')
+            // currentRouteName = currentPathName
+            //     .replace(basePath!, '')
+            //     .replaceAll('/', '')
         }
     }
     return (
@@ -83,18 +93,39 @@ export function AppNavBar({ type }: { type: 'footer' | 'header' }) {
             {type == 'header' && (
                 <Menu
                     as={'div'}
+                    style={{}}
                     className="relative inline-block text-left small-menu"
                 >
                     <Menu.Button className="inline-flex w-full justify-center rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
                         {currentRouteName}
                     </Menu.Button>
-                    <Menu.Items className="absolute mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items
+                        style={{
+                            position: 'absolute',
+                            backgroundColor: 'var(--background-color)',
+
+                            top: 0,
+                            // left: '-100%',
+                            marginTop: '2rem',
+                            // width: '100%',
+                            // outline: '1px solid red',
+                        }}
+                        className="absolute mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                    >
                         {navItems.map((item) => {
                             return (
                                 <Menu.Item as="div" key={item.name}>
                                     {({ active }) => (
                                         <NavItem
                                             {...item}
+                                            style={{
+                                                display: 'flex',
+                                                width: 'max-content',
+                                                textAlign: 'center',
+                                                margin: 'auto',
+                                                backgroundColor:
+                                                    'var(--background-color)',
+                                            }}
                                             className={`${
                                                 active
                                                     ? 'bg-violet-500 text-white'

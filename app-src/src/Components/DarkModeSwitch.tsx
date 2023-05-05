@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react'
 import { ThemeContext } from './ThemeContext'
+
 //@ts-nocheck
 export function DarkModeSwitch({ setCurrentTheme }: { setCurrentTheme: any }) {
     const currentTheme = useContext(ThemeContext)
@@ -35,6 +36,7 @@ export function DarkModeSwitch({ setCurrentTheme }: { setCurrentTheme: any }) {
         //     })
         // }, 150)
     }
+
     return (
         <span
             role="button"

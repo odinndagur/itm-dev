@@ -31,6 +31,13 @@
     /* padding: 0 2rem; */
     /* margin-bottom: 2rem; */
 }
+
+.small-menu {
+    position: relative;
+    /* display: inline-block; */
+    background-color: var(--background-color);
+    width: max-content;
+}
 /* @media screen and ((display-mode: browser) and (min-width:501px)) {
     .app-navbar {
         display: none;
@@ -54,7 +61,6 @@
         display: inline-block;
     }
 }
-
 @media screen and (min-device-width: 200px) {
     .app-navbar {
         display: none;
