@@ -234,8 +234,9 @@ function App() {
                         // },
                         {
                             path: 'settings',
-                            element: <CollectionsPage />,
+                            loaderMaxAge: 0,
 
+                            element: <CollectionsPage />,
                             loader: async () => ({
                                 user: await getUserById(3),
                             }),

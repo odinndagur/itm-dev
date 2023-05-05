@@ -64,10 +64,19 @@ body {
     /* padding-top: env(safe-area-inset-top); */
     width: calc(min(100%, 800px));
     background-color: var(--background-color);
+    color: var(--main-text-color);
 }
 
 a {
     color: var(--main-text-color);
+}
+
+button {
+    background-color: var(--secondary-color);
+}
+
+ul li {
+    list-style: none;
 }
 
 #root {

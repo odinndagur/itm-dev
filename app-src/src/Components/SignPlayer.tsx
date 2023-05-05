@@ -20,6 +20,7 @@ export function SignPlayer(props: any) {
             playsinline: 0,
             controls: 0,
             // origin: 'https://odinndagur.github.io/itm-dev/',
+            origin: window.location.pathname,
         },
     }
     return (

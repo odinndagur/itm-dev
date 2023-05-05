@@ -75,13 +75,13 @@ export function AppNavBar({ type }: { type: 'footer' | 'header' }) {
     const basePath = useRouter().basepath
     let currentRouteName = 'Fara'
     for (let route of navItems) {
-        console.log(basePath, currentPathName)
+        // console.log(basePath, currentPathName)
         if (
             currentPathName.replace(basePath!, '').replaceAll('/', '') ==
             route.route.replaceAll('/', '')
         ) {
             currentRouteName = route.name
-            console.log(route)
+            // console.log(route)
         } else {
             // currentRouteName = currentPathName
             //     .replace(basePath!, '')

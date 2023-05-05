@@ -54,12 +54,13 @@ export function CollectionsPage() {
     return (
         <>
             <Header></Header>
-            <div className="">
-                <h1>{data?.name}</h1>
+            <div className="" key={collectionsKey}>
+                <h1>{user?.name}</h1>
                 <ul className="">
-                    {data?.collections.map((collection) => {
+                    {user?.collections.map((collection) => {
                         return (
                             <Link
+                                key={collection.id}
                                 className="card"
                                 to={'/collection'}
                                 search={(old) => ({
@@ -72,7 +73,7 @@ export function CollectionsPage() {
                                     justifyContent: 'space-between',
                                 }}
                             >
-                                <li key={collection.id}>
+                                <li>
                                     <div>{collection.name}</div>
                                     {/* <div>{collection[key]}</div> */}
                                 </li>
