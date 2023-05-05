@@ -124,6 +124,7 @@ export function SignCollectionPage() {
                 collectionId: search.id,
                 page: page,
             }),
+        staleTime: 0,
         keepPreviousData: true,
     })
 
