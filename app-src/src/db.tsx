@@ -37,6 +37,12 @@ const createCollection = async ({
     `)
 }
 
+const deleteCollection = async ({ collectionId }: { collectionId: number }) => {
+    exec(`
+    DELETE FROM collection WHERE collection.id = ${collectionId}
+    `)
+}
+
 const getSignByIdJson = async (id: number) => {
     console.log('getting sign by id with json: ' + id)
     const stmt = `
@@ -606,4 +612,5 @@ export {
     getUserById,
     getRandomSign,
     createCollection,
+    deleteCollection,
 }

@@ -7,7 +7,7 @@ import {
 } from '@tanstack/react-location'
 import { Header } from './Header'
 import { FormEvent, useState } from 'react'
-import { createCollection, getUserById } from '../db'
+import { createCollection, deleteCollection, getUserById } from '../db'
 import { useQuery } from '@tanstack/react-query'
 type UserGenerics = MakeGenerics<{
     LoaderData: {
@@ -22,6 +22,7 @@ type UserGenerics = MakeGenerics<{
 export function CollectionsPage() {
     const [collectionsKey, setCollectionsKey] = useState(0)
     const navigate = useNavigate()
+
     function handleSubmit(ev: FormEvent) {
         ev.preventDefault()
         const newCollectionName = ev.target.elements.name.value
@@ -35,6 +36,12 @@ export function CollectionsPage() {
         setCollectionsKey(collectionsKey + 1)
         console.log(ev.target.elements.name.value)
     }
+
+    function handleDeleteCollection(id) {
+        deleteCollection({ collectionId: id })
+        setCollectionsKey(collectionsKey + 1)
+    }
+
     const {
         data: { user },
     } = useMatch<UserGenerics>()
@@ -60,25 +67,39 @@ export function CollectionsPage() {
                 <ul className="">
                     {data?.collections.map((collection) => {
                         return (
-                            <Link
+                            <li
                                 key={collection.id}
                                 className="card"
-                                to={'/collection'}
-                                search={(old) => ({
-                                    ...old,
-                                    scroll: 0,
-                                    id: collection.id,
-                                })}
                                 style={{
                                     display: 'flex',
                                     justifyContent: 'space-between',
                                 }}
                             >
-                                <li>
+                                <Link
+                                    to={'/collection'}
+                                    search={(old) => ({
+                                        ...old,
+                                        scroll: 0,
+                                        id: collection.id,
+                                    })}
+                                    style={{
+                                        display: 'flex',
+                                        flexGrow: 1,
+                                        justifyContent: 'space-between',
+                                    }}
+                                >
                                     <div>{collection.name}</div>
                                     {/* <div>{collection[key]}</div> */}
-                                </li>
-                            </Link>
+                                </Link>
+                                <button
+                                    onClick={() =>
+                                        handleDeleteCollection(collection.id)
+                                    }
+                                    className="material-icons"
+                                >
+                                    delete
+                                </button>
+                            </li>
                         )
                         {
                             /* {Object.keys(collection).map((key) => {
