@@ -121,7 +121,7 @@ export function SignCollectionPage() {
         queryFn: () =>
             searchPagedCollectionById({
                 searchValue: searchValue ?? '',
-                collectionId: search.id,
+                collectionId: search.id ?? 1,
                 page: page,
             }),
         staleTime: 0,

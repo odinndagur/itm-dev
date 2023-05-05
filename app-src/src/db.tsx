@@ -1,4 +1,5 @@
 const query = async (query: string) => {
+    console.log(query)
     const result = await window.promiseWorker.postMessage({
         type: 'sql',
         query: query,
@@ -40,6 +41,9 @@ const createCollection = async ({
 const deleteCollection = async ({ collectionId }: { collectionId: number }) => {
     exec(`
     DELETE FROM collection WHERE collection.id = ${collectionId}
+    `)
+    exec(`
+    DELETE FROM sign_collection WHERE collection_id = ${collectionId}
     `)
 }
 
