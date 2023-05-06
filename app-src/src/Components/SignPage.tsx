@@ -239,7 +239,14 @@ function SignPage() {
               </div>
             </div>
           )}
+
         </div>
+          <div className='center pad'>
+<i>
+
+                      <a href={`https://is.signwiki.org/index.php?curid=${sign.id}`}>„{sign.phrase}“ á SignWiki</a>
+</i>
+          </div>
       </div>
       {(sign.islenska || sign.taknmal) && (
         <div className="card">
@@ -301,6 +308,7 @@ function SignPage() {
                 </Link>
               )
             })}
+
           </div>
         </div>
         
