@@ -51,12 +51,12 @@ export function AppNavBar({ type }: { type: 'footer' | 'header' }) {
             type: type,
             search: { id: 1 },
         },
-        {
-            route: '/leit',
-            icon: 'search',
-            name: 'Leit',
-            type: type,
-        },
+//        {
+//            route: '/leit',
+//            icon: 'search',
+//            name: 'Leit',
+//            type: type,
+//        },
         {
             route: '/settings',
             icon: 'account_box',
