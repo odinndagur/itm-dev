@@ -483,6 +483,7 @@ const searchPagedCollectionById = async ({
             sign.phrase as phrase,
             sign_video.video_id as youtube_id,
             sign_fts.related_signs as related_signs,
+            collection.name as collection_name,
             group_concat(multiCollection.id) as collections
             from sign
             join sign_fts
@@ -519,6 +520,7 @@ const searchPagedCollectionById = async ({
             sign.phrase as phrase,
             sign_video.video_id as youtube_id,
             sign_fts.related_signs as related_signs,
+            collection.name as collection_name,
             group_concat(collection.id) as collections
             from sign
             join sign_fts
@@ -558,6 +560,7 @@ const searchPagedCollectionById = async ({
             sign.phrase as phrase,
             sign_video.video_id as youtube_id,
             sign_fts.related_signs as related_signs,
+            collection.name as collection_name,
             group_concat(collection.id) as collections
             from sign_fts
             join sign on sign.id = sign_fts.id
@@ -588,7 +591,15 @@ const searchPagedCollectionById = async ({
         in_collection?: boolean
     }[] = await query(stmt)
     console.log(result)
-    return { signs: result, totalPages, totalSignCount, offset, limit }
+    const collection_name = result[0]?.collection_name
+    return {
+        signs: result,
+        totalPages,
+        totalSignCount,
+        offset,
+        limit,
+        collection_name,
+    }
 }
 
 const getRandomSign = async () => {
