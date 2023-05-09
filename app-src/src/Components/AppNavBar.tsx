@@ -31,7 +31,11 @@ function NavItem({
             to={route}
             style={style}
             getActiveProps={() => ({
-                style: { ...style, fontWeight: 'bold' },
+                style: {
+                    ...style,
+                    fontWeight: 'bold',
+                    color: 'var(--accent-color)',
+                },
             })}
             search={(old) => ({ ...search, scroll: 0 })}
         >
@@ -51,12 +55,12 @@ export function AppNavBar({ type }: { type: 'footer' | 'header' }) {
             type: type,
             search: { id: 1 },
         },
-//        {
-//            route: '/leit',
-//            icon: 'search',
-//            name: 'Leit',
-//            type: type,
-//        },
+        //        {
+        //            route: '/leit',
+        //            icon: 'search',
+        //            name: 'Leit',
+        //            type: type,
+        //        },
         {
             route: '/settings',
             icon: 'account_box',
