@@ -57,19 +57,12 @@ const queryClient = new QueryClient({
     },
 })
 
-const TestaSignById = () => {
-    const { test } = useSearch()
-    return (
-        <div>
-            <h1>{test}</h1>
-        </div>
-    )
-}
 function App() {
     const [promiseWorkerLoaded, setPromiseWorkerLoaded] = useState(false)
     const [currentTheme, setCurrentTheme] = useState(
         window.localStorage.getItem('theme_mode') ?? 'light'
     )
+    const [user, setUser] = useState()
     useEffect(() => {
         const intervalID = setInterval(() => {
             console.log('callback yo')
@@ -88,6 +81,7 @@ function App() {
     }, [])
 
     if (!promiseWorkerLoaded) {
+        return 'Hleð inn gögnum'
         return <PlaceholderScreen />
     }
     return (
@@ -102,14 +96,14 @@ function App() {
                     routes={[
                         {
                             path: '/',
-                            element: <HomePage />,
-                            loader: async ({ search }) => ({
-                                signs: await searchPagedCollectionById({
-                                    searchValue: search.query ?? '',
-                                    collectionId: search.collection ?? 1,
-                                    page: search.page ?? 1,
-                                }),
-                            }),
+                            element: <Navigate to={'/collection'} />,
+                            // loader: async ({ search }) => ({
+                            //     signs: await searchPagedCollectionById({
+                            //         searchValue: search.query ?? '',
+                            //         collectionId: search.collection ?? 1,
+                            //         page: search.page ?? 1,
+                            //     }),
+                            // }),
                         },
                         {
                             path: 'home',
@@ -214,17 +208,6 @@ function App() {
                             loader: async ({ search }) => ({
                                 sign: await getSignByIdJson(search.id),
                             }),
-                        },
-                        {
-                            path: 'sign',
-                            id: 'signByTest',
-                            element: <TestaSignById />,
-                            search: (search) => {
-                                return 'test' in search
-                            },
-                            // loader: async ({ search }) => ({
-                            //     sign: await getSignById(search.id),
-                            // }),
                         },
                         // {
                         //     path: 'settings',

@@ -28,18 +28,7 @@ import { AppNavBar } from './AppNavBar'
 import { Header } from './Header'
 import { SignCollectionGenerics } from './Generics'
 
-type MyLocationGenerics = MakeGenerics<{
-    Search: {
-        page?: number
-        query?: string
-        scroll?: number
-        lastSearch?: {
-            page?: number
-            query?: string
-            scroll?: number
-        }
-    }
-}>
+import { MyLocationGenerics } from './Generics'
 
 export function SignCollectionPage() {
     const {

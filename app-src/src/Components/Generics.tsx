@@ -1,15 +1,16 @@
 import { MakeGenerics } from '@tanstack/react-location'
 
-type MyLocationGenerics = MakeGenerics<{
+export type MyLocationGenerics = MakeGenerics<{
     Search: {
         page?: number
         query?: string
         scroll?: number
-        lastSearch: { page?: number; query?: string; scroll: number }
+        lastSearch?: { page?: number; query?: string; scroll?: number }
+        id?: number
     }
 }>
 
-type SignGenerics = MakeGenerics<{
+export type SignGenerics = MakeGenerics<{
     LoaderData: {
         sign?: {
             id: string
@@ -22,7 +23,7 @@ type SignGenerics = MakeGenerics<{
         }
     }
 }>
-type SignCollectionGenerics = MakeGenerics<{
+export type SignCollectionGenerics = MakeGenerics<{
     LoaderData: {
         signCollection?: {
             signs: {
@@ -41,5 +42,3 @@ type SignCollectionGenerics = MakeGenerics<{
         }
     }
 }>
-
-export type { MyLocationGenerics, SignGenerics, SignCollectionGenerics }
