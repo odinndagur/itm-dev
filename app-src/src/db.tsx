@@ -1,5 +1,7 @@
+const DB_CONSOLE_LOGS = true
+
 const query = async (query: string) => {
-    console.log(query)
+    DB_CONSOLE_LOGS && console.log(query)
     const result = await window.promiseWorker.postMessage({
         type: 'sql',
         query: query,
@@ -8,7 +10,7 @@ const query = async (query: string) => {
 }
 
 const exec = async (query: string) => {
-    console.log(query)
+    DB_CONSOLE_LOGS && console.log(query)
 
     window.promiseWorker.postMessage({ type: 'exec', query: query })
 }
@@ -106,7 +108,7 @@ const getSignByIdJson = async (id: number) => {
         .map((video: any) => {
             return video.video_id
         })
-    // console.log(sign)
+    DB_CONSOLE_LOGS && console.log(sign)
     return sign
 }
 
@@ -127,11 +129,11 @@ const getUserById = async (id: number) => {
     `
     const users = await query(stmt)
     let user: {
-        id: string
+        id: number
         name: string
         collections: { id: number; name: string }[]
     } = JSON.parse(users[0].user_json)
-    console.log(user)
+    DB_CONSOLE_LOGS && console.log(user)
     return user
 }
 
@@ -579,7 +581,7 @@ const searchPagedCollectionById = async ({
             limit ${limit}
             offset ${offset}`
     }
-    console.log(stmt)
+    DB_CONSOLE_LOGS && console.log(stmt)
     let result: {
         sign_id: number
         phrase: string
@@ -590,7 +592,7 @@ const searchPagedCollectionById = async ({
         collection_name?: string
         in_collection?: boolean
     }[] = await query(stmt)
-    console.log(result)
+    DB_CONSOLE_LOGS && console.log(result)
     const collection_name = result[0]?.collection_name
     return {
         signs: result,

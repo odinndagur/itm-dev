@@ -11,55 +11,56 @@ export default defineConfig({
         }),
         VitePWA({
             registerType: 'autoUpdate',
-            devOptions: {
-                enabled: true,
-            },
+            // devOptions: {
+            //     enabled: true,
+            // },
+            base: '/itm-dev/',
             manifest: {
-                "name": "Íslenskt táknmál",
-                "short_name": "ÍTM",
-                "start_url": "/itm-dev/",
-                "display": "standalone",
-                "theme_color": "#FFFFFF",
-                "background_color": "#FFFFFF",
-                "icons": [
+                name: 'Íslenskt táknmál',
+                short_name: 'ÍTM',
+                start_url: '/itm-dev/',
+                display: 'standalone',
+                theme_color: '#FFFFFF',
+                background_color: '#FFFFFF',
+                icons: [
                     {
-                        "src": "images/android-chrome-512x512.png",
-                        "sizes": "512x512",
-                        "type": "image/png",
-                        "purpose": "any"
+                        src: 'assets/images/android-chrome-512x512.png',
+                        sizes: '512x512',
+                        type: 'image/png',
+                        purpose: 'any',
                     },
                     {
-                        "src": "images/manifest-icon-192.maskable.png",
-                        "sizes": "192x192",
-                        "type": "image/png",
-                        "purpose": "any"
+                        src: 'assets/images/manifest-icon-192.maskable.png',
+                        sizes: '192x192',
+                        type: 'image/png',
+                        purpose: 'any',
                     },
                     {
-                        "src": "images/manifest-icon-192.maskable.png",
-                        "sizes": "192x192",
-                        "type": "image/png",
-                        "purpose": "maskable"
+                        src: 'assets/images/manifest-icon-192.maskable.png',
+                        sizes: '192x192',
+                        type: 'image/png',
+                        purpose: 'maskable',
                     },
                     {
-                        "src": "images/manifest-icon-512.maskable.png",
-                        "sizes": "512x512",
-                        "type": "image/png",
-                        "purpose": "any"
+                        src: 'assets/images/manifest-icon-512.maskable.png',
+                        sizes: '512x512',
+                        type: 'image/png',
+                        purpose: 'any',
                     },
                     {
-                        "src": "images/manifest-icon-512.maskable.png",
-                        "sizes": "512x512",
-                        "type": "image/png",
-                        "purpose": "maskable"
-                    }
-                ]
+                        src: 'assets/images/manifest-icon-512.maskable.png',
+                        sizes: '512x512',
+                        type: 'image/png',
+                        purpose: 'maskable',
+                    },
+                ],
             },
-            
+
             // manifestFilename:'/itm-dev/manifest.webmanifest',
             workbox: {
                 globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg}'],
                 navigateFallback: 'index.html',
-                maximumFileSizeToCacheInBytes:70000000,
+                maximumFileSizeToCacheInBytes: 70000000,
                 runtimeCaching: [
                     {
                         urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
