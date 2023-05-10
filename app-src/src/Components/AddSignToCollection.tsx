@@ -8,7 +8,7 @@ export function AddSignToCollection({
     collections: { id: number; name: string }[]
 }) {
     return (
-        <div>
+        <div style={{ zIndex: 5 }}>
             <div className="">
                 <Listbox value={'nett'}>
                     <div className="">

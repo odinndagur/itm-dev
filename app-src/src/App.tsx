@@ -51,7 +51,7 @@ const reactLocation = new ReactLocation()
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
-            staleTime: 1000 * 60 * 5,
+            // staleTime: 1000 * 60 * 5,
             networkMode: 'offlineFirst',
         },
     },
@@ -183,6 +183,7 @@ function App() {
                                     element: <SignPage />,
                                     loader: async ({ params }) => ({
                                         sign: await getSignByIdJson(params.id),
+                                        user: await getUserById(3),
                                     }),
                                 },
                             ],
@@ -207,6 +208,7 @@ function App() {
                             },
                             loader: async ({ search }) => ({
                                 sign: await getSignByIdJson(search.id),
+                                user: await getUserById(3),
                             }),
                         },
                         // {

@@ -21,6 +21,14 @@ export type SignGenerics = MakeGenerics<{
             myndunarstadur: string
             ordflokkur: string
         }
+        user?: {
+            id: number
+            name: string
+            collections: {
+                id: number
+                name: string
+            }[]
+        }
     }
 }>
 export type SignCollectionGenerics = MakeGenerics<{
