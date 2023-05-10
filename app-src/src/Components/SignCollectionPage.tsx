@@ -110,7 +110,7 @@ export function SignCollectionPage() {
         queryFn: () =>
             searchPagedCollectionById({
                 searchValue: searchValue ?? '',
-                collectionId: search.id ?? signCollection ? signCollection!.signs[0].collection_id : 1,
+                collectionId: search.id ?? 1,
                 page: search.page ?? 1,
             }),
         staleTime: 0,
