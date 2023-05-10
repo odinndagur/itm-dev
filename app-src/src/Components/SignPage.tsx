@@ -161,6 +161,7 @@ function SignPage() {
                     <div
                         style={{
                             display: 'flex',
+zIndex:5,
                             margin: 'auto',
                             justifyContent: 'center',
                             alignItems: 'center',
