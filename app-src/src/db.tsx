@@ -40,6 +40,10 @@ const createCollection = async ({
     INSERT INTO collection(name,user_id)
     VALUES ("${collectionName}",${userId})
     `)
+    const new_collection_id = await query(`
+    SELECT id FROM collection WHERE name = ${collectionName}
+    `)
+    return new_collection_id[0].id
 }
 
 const deleteCollection = async ({ collectionId }: { collectionId: number }) => {

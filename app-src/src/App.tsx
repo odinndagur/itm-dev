@@ -12,6 +12,8 @@ import {
     searchPagedCollectionById,
     getUserById,
     getRandomSign,
+    createCollection,
+    addSignToCollection,
 } from './db'
 // import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import {
@@ -45,6 +47,7 @@ import { CollectionsPage } from './Components/CollectionsPage'
 import { RandomSign } from './Components/RandomSign'
 import { SignCollectionPage } from './Components/SignCollectionPage'
 import { HeadlessUITest } from './Components/HeadlessUITest'
+import Sign from './Components/Sign'
 
 const reactLocation = new ReactLocation()
 
@@ -125,6 +128,25 @@ function App() {
                                             }),
                                         user: await getUserById(3),
                                     }),
+                                    loaderMaxAge: 0,
+                                },
+                                {
+                                    search: (search) => 'ids' in search,
+                                    element: <SignCollectionPage />,
+                                    loader: async ({ search }) => {
+                                        const new_collection_id = await createCollection({userId:3,collectionName:search.name ?? 'temp'})
+                                        search.ids.forEach((id: number) => {
+                                            addSignToCollection({signId:id,collectionId:new_collection_id})
+                                        })
+                                        return {
+                                        signCollection:
+                                            await searchPagedCollectionById({
+                                                collectionId: new_collection_id,
+                                                page: search.page ?? 1,
+                                                searchValue: search.query ?? '',
+                                            }),
+                                        user: await getUserById(3),
+                                    }},
                                     loaderMaxAge: 0,
                                 },
                             ],
