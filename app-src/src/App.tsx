@@ -81,7 +81,7 @@ function App() {
     }, [])
 
     if (!promiseWorkerLoaded) {
-        return 'Hleð inn gögnum'
+        return
         return <PlaceholderScreen />
     }
     return (
