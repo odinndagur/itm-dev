@@ -139,13 +139,13 @@
     display: flex;
     flex-direction: row;
     font-size: large;
-    justify-content: space-between;
+    justify-content: space-evenly;
 }
 
 .nav-item-header {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
     border: none;
 }
 

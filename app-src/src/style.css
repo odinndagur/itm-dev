@@ -95,17 +95,13 @@ header {
     position: sticky;
     text-align: center;
     /* padding-top: calc(env(safe-area-inset-top, 3rem) + 1em); */
-    padding-bottom: 1rem;
+    padding-bottom: 0.5rem;
     /* margin-bottom: 2rem; */
     /* padding-bottom: env(safe-area-inset-bottom,0.3rem);
     padding-right: env(safe-area-inset-right,0.3rem);
     padding-left: env(safe-area-inset-left,0.3rem); */
     padding-top: env(safe-area-inset-top);
-    /* box-sizing: border-box; */
     top: 0;
-    /* top: 0; */
-    /* flex-shrink: 0; */
-    /* margin: 2rem 1rem; */
     background-color: var(--background-color);
     z-index: 10;
 }
@@ -119,8 +115,8 @@ header {
     text-align: center;
     color: var(--main-text-color);
     font-family: 'Faustina';
-    font-size: 30pt;
-    font-style: italic;
+    font-size: 2rem;
+    /* font-style: italic; */
     /* padding: 1rem 1rem; */
 }
 

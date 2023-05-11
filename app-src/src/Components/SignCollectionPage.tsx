@@ -201,10 +201,12 @@ export function SignCollectionPage() {
                                     </div>
                                     {/* </div> */}
                                 </Link>
-                                <AddSignToCollection
-                                    id={sign.sign_id}
-                                    collections={user.collections}
-                                />
+                                <div>
+                                    <AddSignToCollection
+                                        id={sign.sign_id}
+                                        collections={user.collections}
+                                    />
+                                </div>
                             </div>
                         )
                     })}
