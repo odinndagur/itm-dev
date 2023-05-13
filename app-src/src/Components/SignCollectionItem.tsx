@@ -4,6 +4,7 @@ import { AddSignToCollection } from './AddSignToCollection'
 export function SignCollectionItem({ sign, user }) {
     return (
         <div
+            draggable
             style={{
                 margin: 'auto',
                 // width: '100vw',
@@ -16,6 +17,7 @@ export function SignCollectionItem({ sign, user }) {
             key={sign.sign_id}
         >
             <Link
+                draggable
                 to={`/itm-dev/signs/${sign.sign_id}`}
                 search={(search) => ({
                     lastSearch: {
