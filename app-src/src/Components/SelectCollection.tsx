@@ -1,7 +1,8 @@
 import { Listbox } from '@headlessui/react'
-import { Link } from '@tanstack/react-location'
+import { Link, useNavigate } from '@tanstack/react-location'
 
 export function SelectCollection({ currentCollection, collections }) {
+    const navigate = useNavigate()
     return (
         <div style={{ zIndex: 50 }}>
             <Listbox value={currentCollection}>
@@ -35,19 +36,20 @@ export function SelectCollection({ currentCollection, collections }) {
                         >
                             {({ selected }) => (
                                 <>
-                                    <Link
-                                        className={selected ? 'active' : ''}
-                                        to={`/collection`}
-                                        search={(search) => ({
-                                            // lastSearch: {
-                                            //     ...search,
-                                            // },
-                                            scroll: 0,
-                                            id: collection.id,
-                                        })}
+                                    <span
+                                        onClick={() => {
+                                            navigate({
+                                                search: (search) => ({
+                                                    ...search,
+                                                    id: collection.id,
+                                                    scroll: 0,
+                                                }),
+                                            })
+                                            console.log('lol')
+                                        }}
                                     >
                                         {collection.name}
-                                    </Link>
+                                    </span>
                                 </>
                             )}
                         </Listbox.Option>

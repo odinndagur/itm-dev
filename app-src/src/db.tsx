@@ -123,7 +123,8 @@ const getUserById = async (id: number) => {
         ) as user_json
         FROM user
         LEFT JOIN collection
-        ON user.id = collection.user_id
+        ON collection.id = 1
+        OR user.id = collection.user_id
         WHERE user.id = ${id}
         GROUP BY user.id
     `
