@@ -23,9 +23,13 @@ export function AddSignToCollection({
                         <Listbox.Options
                             style={{
                                 position: 'absolute',
-                                maxHeight: '60%',
-                                width: 'fit-content',
+                                // padding: '0 1rem 0 0',
+                                // marginRight: '1rem',
+                                maxHeight: '40vh',
+                                overflowY: 'scroll',
+                                right: 0,
                                 backgroundColor: 'var(--background-color)',
+                                // backgroundColor: 'red',
                                 cursor: 'pointer',
                             }}
                             // className="absolute max-h-60 overflow-auto rounded-md bg-white divide-y"
@@ -35,7 +39,8 @@ export function AddSignToCollection({
                                     key={collection.id}
                                     style={{
                                         position: 'relative',
-                                        right: '50%',
+
+                                        // right: '50%',
                                         textAlign: 'center',
                                         backgroundColor:
                                             'var(--background-color)',

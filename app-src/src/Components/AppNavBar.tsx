@@ -100,17 +100,30 @@ export function AppNavBar({ type }: { type: 'footer' | 'header' }) {
                     style={{}}
                     className="relative inline-block text-left small-menu"
                 >
-                    <Menu.Button className="inline-flex w-full justify-center rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+                    <Menu.Button
+                        style={{
+                            padding: '0.5rem',
+                            borderRadius: '10px',
+                            margin: '0.5rem',
+                            minBlockSize: '1.3rem',
+                            color: 'var(--main-text-color)',
+                        }}
+                        className="inline-flex w-full justify-center rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                    >
                         {currentRouteName}
                     </Menu.Button>
                     <Menu.Items
                         style={{
                             position: 'absolute',
                             backgroundColor: 'var(--background-color)',
-
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-evenly',
+                            width: '100%',
                             top: 0,
                             // left: '-100%',
-                            marginTop: '2rem',
+                            margin: 'auto',
+                            // marginTop: '2rem',
                             // width: '100%',
                             // outline: '1px solid red',
                         }}
@@ -129,6 +142,8 @@ export function AppNavBar({ type }: { type: 'footer' | 'header' }) {
                                                 margin: 'auto',
                                                 backgroundColor:
                                                     'var(--background-color)',
+                                                padding: '0.2rem 0.5rem',
+                                                flexBasis: '100%',
                                             }}
                                             className={`${
                                                 active

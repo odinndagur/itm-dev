@@ -29,6 +29,7 @@ import { Header } from './Header'
 import { SignCollectionGenerics } from './Generics'
 
 import { MyLocationGenerics } from './Generics'
+import { SignCollectionItem } from './SignCollectionItem'
 
 export function SignCollectionPage() {
     const {
@@ -127,14 +128,7 @@ export function SignCollectionPage() {
     return (
         <>
             <Header>
-                {data && (
-                    <h1>
-                        {data?.signs[0]?.collection_name}
-                        {/* {'collection_name' in data.signs[0]
-                            ? data.signs[0].collection_name
-                            : null} */}
-                    </h1>
-                )}
+                {data && <h1>{data?.signs[0]?.collection_name}</h1>}
                 <div className="search">
                     <input
                         onChange={(event) => handleSearch(event.target.value)}
@@ -155,60 +149,7 @@ export function SignCollectionPage() {
                         currentPage={page}
                     />
                     {data.signs.map((sign) => {
-                        return (
-                            <div
-                                style={{
-                                    margin: 'auto',
-                                    // width: '100vw',
-                                    // height: 'max-content',
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                }}
-                                className="card"
-                                key={sign.sign_id}
-                            >
-                                <Link
-                                    to={`/itm-dev/signs/${sign.sign_id}`}
-                                    search={(search) => ({
-                                        lastSearch: {
-                                            ...search,
-                                        },
-                                        scroll: 0,
-                                    })}
-                                    style={{
-                                        // border: '1px solid red',
-                                        minHeight: '2rem',
-                                        flexGrow: 1,
-                                    }}
-                                >
-                                    {/* <div
-                                        className=""
-                                        style={{
-                                            border: '1px solid red',
-                                            flexGrow: 1,
-                                        }}
-                                    > */}
-                                    <b>{sign.phrase}</b>
-                                    <div>
-                                        <i>
-                                            {sign.related_signs
-                                                ? sign.related_signs
-                                                      .split(',')
-                                                      .join(', ')
-                                                : sign.related_signs}
-                                        </i>
-                                    </div>
-                                    {/* </div> */}
-                                </Link>
-                                <div>
-                                    <AddSignToCollection
-                                        id={sign.sign_id}
-                                        collections={user.collections}
-                                    />
-                                </div>
-                            </div>
-                        )
+                        return <SignCollectionItem sign={sign} user={user} />
                     })}
                     <Pagination
                         offset={data.offset}
