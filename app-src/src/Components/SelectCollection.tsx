@@ -11,7 +11,7 @@ export function SelectCollection({ currentCollection, collections }) {
                     as="div"
                     style={{ cursor: 'pointer', textDecoration: 'underline' }}
                 >
-                    {currentCollection && <h1>{currentCollection}</h1>}
+                    {currentCollection && <h2>{currentCollection}</h2>}
                 </Listbox.Button>
                 <Listbox.Options
                     style={{

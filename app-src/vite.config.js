@@ -58,7 +58,8 @@ export default defineConfig({
 
             // manifestFilename:'/itm-dev/manifest.webmanifest',
             workbox: {
-                globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg}'],
+                // globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg}'],
+                globPatterns: ['**/*.{js,html,ico,png,svg,jpg,jpeg}'],
                 navigateFallback: 'index.html',
                 maximumFileSizeToCacheInBytes: 70000000,
                 runtimeCaching: [

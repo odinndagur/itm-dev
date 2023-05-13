@@ -3,7 +3,7 @@ import { AppNavBar } from './AppNavBar'
 
 export function Header({ children }: { children?: any }) {
     return (
-        <header>
+        <header style={{ backgroundColor: 'var(--background-color)' }}>
             <Link
                 to={'/'}
                 search={(old) => ({ ...old, scroll: 0 })}
