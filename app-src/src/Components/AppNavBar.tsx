@@ -34,7 +34,7 @@ function NavItem({
                 style: {
                     ...style,
                     fontWeight: 'bold',
-                    // color: 'var(--accent-color)',
+                    color: 'var(--background-color)',
                 },
             })}
             search={(old) => ({ ...search, scroll: 0 })}
