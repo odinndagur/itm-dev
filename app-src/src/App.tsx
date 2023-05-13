@@ -62,7 +62,7 @@ function App() {
     const [currentTheme, setCurrentTheme] = useState(
         window.localStorage.getItem('theme_mode') ?? 'light'
     )
-    const [user, setUser] = useState()
+    const [user, setUser] = useState(3)
     useEffect(() => {
         const intervalID = setInterval(() => {
             console.log('callback yo')
@@ -174,6 +174,7 @@ function App() {
                                                         params.phrase
                                                     )
                                                 ),
+                                                user: await getUserById(3),
                                             }),
                                         },
                                     ],
@@ -197,6 +198,7 @@ function App() {
                             },
                             loader: async ({ search }) => ({
                                 sign: await getSignByPhrase(search.phrase),
+                                user: await getUserById(3),
                             }),
                         },
                         {

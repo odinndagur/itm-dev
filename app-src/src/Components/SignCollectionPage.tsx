@@ -149,7 +149,13 @@ export function SignCollectionPage() {
                         currentPage={page}
                     />
                     {data.signs.map((sign) => {
-                        return <SignCollectionItem sign={sign} user={user} />
+                        return (
+                            <SignCollectionItem
+                                key={sign.id}
+                                sign={sign}
+                                user={user}
+                            />
+                        )
                     })}
                     <Pagination
                         offset={data.offset}

@@ -40,16 +40,28 @@ type SignGenerics = MakeGenerics<{
 }>
 
 function process_description(description: string) {
-    const matches = description.matchAll(/\[\[[a-zA-Z0-9| \p{L}]*\]\]/gmu)
+    const matches = description.matchAll(/\[?\[[a-zA-Z0-9|/ \p{L}]*\]?\]/gmu)
     let output = []
     let temp_last
     for (let match of matches) {
         console.log(match[0])
         // console.log(matches)
-        const word = match[0].includes('|')
-            ? match[0].split('|')[0].replace('[[', '').replace(']]', '')
-            : match[0].replace('[[', '').replace(']]', '')
-        console.log(word)
+        let word = match[0]
+        if (word.includes('|')) {
+            word = word.split('|')[0]
+        } else if (word.includes('/')) {
+            word = word.split('/')[0]
+        }
+        word = word
+            .replace('[[', '')
+            .replace(']]', '')
+            .replace('[', '')
+            .replace(']', '')
+
+        // const word = match[0].includes('|')
+        //     ? match[0].split('|')[0].replace('[[', '').replace(']]', '')
+        //     : match[0].replace('[[', '').replace(']]', '')
+        // console.log(word)
         // console.log({ description: description, match: match[0] })
         const [before, _] = description.split(match[0])
         description = description.replace(before, '')
