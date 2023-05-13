@@ -37,45 +37,47 @@ export function AddSignToCollection({
                             }}
                             // className="absolute max-h-60 overflow-auto rounded-md bg-white divide-y"
                         >
-                            {collections.map((collection, collectionIdx) => (
-                                <Listbox.Option
-                                    key={collection.id}
-                                    style={{
-                                        position: 'relative',
-                                        // backgroundColor: 'red',
-                                        transform: 'translateX(-100%)',
+                            {collections
+                                .filter((collection) => collection.id != 1)
+                                .map((collection, collectionIdx) => (
+                                    <Listbox.Option
+                                        key={collection.id}
+                                        style={{
+                                            position: 'relative',
+                                            // backgroundColor: 'red',
+                                            transform: 'translateX(-100%)',
 
-                                        // right: '50%',
-                                        textAlign: 'center',
-                                        backgroundColor:
-                                            'var(--background-color)',
-                                        borderBottom: '1px solid gray',
-                                        padding: '0.5rem 0.5rem',
-                                    }}
-                                    value={collection.id}
-                                >
-                                    {({ selected }) => (
-                                        <>
-                                            <span
-                                                onClick={() =>
-                                                    addSignToCollection({
-                                                        signId: id,
-                                                        collectionId:
-                                                            collection.id,
-                                                    })
-                                                }
-                                                className={`block truncate ${
-                                                    selected
-                                                        ? 'font-medium'
-                                                        : 'font-normal'
-                                                }`}
-                                            >
-                                                {collection.name}
-                                            </span>
-                                        </>
-                                    )}
-                                </Listbox.Option>
-                            ))}
+                                            // right: '50%',
+                                            textAlign: 'center',
+                                            backgroundColor:
+                                                'var(--background-color)',
+                                            borderBottom: '1px solid gray',
+                                            padding: '0.5rem 0.5rem',
+                                        }}
+                                        value={collection.id}
+                                    >
+                                        {({ selected }) => (
+                                            <>
+                                                <span
+                                                    onClick={() =>
+                                                        addSignToCollection({
+                                                            signId: id,
+                                                            collectionId:
+                                                                collection.id,
+                                                        })
+                                                    }
+                                                    className={`block truncate ${
+                                                        selected
+                                                            ? 'font-medium'
+                                                            : 'font-normal'
+                                                    }`}
+                                                >
+                                                    {collection.name}
+                                                </span>
+                                            </>
+                                        )}
+                                    </Listbox.Option>
+                                ))}
                         </Listbox.Options>
                         {/* </Transition> */}
                     </div>
