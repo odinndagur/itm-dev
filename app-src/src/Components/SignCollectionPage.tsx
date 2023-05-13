@@ -30,6 +30,7 @@ import { SignCollectionGenerics } from './Generics'
 
 import { MyLocationGenerics } from './Generics'
 import { SignCollectionItem } from './SignCollectionItem'
+import { SelectCollection } from './SelectCollection'
 
 export function SignCollectionPage() {
     const {
@@ -128,7 +129,11 @@ export function SignCollectionPage() {
     return (
         <>
             <Header>
-                {data && <h1>{data?.signs[0]?.collection_name}</h1>}
+                {/* {data && <h1>{data?.signs[0]?.collection_name}</h1>} */}
+                <SelectCollection
+                    currentCollection={data?.signs[0]?.collection_name}
+                    collections={user.collections}
+                />
                 <div className="search">
                     <input
                         onChange={(event) => handleSearch(event.target.value)}
