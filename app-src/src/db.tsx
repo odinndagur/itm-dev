@@ -466,18 +466,18 @@ const searchPagedCollectionById = async ({
 }) => {
     const limit = 100
     const offset = (page - 1) * limit
-    const userCollection = 3
     let stmt = ''
     let totalSignCount = 0
     let totalPages = 0
     if (!searchValue) {
-        const tempCount = await query(`select count(*) as sign_count from sign
-        join sign_fts
-        on sign.id = sign_fts.id
-        left join sign_collection on sign.id = sign_collection.sign_id
-        left join collection
-        on collection.id = sign_collection.collection_id
-        where collection.id = ${collectionId}
+        const tempCount = await query(`
+            select count(*) as sign_count from sign
+            join sign_fts
+            on sign.id = sign_fts.id
+            left join sign_collection on sign.id = sign_collection.sign_id
+            left join collection
+            on collection.id = sign_collection.collection_id
+            where collection.id = ${collectionId}
         `)
         totalSignCount = tempCount[0].sign_count
         totalPages = Math.ceil(totalSignCount / limit)
@@ -501,7 +501,12 @@ const searchPagedCollectionById = async ({
             ON sign.id = sign_video.sign_id
             where collection.id = ${collectionId}
             group by sign.id
-            order by sign.phrase asc
+            order by 
+                ${
+                    collectionId == 1
+                        ? 'sign.phrase asc'
+                        : 'sign_collection.date_added'
+                }
             limit ${limit}
             offset ${offset}`
     }
@@ -539,7 +544,14 @@ const searchPagedCollectionById = async ({
             where sign.phrase like "%${searchValue.substring(1)}%"
             and collection.id = ${collectionId}
             group by sign.id
-            order by levenshtein(sign.phrase,${searchValue.substring(1)}) asc
+            order by 
+                ${
+                    collectionId == 1
+                        ? `levenshtein(sign.phrase,${searchValue.substring(
+                              1
+                          )}) asc`
+                        : 'sign_collection.date_added'
+                }
             limit ${limit}
             offset ${offset}`
     }
@@ -578,7 +590,14 @@ const searchPagedCollectionById = async ({
             where sign_fts match "${searchValue}"
             and collection.id = ${collectionId}
             group by sign.id
-            order by levenshtein(sign.phrase,"${searchValue.substring(1)}") asc
+            order by 
+                ${
+                    collectionId == 1
+                        ? `levenshtein(sign.phrase,${searchValue.substring(
+                              1
+                          )}) asc`
+                        : 'sign_collection.date_added'
+                }
             limit ${limit}
             offset ${offset}`
     }

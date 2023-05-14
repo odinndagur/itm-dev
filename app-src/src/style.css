@@ -121,10 +121,6 @@ header {
     /* padding: 1rem 1rem; */
 }
 
-.app {
-    /* height: 100%; */
-}
-
 .material-icons {
     color: var(--main-text-color);
 }
