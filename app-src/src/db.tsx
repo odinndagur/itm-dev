@@ -543,7 +543,7 @@ const searchPagedCollectionById = async ({
             ON sign.id = sign_video.sign_id
             where sign.phrase like "%${searchValue.substring(1)}%"
             and collection.id = ${collectionId}
-            group by sign.id
+            group by sign_collection.sign_id
             order by 
                 ${
                     collectionId == 1
@@ -589,7 +589,7 @@ const searchPagedCollectionById = async ({
             ON sign.id = sign_video.sign_id
             where sign_fts match "${searchValue}"
             and collection.id = ${collectionId}
-            group by sign.id
+            group by sign_collection.sign_.id
             order by 
                 ${
                     collectionId == 1
