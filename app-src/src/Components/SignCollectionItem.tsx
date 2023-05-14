@@ -59,6 +59,11 @@ export function SignCollectionItem({
             </Link>
             <div>
                 <div>
+                    <AddSignToCollection
+                        id={sign.sign_id}
+                        collections={user.collections}
+                    />
+
                     {currentCollection != 1 && (
                         <button
                             className=""
@@ -79,10 +84,6 @@ export function SignCollectionItem({
                             <span className="material-icons">remove</span>
                         </button>
                     )}
-                    <AddSignToCollection
-                        id={sign.sign_id}
-                        collections={user.collections}
-                    />
                 </div>
             </div>
         </div>
