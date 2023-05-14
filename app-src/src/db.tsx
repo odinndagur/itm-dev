@@ -584,7 +584,7 @@ const searchPagedCollectionById = async ({
     }
     DB_CONSOLE_LOGS && console.log(stmt)
     let result: {
-        sign_id: number
+        id: number
         phrase: string
         youtube_id: string
         related_signs: string

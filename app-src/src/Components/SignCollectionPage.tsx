@@ -26,7 +26,7 @@ import {
 } from '@tanstack/react-query'
 import { AppNavBar } from './AppNavBar'
 import { Header } from './Header'
-import { SignCollectionGenerics } from './Generics'
+import { SignCollectionGenerics, SignGenerics } from './Generics'
 
 import { MyLocationGenerics } from './Generics'
 import { SignCollectionItem } from './SignCollectionItem'
@@ -35,7 +35,7 @@ import { SelectCollection } from './SelectCollection'
 export function SignCollectionPage() {
     const {
         data: { signCollection, user },
-    } = useMatch<SignCollectionGenerics>()
+    } = useMatch<SignCollectionGenerics & SignGenerics>()
     const inputRef = useRef<HTMLInputElement>(null)
     const [page, setPage] = useState(1)
     const scrollRef = useRef<HTMLDivElement>(null)
@@ -131,8 +131,13 @@ export function SignCollectionPage() {
             <Header>
                 {/* {data && <h1>{data?.signs[0]?.collection_name}</h1>} */}
                 <SelectCollection
-                    currentCollection={data?.signs[0]?.collection_name}
-                    collections={user.collections}
+                    // currentCollection={data?.signs[0]?.collection_name}
+                    currentCollection={
+                        user?.collections?.find(
+                            (collection) => collection.id == search.id
+                        )?.name
+                    }
+                    collections={user?.collections}
                 />
                 <div className="search">
                     <input

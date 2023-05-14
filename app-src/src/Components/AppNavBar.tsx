@@ -34,7 +34,8 @@ function NavItem({
                 style: {
                     ...style,
                     fontWeight: 'bold',
-                    color: 'var(--background-color)',
+                    color: 'black',
+                    // color: 'var(--background-color)',
                 },
             })}
             search={(old) => ({ ...search, scroll: 0 })}
@@ -114,11 +115,12 @@ export function AppNavBar({ type }: { type: 'footer' | 'header' }) {
                     </Menu.Button>
                     <Menu.Items
                         style={{
-                            position: 'absolute',
-                            backgroundColor: 'var(--background-color)',
+                            // position: 'absolute',
+                            backgroundColor: 'var(--accent-color)',
                             display: 'flex',
                             flexDirection: 'row',
                             justifyContent: 'space-evenly',
+                            alignContent: 'center',
                             width: '100%',
                             top: 0,
                             // left: '-100%',
@@ -141,7 +143,7 @@ export function AppNavBar({ type }: { type: 'footer' | 'header' }) {
                                                 textAlign: 'center',
                                                 margin: 'auto',
                                                 backgroundColor:
-                                                    'var(--background-color)',
+                                                    'var(--accent-color)',
                                                 padding: '0.2rem 0.5rem',
                                                 flexBasis: '100%',
                                             }}

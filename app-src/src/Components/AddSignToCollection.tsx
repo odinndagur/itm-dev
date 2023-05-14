@@ -12,7 +12,13 @@ export function AddSignToCollection({
             <div className="">
                 <Listbox value={'nett'}>
                     <div className="">
-                        <Listbox.Button className="">
+                        <Listbox.Button
+                            className=""
+                            style={{
+                                borderRadius: '10px',
+                                backgroundColor: 'var(--secondary-color)',
+                            }}
+                        >
                             <span className="material-icons">add</span>
                         </Listbox.Button>
                         {/* <Transition
@@ -46,6 +52,7 @@ export function AddSignToCollection({
                                             position: 'relative',
                                             // backgroundColor: 'red',
                                             transform: 'translateX(-100%)',
+                                            width: '100%',
 
                                             // right: '50%',
                                             textAlign: 'center',
