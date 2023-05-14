@@ -96,7 +96,12 @@ function App() {
                     routes={[
                         {
                             path: '/',
-                            element: <Navigate to={'/collection'} />,
+                            element: (
+                                <Navigate
+                                    to={'/collection'}
+                                    search={{ id: 1 }}
+                                />
+                            ),
                             // loader: async ({ search }) => ({
                             //     signs: await searchPagedCollectionById({
                             //         searchValue: search.query ?? '',

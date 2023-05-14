@@ -33,23 +33,19 @@ export function SelectCollection({ currentCollection, collections }) {
                                 padding: '0.5rem 0.5rem',
                             }}
                             value={collection.id}
+                            onClick={() => {
+                                navigate({
+                                    search: (search) => ({
+                                        ...search,
+                                        id: collection.id,
+                                        scroll: 0,
+                                    }),
+                                })
+                            }}
                         >
                             {({ selected }) => (
                                 <>
-                                    <span
-                                        onClick={() => {
-                                            navigate({
-                                                search: (search) => ({
-                                                    ...search,
-                                                    id: collection.id,
-                                                    scroll: 0,
-                                                }),
-                                            })
-                                            console.log('lol')
-                                        }}
-                                    >
-                                        {collection.name}
-                                    </span>
+                                    <span>{collection.name}</span>
                                 </>
                             )}
                         </Listbox.Option>

@@ -73,6 +73,7 @@ a {
 
 button {
     background-color: var(--secondary-color);
+    color: var(--main-text-color);
 }
 
 ul li {
