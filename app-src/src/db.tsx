@@ -501,12 +501,7 @@ const searchPagedCollectionById = async ({
             ON sign.id = sign_video.sign_id
             where collection.id = ${collectionId}
             group by sign.id
-            order by 
-                ${
-                    collectionId == 1
-                        ? 'sign.phrase asc'
-                        : 'sign_collection.date_added'
-                }
+            order by sign.phrase asc
             limit ${limit}
             offset ${offset}`
     }
@@ -544,14 +539,7 @@ const searchPagedCollectionById = async ({
             where sign.phrase like "%${searchValue.substring(1)}%"
             and collection.id = ${collectionId}
             group by sign_collection.sign_id
-            order by 
-                ${
-                    collectionId == 1
-                        ? `levenshtein(sign.phrase,"${searchValue.substring(
-                              1
-                          )"}) asc`
-                        : 'sign_collection.date_added'
-                }
+            order by levenshtein(sign.phrase,${searchValue.substring(1)}) asc
             limit ${limit}
             offset ${offset}`
     }
@@ -590,14 +578,7 @@ const searchPagedCollectionById = async ({
             where sign_fts match "${searchValue}"
             and collection.id = ${collectionId}
             group by sign_collection.sign_id
-            order by 
-                ${
-                    collectionId == 1
-                        ? `levenshtein(sign.phrase,"${searchValue.substring(
-                              1
-                          )"}) asc`
-                        : 'sign_collection.date_added'
-                }
+            order by levenshtein(sign.phrase,"${searchValue.substring(1)}") asc
             limit ${limit}
             offset ${offset}`
     }
