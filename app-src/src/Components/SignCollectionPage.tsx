@@ -164,6 +164,13 @@ export function SignCollectionPage() {
                                 key={sign.id}
                                 sign={sign}
                                 user={user}
+                                currentCollection={search.id}
+                                queryKey={[
+                                    'signs',
+                                    searchValue,
+                                    page,
+                                    'collectionId: ' + search.id,
+                                ]}
                             />
                         )
                     })}

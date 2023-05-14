@@ -1,7 +1,16 @@
-import { Link } from '@tanstack/react-location'
+import { Link, useNavigate } from '@tanstack/react-location'
 import { AddSignToCollection } from './AddSignToCollection'
+import { deleteSignFromCollection } from '../db'
+import { useQueryClient } from '@tanstack/react-query'
 
-export function SignCollectionItem({ sign, user }) {
+export function SignCollectionItem({
+    sign,
+    user,
+    currentCollection,
+    queryKey,
+}) {
+    const queryClient = useQueryClient()
+
     return (
         <div
             draggable
@@ -49,10 +58,32 @@ export function SignCollectionItem({ sign, user }) {
                 {/* </div> */}
             </Link>
             <div>
-                <AddSignToCollection
-                    id={sign.sign_id}
-                    collections={user.collections}
-                />
+                <div>
+                    {currentCollection != 1 && (
+                        <button
+                            className=""
+                            style={{
+                                zIndex: 3,
+                                borderRadius: '10px',
+                                backgroundColor: 'rgba(255,0,0,0.8)',
+                            }}
+                            onClick={() => {
+                                console.log('deleting sign')
+                                deleteSignFromCollection({
+                                    signId: sign.sign_id,
+                                    collectionId: currentCollection,
+                                })
+                                queryClient.invalidateQueries(queryKey)
+                            }}
+                        >
+                            <span className="material-icons">remove</span>
+                        </button>
+                    )}
+                    <AddSignToCollection
+                        id={sign.sign_id}
+                        collections={user.collections}
+                    />
+                </div>
             </div>
         </div>
     )
