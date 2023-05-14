@@ -547,9 +547,9 @@ const searchPagedCollectionById = async ({
             order by 
                 ${
                     collectionId == 1
-                        ? `levenshtein(sign.phrase,${searchValue.substring(
+                        ? `levenshtein(sign.phrase,"${searchValue.substring(
                               1
-                          )}) asc`
+                          )"}) asc`
                         : 'sign_collection.date_added'
                 }
             limit ${limit}
@@ -593,9 +593,9 @@ const searchPagedCollectionById = async ({
             order by 
                 ${
                     collectionId == 1
-                        ? `levenshtein(sign.phrase,${searchValue.substring(
+                        ? `levenshtein(sign.phrase,"${searchValue.substring(
                               1
-                          )}) asc`
+                          )"}) asc`
                         : 'sign_collection.date_added'
                 }
             limit ${limit}
