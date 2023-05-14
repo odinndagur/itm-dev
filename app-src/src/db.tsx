@@ -589,7 +589,7 @@ const searchPagedCollectionById = async ({
             ON sign.id = sign_video.sign_id
             where sign_fts match "${searchValue}"
             and collection.id = ${collectionId}
-            group by sign_collection.sign_.id
+            group by sign_collection.sign_id
             order by 
                 ${
                     collectionId == 1
