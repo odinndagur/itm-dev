@@ -23,6 +23,16 @@ export function CollectionsPage() {
     const [collectionsKey, setCollectionsKey] = useState(0)
     const navigate = useNavigate()
 
+    const [editingName, setEditingName] = useState(false)
+
+    const onKeyUpEditName = (ev: KeyboardEvent) => {
+        if (ev.key === 'Enter') {
+            setEditingName(false)
+            console.log('lololololol')
+        }
+        ev.stopPropagation()
+    }
+
     function handleSubmit(ev: FormEvent) {
         console.log(ev)
         ev.preventDefault()
@@ -68,7 +78,37 @@ export function CollectionsPage() {
         <>
             <Header></Header>
             <div className="" style={{ padding: '1rem' }} key={collectionsKey}>
-                <h1>{data?.name}</h1>
+                {/* <div style={{ display: 'flex' }}> */}
+                <h1 style={{ flexGrow: 1 }} contentEditable={editingName}>
+                    {data?.name}
+                </h1>
+                {/* <button
+                        style={{
+                            display: 'flex',
+                            alignContent: 'space-evenly',
+                            justifyContent: 'space-evenly',
+                            borderRadius: '10px',
+                        }}
+                        onClick={() => setEditingName(!editingName)}
+                        onKeyUp={(ev) => onKeyUpEditName(ev)}
+                    >
+                        <span
+                            className="material-icons"
+                            style={{
+                                color: 'var(--accent-color)',
+                            }}
+                        >
+                            delete
+                        </span>
+                        <span
+                            style={{
+                                alignSelf: 'center',
+                            }}
+                        >
+                            Eyða
+                        </span>
+                    </button> */}
+                {/* </div> */}
                 <ul className="" style={{ padding: 0 }}>
                     {data?.collections
                         ?.filter((collection) => collection.id != 1)

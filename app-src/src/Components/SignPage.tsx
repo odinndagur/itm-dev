@@ -141,7 +141,10 @@ function SignPage() {
                     className="temp-card"
                     style={{ width: 'fit-content' }}
                     to={'/collection'}
-                    search={search.lastSearch}
+                    search={{
+                        ...search.lastSearch,
+                        id: search.lastSearch.id ?? 1,
+                    }}
                 >
                     &lt; Til baka í leit{' '}
                     {search.lastSearch.query && (
@@ -153,6 +156,9 @@ function SignPage() {
                     className="temp-card"
                     style={{ width: 'fit-content' }}
                     to={'/collection'}
+                    search={{
+                        id: 1,
+                    }}
                 >
                     &lt; Öll tákn{' '}
                 </Link>
