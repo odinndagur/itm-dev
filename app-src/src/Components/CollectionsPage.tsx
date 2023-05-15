@@ -67,7 +67,7 @@ export function CollectionsPage() {
     return (
         <>
             <Header></Header>
-            <div className="temp-card" key={collectionsKey}>
+            <div className="" key={collectionsKey}>
                 <h1>{data?.name}</h1>
                 <ul className="">
                     {data?.collections
@@ -157,30 +157,37 @@ export function CollectionsPage() {
                             }
                         })}
                 </ul>
-            </div>
-            <form className="card" onSubmit={handleSubmit}>
-                <label htmlFor="">
-                    <h3>Nýtt táknasafn</h3>
-                    <input
-                        type="text"
-                        name=""
-                        id="name"
-                        placeholder="Nafn"
-                        style={{ minWidth: '50%' }}
-                    />
-                </label>
-                <button
-                    type="submit"
+                <form
                     style={{
-                        borderRadius: '10px',
-                        fontSize: '1rem',
-                        padding: '0.5rem',
-                        margin: '0 0.5rem',
+                        // borderTop: '2px solid black',
+                        padding: '1rem 0',
+                        // boxSizing: 'border-box',
                     }}
+                    onSubmit={handleSubmit}
                 >
-                    Staðfesta
-                </button>
-            </form>
+                    <label htmlFor="">
+                        <h3>Nýtt táknasafn</h3>
+                        <input
+                            type="text"
+                            name=""
+                            id="name"
+                            placeholder="Nafn"
+                            style={{ minWidth: '50%' }}
+                        />
+                    </label>
+                    <button
+                        type="submit"
+                        style={{
+                            borderRadius: '10px',
+                            fontSize: '1rem',
+                            padding: '0.5rem',
+                            margin: '0 0.5rem',
+                        }}
+                    >
+                        Staðfesta
+                    </button>
+                </form>
+            </div>
         </>
     )
 }

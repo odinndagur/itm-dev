@@ -15,22 +15,28 @@ export function SelectCollection({ currentCollection, collections }) {
                 </Listbox.Button>
                 <Listbox.Options
                     style={{
-                        // position: 'absolute',
+                        position: 'absolute',
                         width: 'fit-content',
                         margin: 'auto',
+                        left: 0,
+                        right: 0,
+                        padding: 0,
                         textAlign: 'center',
                         cursor: 'pointer',
                     }}
                 >
-                    {collections.map((collection) => (
+                    {collections.map((collection, idx: number) => (
                         <Listbox.Option
                             key={collection.id}
                             style={{
                                 position: 'relative',
                                 textAlign: 'center',
                                 backgroundColor: 'var(--background-color)',
-                                borderBottom: '1px solid gray',
-                                padding: '0.5rem 0.5rem',
+                                borderBottom:
+                                    idx != collections.length - 1
+                                        ? '1px solid gray'
+                                        : undefined,
+                                padding: '0.8rem 0.8rem',
                             }}
                             value={collection.id}
                             onClick={() => {

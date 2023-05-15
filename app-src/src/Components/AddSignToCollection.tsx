@@ -58,7 +58,11 @@ export function AddSignToCollection({
                                             textAlign: 'center',
                                             backgroundColor:
                                                 'var(--background-color)',
-                                            borderBottom: '1px solid gray',
+                                            borderBottom:
+                                                collectionIdx !=
+                                                collections.length - 2
+                                                    ? '1px solid gray'
+                                                    : undefined,
                                             padding: '0.5rem 0.5rem',
                                         }}
                                         value={collection.id}
