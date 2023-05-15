@@ -39,7 +39,7 @@
     background-color: var(--accent-color);
     /* width: max-content; */
     width: 100%;
-    display: flex;
+    display: none;
     justify-content: center;
 }
 /* @media screen and ((display-mode: browser) and (min-width:501px)) {

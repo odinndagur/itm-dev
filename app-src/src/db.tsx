@@ -469,6 +469,7 @@ const searchPagedCollectionById = async ({
     let stmt = ''
     let totalSignCount = 0
     let totalPages = 0
+    // const orderBy = collectionId == 1 ? ''
     if (!searchValue) {
         const tempCount = await query(`
             select count(*) as sign_count from sign
@@ -544,8 +545,9 @@ const searchPagedCollectionById = async ({
             offset ${offset}`
     }
     if (searchValue && searchValue[0] != '*') {
+        let starredSearchValue
         if (searchValue[searchValue.length - 1] != '*') {
-            searchValue = searchValue + '*'
+            starredSearchValue = searchValue + '*'
         }
         const tempCount = await query(`
         select count(*) as sign_count from sign_fts
@@ -553,7 +555,7 @@ const searchPagedCollectionById = async ({
         left join sign_collection on sign.id = sign_collection.sign_id
         left join collection
         on collection.id = sign_collection.collection_id
-        where sign_fts match "${searchValue}"
+        where sign_fts match "${starredSearchValue}"
         and collection.id = ${collectionId}
         `)
         totalSignCount = tempCount[0].sign_count
@@ -575,7 +577,7 @@ const searchPagedCollectionById = async ({
             on multiCollection.id = sign_collection.collection_id
             LEFT JOIN sign_video
             ON sign.id = sign_video.sign_id
-            where sign_fts match "${searchValue}"
+            where sign_fts match "${starredSearchValue}"
             and collection.id = ${collectionId}
             group by sign_collection.sign_id
             order by levenshtein(sign.phrase,"${searchValue.substring(1)}") asc

@@ -9,7 +9,7 @@ export function Header({ children }: { children?: any }) {
                 search={(old) => ({ ...old, scroll: 0 })}
                 className="heading"
             >
-                <b>Íslenskt táknmál</b>
+                Íslenskt táknmál
             </Link>
             <AppNavBar type="header" />
             {children}

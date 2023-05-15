@@ -11,9 +11,9 @@ export default defineConfig({
         }),
         VitePWA({
             registerType: 'autoUpdate',
-            // devOptions: {
-            //     enabled: true,
-            // },
+            devOptions: {
+                enabled: true,
+            },
             base: '/itm-dev/',
             manifest: {
                 name: 'Íslenskt táknmál',
