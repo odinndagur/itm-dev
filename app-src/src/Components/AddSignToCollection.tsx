@@ -29,6 +29,7 @@ export function AddSignToCollection({
                         <Listbox.Options
                             style={{
                                 position: 'absolute',
+                                width: 'fit-content',
 
                                 // flexDirection: 'column',
                                 // alignSelf: 'center',
@@ -63,7 +64,10 @@ export function AddSignToCollection({
                                                 collections.length - 2
                                                     ? '1px solid gray'
                                                     : undefined,
-                                            padding: '0.5rem 0.5rem',
+                                            padding: '0.8rem 0.8rem',
+                                            // borderRadius: '10px',
+                                            // outline: '1px solid black',
+                                            boxShadow: 'var(--card-box-shadow)',
                                         }}
                                         value={collection.id}
                                     >

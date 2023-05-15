@@ -1,3 +1,5 @@
+import { SelectPage } from './SelectPage'
+
 export function Pagination({
     offset,
     totalPages,
@@ -65,9 +67,13 @@ export function Pagination({
                     })}
 
                     {/* <a className="active">{currentPage}</a> */}
-                    <a onClick={() => alert('velja')} className="">
+                    <SelectPage
+                        totalPages={totalPages}
+                        updatePage={updatePage}
+                    />
+                    {/* <a onClick={() => alert('velja')} className="">
                         ...
-                    </a>
+                    </a> */}
                     {showLastLink && (
                         <a onClick={() => updatePage(totalPages)} className="">
                             {totalPages}

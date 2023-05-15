@@ -1,60 +1,69 @@
 import { Listbox } from '@headlessui/react'
 import { Link, useNavigate } from '@tanstack/react-location'
 
-export function SelectCollection({ currentCollection, collections }) {
+const arrayRange = (start: number, stop: number, step: number) =>
+    Array.from(
+        { length: (stop - start) / step + 1 },
+        (value, index) => start + index * step
+    )
+
+export function SelectPage({
+    totalPages,
+    updatePage,
+}: {
+    totalPages: number
+    updatePage: any
+}) {
     const navigate = useNavigate()
+    const pages = arrayRange(1, totalPages, 1)
     return (
         <div style={{ zIndex: 50 }}>
-            <Listbox value={currentCollection}>
+            <Listbox>
                 <Listbox.Button
                     className=""
-                    as="div"
-                    style={{ cursor: 'pointer', textDecoration: 'underline' }}
+                    as="a"
+                    style={{ cursor: 'pointer', textDecoration: 'none' }}
                 >
-                    {currentCollection && <h3>{currentCollection}</h3>}
+                    ...
                 </Listbox.Button>
                 {/* <Listbox.Label>Velja táknasafn</Listbox.Label> */}
                 <Listbox.Options
                     style={{
-                        // position: 'absolute',
+                        position: 'absolute',
                         width: 'fit-content',
                         margin: 'auto',
-                        left: 0,
-                        right: 0,
+                        overflow: 'scroll',
+                        maxHeight: '10rem',
+                        // left: 0,
+                        // right: 0,
                         padding: 0,
                         textAlign: 'center',
                         cursor: 'pointer',
                         // borderRadius: '10px',
                     }}
                 >
-                    {collections.map((collection, idx: number) => (
+                    {pages.map((page, idx: number) => (
                         <Listbox.Option
-                            key={collection.id}
+                            key={page}
                             style={{
                                 position: 'relative',
                                 textAlign: 'center',
                                 backgroundColor: 'var(--background-color)',
                                 borderBottom:
-                                    idx != collections.length - 1
+                                    idx != pages.length - 1
                                         ? '1px solid gray'
                                         : undefined,
                                 padding: '0.8rem 0.8rem',
                                 boxShadow: 'var(--card-box-shadow)',
                             }}
-                            value={collection.id}
+                            value={page}
                             onClick={() => {
-                                navigate({
-                                    search: (search) => ({
-                                        ...search,
-                                        id: collection.id,
-                                        scroll: 0,
-                                    }),
-                                })
+                                updatePage(page)
                             }}
                         >
                             {({ selected }) => (
                                 <>
-                                    <span>{collection.name}</span>
+                                    <span>{page}</span>
                                 </>
                             )}
                         </Listbox.Option>

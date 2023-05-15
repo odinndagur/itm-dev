@@ -67,20 +67,27 @@ export function CollectionsPage() {
     return (
         <>
             <Header></Header>
-            <div className="" key={collectionsKey}>
+            <div className="" style={{ padding: '1rem' }} key={collectionsKey}>
                 <h1>{data?.name}</h1>
-                <ul className="">
+                <ul className="" style={{ padding: 0 }}>
                     {data?.collections
                         ?.filter((collection) => collection.id != 1)
-                        .map((collection) => {
+                        .map((collection, idx) => {
                             return (
                                 collection.id && (
                                     <li
                                         key={collection.id}
-                                        className="card"
+                                        className=""
                                         style={{
                                             display: 'flex',
+                                            padding: '1rem',
                                             justifyContent: 'space-between',
+                                            // boxShadow: 'var(--card-box-shadow)',
+                                            borderBottom:
+                                                idx !=
+                                                data?.collections.length - 2
+                                                    ? '1px dotted gray'
+                                                    : undefined,
                                         }}
                                     >
                                         <Link
@@ -165,6 +172,7 @@ export function CollectionsPage() {
                     }}
                     onSubmit={handleSubmit}
                 >
+                    <hr />
                     <label htmlFor="">
                         <h3>Nýtt táknasafn</h3>
                         <input
