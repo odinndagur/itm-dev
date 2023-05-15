@@ -469,7 +469,6 @@ const searchPagedCollectionById = async ({
     let stmt = ''
     let totalSignCount = 0
     let totalPages = 0
-    // const orderBy = collectionId == 1 ? ''
     if (!searchValue) {
         const tempCount = await query(`
             select count(*) as sign_count from sign
@@ -483,6 +482,8 @@ const searchPagedCollectionById = async ({
         totalSignCount = tempCount[0].sign_count
         totalPages = Math.ceil(totalSignCount / limit)
         console.log({ offset, tempCount, totalSignCount, totalPages })
+        const orderBy =
+            collectionId == 1 ? 'sign.phrase asc' : 'sign_collection.date_added'
         stmt = `select distinct sign.id as sign_id,
             sign.phrase as phrase,
             sign_video.video_id as youtube_id,
@@ -502,7 +503,7 @@ const searchPagedCollectionById = async ({
             ON sign.id = sign_video.sign_id
             where collection.id = ${collectionId}
             group by sign.id
-            order by sign.phrase asc
+            order by ${orderBy}
             limit ${limit}
             offset ${offset}`
     }
@@ -520,6 +521,10 @@ const searchPagedCollectionById = async ({
         totalSignCount = tempCount[0].sign_count
         totalPages = Math.ceil(totalSignCount / limit)
         console.log({ offset, tempCount, totalSignCount, totalPages })
+        const orderBy =
+            collectionId == 1
+                ? `levenshtein(sign.phrase,${searchValue.substring(1)}) asc`
+                : 'sign_collection.date_added'
         stmt = `select distinct sign.id as sign_id,
             sign.phrase as phrase,
             sign_video.video_id as youtube_id,
@@ -540,7 +545,7 @@ const searchPagedCollectionById = async ({
             where sign.phrase like "%${searchValue.substring(1)}%"
             and collection.id = ${collectionId}
             group by sign_collection.sign_id
-            order by levenshtein(sign.phrase,${searchValue.substring(1)}) asc
+            order by ${orderBy}
             limit ${limit}
             offset ${offset}`
     }
@@ -561,6 +566,10 @@ const searchPagedCollectionById = async ({
         totalSignCount = tempCount[0].sign_count
         totalPages = Math.ceil(totalSignCount / limit)
         console.log({ offset, tempCount, totalSignCount, totalPages })
+        const orderBy =
+            collectionId == 1
+                ? `levenshtein(sign.phrase,"${searchValue.substring(1)}") asc`
+                : 'sign_collection.date_added'
         stmt = `select distinct sign.id as sign_id,
             sign.phrase as phrase,
             sign_video.video_id as youtube_id,
@@ -580,7 +589,7 @@ const searchPagedCollectionById = async ({
             where sign_fts match "${starredSearchValue}"
             and collection.id = ${collectionId}
             group by sign_collection.sign_id
-            order by levenshtein(sign.phrase,"${searchValue.substring(1)}") asc
+            order by ${orderBy}
             limit ${limit}
             offset ${offset}`
     }
