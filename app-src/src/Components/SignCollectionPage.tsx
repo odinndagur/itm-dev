@@ -185,7 +185,7 @@ export function SignCollectionPage() {
                                     page,
                                     'collectionId: ' + search.id,
                                 ]}
-                                editing={editing}
+                                editing={search.id != 1 && editing}
                             />
                         )
                     })}
