@@ -8,6 +8,7 @@ export function SignCollectionItem({
     user,
     currentCollection,
     queryKey,
+    editing,
 }) {
     const queryClient = useQueryClient()
 
@@ -58,13 +59,13 @@ export function SignCollectionItem({
                 {/* </div> */}
             </Link>
             <div>
-                <div>
+                <div style={{ display: 'flex', gap: '1rem' }}>
                     <AddSignToCollection
                         id={sign.sign_id}
                         collections={user.collections}
                     />
 
-                    {currentCollection != 1 && (
+                    {editing && (
                         <button
                             className=""
                             style={{

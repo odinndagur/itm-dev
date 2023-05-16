@@ -17,7 +17,7 @@
 .app-navbar {
     width: 100%;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    min-height: 4em;
+    height: 4em;
     /* padding: 0 2rem; */
     /* max-height: 5em; */
     display: flex;

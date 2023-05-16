@@ -82,6 +82,7 @@ ul li {
 
 #root {
     /* max-height: 100%; */
+    padding-bottom: 4em; /*navbar height*/
     display: flex;
     flex-direction: column;
     justify-content: space-between;
