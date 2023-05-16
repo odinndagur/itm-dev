@@ -79,6 +79,7 @@ export function CollectionsPage() {
             <Header></Header>
             <div className="" style={{ padding: '1rem' }} key={collectionsKey}>
                 {/* <div style={{ display: 'flex' }}> */}
+
                 <h1 style={{ flexGrow: 1 }} contentEditable={editingName}>
                     {data?.name}
                 </h1>
@@ -109,6 +110,7 @@ export function CollectionsPage() {
                         </span>
                     </button> */}
                 {/* </div> */}
+
                 <ul className="" style={{ padding: 0 }}>
                     {data?.collections
                         ?.filter((collection) => collection.id != 1)
