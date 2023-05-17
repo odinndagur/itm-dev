@@ -37,6 +37,9 @@ export function SignCollectionPage() {
         data: { signCollection, user },
     } = useMatch<SignCollectionGenerics & SignGenerics>()
     const [editing, setEditing] = useState(false)
+    useEffect(() => {
+        return () => setEditing(false)
+    }, [])
 
     const inputRef = useRef<HTMLInputElement>(null)
     const [page, setPage] = useState(1)
@@ -152,18 +155,20 @@ export function SignCollectionPage() {
             </Header>
             {data && (
                 <div className="signlist" ref={scrollRef}>
-                    <b
-                        style={{
-                            float: 'right',
-                            padding: '0 1rem',
-                            fontSize: '1.3rem',
-                            fontStyle: editing ? 'italic' : undefined,
-                            cursor: 'pointer',
-                        }}
-                        onClick={() => setEditing(!editing)}
-                    >
-                        Breyta
-                    </b>
+                    {editing && search.id != 1 && (
+                        <b
+                            style={{
+                                float: 'right',
+                                padding: '0 1rem',
+                                fontSize: '1.3rem',
+                                fontStyle: editing ? 'italic' : undefined,
+                                cursor: 'pointer',
+                            }}
+                            onClick={() => setEditing(!editing)}
+                        >
+                            Breyta
+                        </b>
+                    )}
                     <Pagination
                         offset={data.offset}
                         totalPages={data.totalPages}
