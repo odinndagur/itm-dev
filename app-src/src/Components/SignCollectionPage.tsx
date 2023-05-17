@@ -155,7 +155,7 @@ export function SignCollectionPage() {
             </Header>
             {data && (
                 <div className="signlist" ref={scrollRef}>
-                    {editing && search.id != 1 && (
+                    {search.id != 1 && (
                         <b
                             style={{
                                 float: 'right',
