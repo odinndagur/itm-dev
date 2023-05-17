@@ -28,7 +28,7 @@
     bottom: 0;
     left: 0;
     display: flex;
-    z-index: 6;
+    z-index: 1000;
     /* border-top: 1px solid gray; */
     /* padding: 0 2rem; */
     /* margin-bottom: 2rem; */
@@ -110,6 +110,7 @@
 }
 .nav-container {
     width: 100%;
+    z-index:666;
 }
 
 .nav-item {
