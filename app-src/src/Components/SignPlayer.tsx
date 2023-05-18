@@ -4,6 +4,7 @@ import { useState } from 'react'
 
 export function SignPlayer(props: any) {
     const [playerReady, setPlayerReady] = useState(false)
+    const [playerReadyCount, setPlayerReadyCount] = useState(0)
     const opts = {
         // height: '390',
         // width: '640',
@@ -27,28 +28,31 @@ export function SignPlayer(props: any) {
         <>
             <div
                 className="video-container"
-                style={{ visibility: playerReady ? undefined : 'hidden' }}
+                // style={{ visibility: playerReady ? undefined : 'hidden' }}
                 key={playerReady ? 'playerReady' : 'playerNotReady'}
             >
-                <YouTube
-                    className="video-responsive"
-                    iframeClassName="video-responsive"
-                    {...props}
-                    opts={opts}
-                    onReady={() => setPlayerReady(true)}
-                    onError={() => console.log('ERROR')}
-                    style={{ display: playerReady ? undefined : 'none' }}
-                />
-            </div>
-            <div
-                className="video-responsive"
-                style={{ display: playerReady ? 'none' : undefined }}
-            >
-                <img
-                    src={`https://i.ytimg.com/vi/${props.videoId}/maxresdefault.jpg`}
-                    alt=""
-                    style={{ objectFit: 'cover' }}
-                />
+                <div className="video-responsive" style={{}}>
+                    <YouTube
+                        // className="video-responsive"
+                        iframeClassName="video-responsive"
+                        {...props}
+                        opts={opts}
+                        onReady={() => {
+                            setPlayerReady(true)
+                            setPlayerReadyCount((count) => count + 1)
+                        }}
+                        onError={() => console.log('ERROR')}
+                        style={{ display: playerReady ? undefined : 'none' }}
+                    />
+                    <img
+                        src={`https://i.ytimg.com/vi/${props.videoId}/maxresdefault.jpg`}
+                        alt=""
+                        style={{
+                            objectFit: 'cover',
+                            display: playerReadyCount >= 2 ? 'none' : undefined,
+                        }}
+                    />
+                </div>
             </div>
         </>
     )
