@@ -46,7 +46,7 @@ export function SignPlayer(props: any) {
                     />
                     <img
                         src={`https://i.ytimg.com/vi/${props.videoId}/maxresdefault.jpg`}
-                        alt=""
+                        alt={`Myndband sem sýnir táknið ${props.title}`}
                         style={{
                             objectFit: 'cover',
                             display: playerReadyCount >= 2 ? 'none' : undefined,
