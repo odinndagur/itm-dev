@@ -190,6 +190,7 @@ function SignPage() {
                         <AddSignToCollection
                             id={sign.id}
                             collections={user.collections}
+                            zIndex={500}
                         />
                     </div>
                     <SignPlayer

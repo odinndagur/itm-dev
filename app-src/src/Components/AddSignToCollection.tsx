@@ -3,12 +3,14 @@ import { addSignToCollection } from '../db'
 export function AddSignToCollection({
     id,
     collections,
+    zIndex,
 }: {
     id: number
     collections: { id: number; name: string }[]
+    zIndex?: number
 }) {
     return (
-        <div>
+        <div style={{ zIndex: zIndex ?? undefined }}>
             <div className="">
                 <Listbox value={'nett'}>
                     <div className="">
