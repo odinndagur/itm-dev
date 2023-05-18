@@ -91,6 +91,21 @@ export default defineConfig({
                             },
                         },
                     },
+                    {
+                        // https://i.ytimg.com/vi/${props.videoId}/maxresdefault.jpg
+                        urlPattern: /^https:\/\/i\.ytimg\.com\/.*/i,
+                        handler: 'CacheFirst',
+                        options: {
+                            cacheName: 'video-thumbnails-cache',
+                            expiration: {
+                                maxEntries: 10,
+                                maxAgeSeconds: 60 * 60 * 24 * 7, // <== 7 days
+                            },
+                            cacheableResponse: {
+                                statuses: [0, 200],
+                            },
+                        },
+                    },
                 ],
             },
         }),

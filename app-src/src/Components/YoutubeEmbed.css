@@ -13,7 +13,8 @@
     box-shadow: var(--card-box-shadow);
 }
 
-.video-responsive iframe {
+.video-responsive iframe,
+.video-responsive img {
     /* border: 4px solid rgba(0, 0, 0, 0.5); */
     box-sizing: border-box;
     /* left: 1rem; */

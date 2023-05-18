@@ -24,21 +24,33 @@ export function SignPlayer(props: any) {
         },
     }
     return (
-        <div
-            className="video-container"
-            style={{ visibility: playerReady ? undefined : 'hidden' }}
-            key={playerReady ? 'playerReady' : 'playerNotReady'}
-        >
-            <YouTube
+        <>
+            <div
+                className="video-container"
+                style={{ visibility: playerReady ? undefined : 'hidden' }}
+                key={playerReady ? 'playerReady' : 'playerNotReady'}
+            >
+                <YouTube
+                    className="video-responsive"
+                    iframeClassName="video-responsive"
+                    {...props}
+                    opts={opts}
+                    onReady={() => setPlayerReady(true)}
+                    onError={() => console.log('ERROR')}
+                    style={{ display: playerReady ? undefined : 'none' }}
+                />
+            </div>
+            <div
                 className="video-responsive"
-                iframeClassName="video-responsive"
-                {...props}
-                opts={opts}
-                onReady={() => setPlayerReady(true)}
-                onError={() => console.log('ERROR')}
-                style={{ display: playerReady ? undefined : 'none' }}
-            />
-        </div>
+                style={{ display: playerReady ? 'none' : undefined }}
+            >
+                <img
+                    src={`https://i.ytimg.com/vi/${props.videoId}/maxresdefault.jpg`}
+                    alt=""
+                    style={{ objectFit: 'cover' }}
+                />
+            </div>
+        </>
     )
 }
 // ?mute=1&rel=0&loop=1&playlist=${embedId}&controls=0&playsinline=0&modestbranding=1&origin=https://odinndagur.github.io/itm-dev/

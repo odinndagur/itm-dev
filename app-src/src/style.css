@@ -105,7 +105,7 @@ header {
     padding-top: env(safe-area-inset-top);
     top: 0;
     background-color: var(--background-color);
-    z-index: 10;
+    z-index: 1000;
     /* border-bottom: 1px solid var(--main-text-color); */
 }
 @media screen and ((max-height: 400px) or (min-aspect-ratio: 2/1)) {

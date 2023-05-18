@@ -17,7 +17,7 @@ export function SelectPage({
     const navigate = useNavigate()
     const pages = arrayRange(1, totalPages, 1)
     return (
-        <div style={{ zIndex: 50 }}>
+        <div>
             <Listbox>
                 <Listbox.Button
                     className=""
