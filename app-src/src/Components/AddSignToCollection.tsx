@@ -8,7 +8,7 @@ export function AddSignToCollection({
     collections: { id: number; name: string }[]
 }) {
     return (
-        <div style={{ zIndex: 500 }}>
+        <div>
             <div className="">
                 <Listbox value={'nett'}>
                     <div className="">
@@ -30,6 +30,8 @@ export function AddSignToCollection({
                             style={{
                                 position: 'absolute',
                                 width: 'fit-content',
+                                transform: 'translateX(-100%)',
+                                // zIndex: 900000,
 
                                 // flexDirection: 'column',
                                 // alignSelf: 'center',
@@ -52,7 +54,6 @@ export function AddSignToCollection({
                                         style={{
                                             position: 'relative',
                                             // backgroundColor: 'red',
-                                            transform: 'translateX(-100%)',
                                             width: '100%',
 
                                             // right: '50%',
