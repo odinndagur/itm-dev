@@ -264,7 +264,7 @@ function App() {
                             top: 'env(safe-area-inset-top)',
                             right: '0',
                             padding: '1rem',
-                            zIndex: 999,
+                            zIndex: 9999,
                         }}
                     >
                         <DarkModeSwitch setCurrentTheme={setCurrentTheme} />

@@ -20,6 +20,11 @@ const addSignToCollection = async ({ signId, collectionId }) => {
     exec(
         `insert into sign_collection(sign_id, collection_id) values(${signId},${collectionId})`
     )
+    getSignByIdJson(signId).then((sign) => {
+        sign.videos.map((video) => {
+            fetch(`https://i.ytimg.com/vi/${video.video_id}/maxresdefault.jpg`)
+        })
+    })
 }
 
 //@ts-ignore
