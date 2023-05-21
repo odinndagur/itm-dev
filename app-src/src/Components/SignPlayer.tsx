@@ -87,8 +87,8 @@ export function SignPlayer(props: any) {
                         alt={`Myndband sem sýnir táknið ${props.title}`}
                         // onError={(ev) => (ev.target.src = altUrl)}
 
-                        onLoad={(ev) => {
-                            if (ev.target.naturalHeight >= 90) {
+                        onLoadCapture={(ev) => {
+                            if (ev.currentTarget.naturalHeight >= 90) {
                                 setThumbnailUrl(altUrl)
                             } else {
                                 setShowThumbnail(true)
@@ -106,6 +106,7 @@ export function SignPlayer(props: any) {
                         }}
                         style={{
                             objectFit: 'cover',
+                            width: '100%',
                             // display: playerReadyCount >= 2 ? 'none' : undefined,
                             display: showThumbnail ? undefined : 'none',
                         }}
