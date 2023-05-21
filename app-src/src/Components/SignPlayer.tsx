@@ -5,6 +5,8 @@ import { useState } from 'react'
 export function SignPlayer(props: any) {
     const [playerReady, setPlayerReady] = useState(false)
     const [playerReadyCount, setPlayerReadyCount] = useState(0)
+    const [showThumbnail, setShowThumbnail] = useState(true)
+    const [target, setTarget] = useState()
     const opts = {
         // height: '390',
         // width: '640',
@@ -12,7 +14,7 @@ export function SignPlayer(props: any) {
         height: '480',
         playerVars: {
             // https://developers.google.com/youtube/player_parameters
-            autoplay: 0,
+            autoplay: 1,
             modestbranding: 1,
             mute: 1,
             rel: 0,
@@ -26,6 +28,12 @@ export function SignPlayer(props: any) {
     }
     return (
         <>
+            {/* {target && (
+                <button onClick={() => target.playVideo()}>Play?</button>
+            )}
+            {target && (
+                <button onClick={() => target.pauseVideo()}>Pause?</button>
+            )} */}
             <div
                 className="video-container"
                 // style={{ visibility: playerReady ? undefined : 'hidden' }}
@@ -37,19 +45,25 @@ export function SignPlayer(props: any) {
                         iframeClassName="video-responsive"
                         {...props}
                         opts={opts}
-                        onReady={() => {
+                        onReady={(ev) => {
+                            setTarget(ev.target)
                             setPlayerReady(true)
                             setPlayerReadyCount((count) => count + 1)
                         }}
                         onError={() => console.log('ERROR')}
-                        style={{ display: playerReady ? undefined : 'none' }}
+                        style={{ display: showThumbnail ? 'none' : undefined }}
                     />
                     <img
                         src={`https://i.ytimg.com/vi/${props.videoId}/maxresdefault.jpg`}
                         alt={`Myndband sem sýnir táknið ${props.title}`}
+                        onClick={() => {
+                            setShowThumbnail(false)
+                            target.playVideo()
+                        }}
                         style={{
                             objectFit: 'cover',
-                            display: playerReadyCount >= 2 ? 'none' : undefined,
+                            // display: playerReadyCount >= 2 ? 'none' : undefined,
+                            display: showThumbnail ? undefined : 'none',
                         }}
                     />
                 </div>
