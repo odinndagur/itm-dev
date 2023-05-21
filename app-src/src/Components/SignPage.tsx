@@ -101,34 +101,36 @@ function SignPage() {
     const search = useSearch<MyLocationGenerics>()
     // const [scroll, setScroll] = useState(0)
     useEffect(() => {
-        // console.log('opened page - handling scroll')
+        console.log('opened page - handling scroll')
         setTimeout(() => {
             const scrollTarget = Number(search.scroll) ?? 0
-            // console.log('scrolltarget: ', scrollTarget)
+            console.log('scrolltarget: ', scrollTarget)
             window.scrollTo({ top: scrollTarget })
         }, 100)
     }, [sign])
     let lastScroll
-    const handleScroll = (event: any) => {
-        // setScroll(window.scrollY)
-        console.log(window.scrollY)
-        console.log(event.currentTarget.scrollY)
-        const currentScroll = window.scrollY
-        if (Math.abs(currentScroll - lastScroll) > 10) {
-            lastScroll = currentScroll
-            navigate({
-                search: (old) => ({
-                    ...old,
-                    scroll: window.scrollY,
-                }),
-                replace: true,
-            })
-        }
-    }
     useEffect(() => {
+        const handleScroll = (event: any) => {
+            // setScroll(window.scrollY)
+            console.log(window.scrollY)
+            console.log(event.currentTarget.scrollY)
+            const currentScroll = window.scrollY
+            if (Math.abs(currentScroll - lastScroll) > 10) {
+                lastScroll = currentScroll
+                navigate({
+                    search: (old) => ({
+                        ...old,
+                        scroll: window.scrollY,
+                    }),
+                    replace: true,
+                })
+            }
+        }
+        console.log('handlescrolluseeffect')
         window.addEventListener('scroll', handleScroll)
 
         return () => {
+            console.log('handle scroll useeffect unmount')
             window.removeEventListener('scroll', handleScroll)
         }
     }, [])
