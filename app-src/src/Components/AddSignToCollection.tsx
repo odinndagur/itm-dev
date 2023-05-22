@@ -1,5 +1,6 @@
 import { Listbox } from '@headlessui/react'
 import { addSignToCollection } from '../db'
+import { useState } from 'react'
 export function AddSignToCollection({
     id,
     collections,
@@ -9,6 +10,7 @@ export function AddSignToCollection({
     collections: { id: number; name: string }[]
     zIndex?: number
 }) {
+    const [icon, setIcon] = useState('add')
     return (
         <div style={{ zIndex: zIndex ?? undefined }}>
             <div className="">
@@ -21,7 +23,7 @@ export function AddSignToCollection({
                                 backgroundColor: 'var(--secondary-color)',
                             }}
                         >
-                            <span className="material-icons">add</span>
+                            <span className="material-icons">{icon}</span>
                         </Listbox.Button>
                         {/* <Transition
                             leave="transition ease-in duration-100"
@@ -62,6 +64,7 @@ export function AddSignToCollection({
                                             textAlign: 'center',
                                             backgroundColor:
                                                 'var(--background-color)',
+
                                             borderBottom:
                                                 collectionIdx !=
                                                 collections.length - 2
@@ -73,22 +76,35 @@ export function AddSignToCollection({
                                             boxShadow: 'var(--card-box-shadow)',
                                         }}
                                         value={collection.id}
+                                        onClick={() => {
+                                            addSignToCollection({
+                                                signId: id,
+                                                collectionId: collection.id,
+                                            })
+                                            setIcon('check')
+                                        }}
                                     >
                                         {({ selected }) => (
                                             <>
                                                 <span
-                                                    onClick={() =>
+                                                    onClick={() => {
                                                         addSignToCollection({
                                                             signId: id,
                                                             collectionId:
                                                                 collection.id,
                                                         })
-                                                    }
+                                                        setIcon('check')
+                                                    }}
                                                     className={`block truncate ${
                                                         selected
                                                             ? 'font-medium'
                                                             : 'font-normal'
                                                     }`}
+                                                    style={
+                                                        {
+                                                            // backgroundColor: 'red',
+                                                        }
+                                                    }
                                                 >
                                                     {collection.name}
                                                 </span>
