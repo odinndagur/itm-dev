@@ -33,7 +33,6 @@ export function SignCollectionItem({
                     // lastSearch: {
                     //     ...search,
                     // },
-                    feck: 'smeck',
                     scroll: 0,
                 })}
                 style={{

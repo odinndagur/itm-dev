@@ -24,6 +24,7 @@ export function SelectCollection({ currentCollection, collections }) {
                         padding: 0,
                         textAlign: 'center',
                         cursor: 'pointer',
+                        outline: '1px solid var(--main-text-color)',
                         // borderRadius: '10px',
                     }}
                 >

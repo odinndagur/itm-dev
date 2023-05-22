@@ -72,7 +72,8 @@ export function AddSignToCollection({
                                                     : undefined,
                                             padding: '0.8rem 0.8rem',
                                             // borderRadius: '10px',
-                                            // outline: '1px solid black',
+                                            outline:
+                                                '1px solid var(--main-text-color)',
                                             boxShadow: 'var(--card-box-shadow)',
                                         }}
                                         value={collection.id}

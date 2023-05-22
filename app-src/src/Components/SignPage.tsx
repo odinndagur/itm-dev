@@ -188,7 +188,9 @@ function SignPage() {
                             gap: '1rem',
                         }}
                     >
-                        <h2 className="sign-phrase">{sign.phrase}</h2>
+                        <Link>
+                            <h2 className="sign-phrase">{sign.phrase}</h2>
+                        </Link>
                         <AddSignToCollection
                             id={sign.id}
                             collections={user.collections}

@@ -466,8 +466,8 @@ const searchPagedCollectionById = async ({
     page,
 }: {
     searchValue: string
-    collectionId: number
-    page: number
+    collectionId: number | string
+    page: number | string
 }) => {
     const limit = 100
     const offset = (page - 1) * limit

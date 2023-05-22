@@ -30,6 +30,7 @@ import SignWikiCredits from './Components/SignWikiCredits'
 import { CollectionsPage } from './Components/CollectionsPage'
 import { RandomSign } from './Components/RandomSign'
 import { SignCollectionPage } from './Components/SignCollectionPage'
+import { MyLocationGenerics } from './Components/Generics'
 
 const reactLocation = new ReactLocation()
 
@@ -107,21 +108,19 @@ function App() {
                                         //search: (search) => 'id' in search,
                                         element: <SignCollectionPage />,
 
-                                        loader: async ({ search }) => ({
+                                        loader: async ({
+                                            search,
+                                        }: {
+                                            search: MyLocationGenerics['Search']
+                                        }) => ({
                                             signCollection:
                                                 await searchPagedCollectionById(
                                                     {
                                                         collectionId:
-                                                            Number(search.id) ??
-                                                            1,
-                                                        page:
-                                                            Number(
-                                                                search.page
-                                                            ) ?? 1,
+                                                            search.id ?? 1,
+                                                        page: search.page ?? 1,
                                                         searchValue:
-                                                            String(
-                                                                search.query
-                                                            ) ?? '',
+                                                            search.query ?? '',
                                                     }
                                                 ),
                                             user: await getUserById(3),
@@ -155,21 +154,19 @@ function App() {
                                     {
                                         path: '/',
                                         element: <SignCollectionPage />,
-                                        loader: async ({ search }) => ({
+                                        loader: async ({
+                                            search,
+                                        }: {
+                                            search: MyLocationGenerics['Search']
+                                        }) => ({
                                             signCollection:
                                                 await searchPagedCollectionById(
                                                     {
                                                         collectionId:
-                                                            Number(search.id) ??
-                                                            1,
-                                                        page:
-                                                            Number(
-                                                                search.page
-                                                            ) ?? 1,
+                                                            search.id ?? 1,
+                                                        page: search.page ?? 1,
                                                         searchValue:
-                                                            String(
-                                                                search.query
-                                                            ) ?? '',
+                                                            search.query ?? '',
                                                     }
                                                 ),
                                             user: await getUserById(3),
