@@ -48,6 +48,7 @@ export function SelectCollection({ currentCollection, collections }) {
                                         ...search,
                                         id: collection.id,
                                         scroll: 0,
+                                        page: 1,
                                     }),
                                 })
                             }}
