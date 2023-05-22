@@ -26,6 +26,7 @@ export function SignPlayer(props: any) {
     const [target, setTarget] = useState()
 
     const hiResUrl = `https://i.ytimg.com/vi/${props.videoId}/maxresdefault.jpg`
+    const mdResUrl = `https://i.ytimg.com/vi/${props.videoId}/mqdefault.jpg`
     const altUrl = `https://img.youtube.com/vi/${props.videoId}/hqdefault.jpg`
     const [thumbnailUrl, setThumbnailUrl] = useState(hiResUrl)
 
@@ -88,7 +89,7 @@ export function SignPlayer(props: any) {
                         // onError={(ev) => (ev.target.src = altUrl)}
 
                         onLoadCapture={(ev) => {
-                            if (ev.currentTarget.naturalHeight >= 90) {
+                            if (ev.currentTarget.naturalHeight <= 90) {
                                 setThumbnailUrl(altUrl)
                             } else {
                                 setShowThumbnail(true)
