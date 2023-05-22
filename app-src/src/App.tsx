@@ -1,11 +1,9 @@
-//@ts-nocheck
-import { useState, useEffect, FormEvent } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { ThemeContext } from './Components/ThemeContext'
 import SignPage from './Components/SignPage'
 import HomePage from './Components/Home'
 import {
     query,
-    getSignById,
     getSignByPhrase,
     getSignByIdJson,
     searchPagedCollectionById,
@@ -16,23 +14,13 @@ import {
 import {
     ReactLocation,
     Router,
-    useMatch,
-    useSearch,
-    Link,
     Outlet,
     Navigate,
 } from '@tanstack/react-location'
-import { ReactLocationDevtools } from '@tanstack/react-location-devtools'
 
 import PlaceholderScreen from './Components/PlaceholderScreen'
 
-import {
-    useQuery,
-    useMutation,
-    useQueryClient,
-    QueryClient,
-    QueryClientProvider,
-} from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AppNavBar } from './Components/AppNavBar'
 import { Place } from '@mui/icons-material'
 import { Handform } from './Components/Handform'
@@ -82,206 +70,225 @@ function App() {
         return <PlaceholderScreen />
     }
     return (
-        <QueryClientProvider client={queryClient}>
-            <ThemeContext.Provider value={currentTheme}>
-                <Router
-                    location={reactLocation}
-                    basepath="itm-dev"
-                    // defaultLinkPreloadMaxAge={Infinity}
-                    // defaultPendingElement={<PlaceholderScreen />}
-                    // defaultLoaderMaxAge={Infinity}
-                    routes={[
-                        {
-                            path: '/',
-                            element: (
-                                <Navigate
-                                    to={'/collection'}
-                                    search={{ id: 1 }}
-                                />
-                            ),
-                            // loader: async ({ search }) => ({
-                            //     signs: await searchPagedCollectionById({
-                            //         searchValue: search.query ?? '',
-                            //         collectionId: search.collection ?? 1,
-                            //         page: search.page ?? 1,
-                            //     }),
-                            // }),
-                        },
-                        {
-                            path: 'home',
-                            element: <HomePage />,
-                        },
-                        {
-                            path: 'collection',
-                            children: [
-                                {
-                                    //search: (search) => 'id' in search,
-                                    element: <SignCollectionPage />,
-
-                                    loader: async ({ search }) => ({
-                                        signCollection:
-                                            await searchPagedCollectionById({
-                                                collectionId: search.id ?? 1,
-                                                page: search.page ?? 1,
-                                                searchValue: search.query ?? '',
-                                            }),
-                                        user: await getUserById(3),
-                                    }),
-                                    loaderMaxAge: 0,
-                                },
-                            ],
-                            // element: <HomePage />,
-                            // loader: async ({ search }) => ({
-                            //     signs: await searchPagedCollectionById({
-                            //         searchValue: search.query ?? '',
-                            //         collectionId: search.collection ?? 1,
-                            //         page: search.page ?? 1,
-                            //     }),
-                            // }),
-                        },
-                        { path: 'handforms', element: <Handform /> },
-                        {
-                            path: 'random',
-                            element: <RandomSign />,
-                            // element: async () =>
-                            //     getRandomSign().then((signId) => (
-                            //         <Navigate
-                            //             to={`/signs/${signId}`}
-                            //             key={signId}
-                            //         />
-                            //     )),
-                            // loaderMaxAge: 0,
-
-                            loader: async () => ({
-                                sign: await getSignByIdJson(
-                                    await getRandomSign()
+        <Suspense>
+            <QueryClientProvider client={queryClient}>
+                <ThemeContext.Provider value={currentTheme}>
+                    <Router
+                        location={reactLocation}
+                        basepath="itm-dev"
+                        // defaultLinkPreloadMaxAge={Infinity}
+                        // defaultPendingElement={<PlaceholderScreen />}
+                        // defaultLoaderMaxAge={Infinity}
+                        routes={[
+                            {
+                                path: '/',
+                                element: (
+                                    <Navigate
+                                        to={'/collection'}
+                                        search={{ id: 1 }}
+                                    />
                                 ),
-                            }),
-                        },
-                        {
-                            path: 'signs',
-                            children: [
-                                {
-                                    path: '/',
-                                    element: <SignCollectionPage />,
-                                    loader: async ({ search }) => ({
-                                        signCollection:
-                                            await searchPagedCollectionById({
-                                                collectionId: search.id ?? 1,
-                                                page: search.page ?? 1,
-                                                searchValue: search.query ?? '',
-                                            }),
-                                        user: await getUserById(3),
-                                    }),
-                                    loaderMaxAge: 0,
-                                },
-                                {
-                                    path: 'phrase',
-                                    children: [
-                                        {
-                                            path: ':phrase',
-                                            element: <SignPage />,
-                                            loader: async ({ params }) => ({
-                                                sign: await getSignByPhrase(
-                                                    decodeURIComponent(
-                                                        params.phrase
-                                                    )
-                                                ),
-                                                user: await getUserById(3),
-                                            }),
-                                        },
-                                    ],
-                                },
-                                {
-                                    path: ':id',
-                                    element: <SignPage />,
-                                    loader: async ({ params }) => ({
-                                        sign: await getSignByIdJson(params.id),
-                                        user: await getUserById(3),
-                                    }),
-                                },
-                            ],
-                        },
-                        {
-                            path: 'sign',
-                            id: 'signByPhrase',
-                            element: <SignPage />,
-                            search: (search) => {
-                                return 'phrase' in search
+                                // loader: async ({ search }) => ({
+                                //     signs: await searchPagedCollectionById({
+                                //         searchValue: search.query ?? '',
+                                //         collectionId: search.collection ?? 1,
+                                //         page: search.page ?? 1,
+                                //     }),
+                                // }),
                             },
-                            loader: async ({ search }) => ({
-                                sign: await getSignByPhrase(search.phrase),
-                                user: await getUserById(3),
-                            }),
-                        },
-                        {
-                            path: 'sign',
-                            id: 'signById',
-                            element: <SignPage />,
-                            search: (search) => {
-                                return 'id' in search
+                            {
+                                path: 'home',
+                                element: <HomePage />,
                             },
-                            loader: async ({ search }) => ({
-                                sign: await getSignByIdJson(search.id),
-                                user: await getUserById(3),
-                            }),
-                        },
-                        // {
-                        //     path: 'settings',
-                        //     element: <SettingsPage />,
-                        //     loader: async () => ({
-                        //         user: await getUserById(3),
-                        //     }),
-                        // },
-                        {
-                            path: 'settings',
-
-                            element: <CollectionsPage />,
-                            loader: async () => ({
-                                user: await getUserById(3),
-                            }),
-                            loaderMaxAge: 0,
-                        },
-                        {
-                            path: 'leit',
-                            element: <SignCollectionPage />,
-                            loader: async ({ search }) => ({
-                                signCollection: await searchPagedCollectionById(
+                            {
+                                path: 'collection',
+                                children: [
                                     {
-                                        collectionId: search.id ?? 1,
-                                        page: search.page ?? 1,
-                                        searchValue: search.query ?? '',
-                                    }
-                                ),
-                                user: await getUserById(3),
-                            }),
-                            loaderMaxAge: 0,
-                        },
-                        {
-                            // Passing no route is equivalent to passing `path: '*'`
-                            element: <NotFound />,
-                        },
-                    ]}
-                >
-                    <Outlet />
-                    <AppNavBar type="footer" />
-                    <div
-                        className="dark-mode-switch-container"
-                        style={{
-                            position: 'fixed',
-                            top: 'env(safe-area-inset-top)',
-                            right: '0',
-                            padding: '1rem',
-                            zIndex: 9999,
-                        }}
+                                        //search: (search) => 'id' in search,
+                                        element: <SignCollectionPage />,
+
+                                        loader: async ({ search }) => ({
+                                            signCollection:
+                                                await searchPagedCollectionById(
+                                                    {
+                                                        collectionId:
+                                                            Number(search.id) ??
+                                                            1,
+                                                        page:
+                                                            Number(
+                                                                search.page
+                                                            ) ?? 1,
+                                                        searchValue:
+                                                            String(
+                                                                search.query
+                                                            ) ?? '',
+                                                    }
+                                                ),
+                                            user: await getUserById(3),
+                                        }),
+                                        loaderMaxAge: 0,
+                                    },
+                                ],
+                            },
+                            { path: 'handforms', element: <Handform /> },
+                            {
+                                path: 'random',
+                                element: <RandomSign />,
+                                // element: async () =>
+                                //     getRandomSign().then((signId) => (
+                                //         <Navigate
+                                //             to={`/signs/${signId}`}
+                                //             key={signId}
+                                //         />
+                                //     )),
+                                // loaderMaxAge: 0,
+
+                                loader: async () => ({
+                                    sign: await getSignByIdJson(
+                                        await getRandomSign()
+                                    ),
+                                }),
+                            },
+                            {
+                                path: 'signs',
+                                children: [
+                                    {
+                                        path: '/',
+                                        element: <SignCollectionPage />,
+                                        loader: async ({ search }) => ({
+                                            signCollection:
+                                                await searchPagedCollectionById(
+                                                    {
+                                                        collectionId:
+                                                            Number(search.id) ??
+                                                            1,
+                                                        page:
+                                                            Number(
+                                                                search.page
+                                                            ) ?? 1,
+                                                        searchValue:
+                                                            String(
+                                                                search.query
+                                                            ) ?? '',
+                                                    }
+                                                ),
+                                            user: await getUserById(3),
+                                        }),
+                                        loaderMaxAge: 0,
+                                    },
+                                    {
+                                        path: 'phrase',
+                                        children: [
+                                            {
+                                                path: ':phrase',
+                                                element: <SignPage />,
+                                                loader: async ({ params }) => ({
+                                                    sign: await getSignByPhrase(
+                                                        decodeURIComponent(
+                                                            params.phrase
+                                                        )
+                                                    ),
+                                                    user: await getUserById(3),
+                                                }),
+                                            },
+                                        ],
+                                    },
+                                    {
+                                        path: ':id',
+                                        element: <SignPage />,
+                                        loader: async ({ params }) => ({
+                                            sign: await getSignByIdJson(
+                                                Number(params.id)
+                                            ),
+                                            user: await getUserById(3),
+                                        }),
+                                    },
+                                ],
+                            },
+                            {
+                                path: 'sign',
+                                id: 'signByPhrase',
+                                element: <SignPage />,
+                                search: (search) => {
+                                    return 'phrase' in search
+                                },
+                                loader: async ({ search }) => ({
+                                    sign: await getSignByPhrase(
+                                        String(search.phrase)
+                                    ),
+                                    user: await getUserById(3),
+                                }),
+                            },
+                            {
+                                path: 'sign',
+                                id: 'signById',
+                                element: <SignPage />,
+                                search: (search) => {
+                                    return 'id' in search
+                                },
+                                loader: async ({ search }) => ({
+                                    sign: await getSignByIdJson(search.id),
+                                    user: await getUserById(3),
+                                }),
+                            },
+                            // {
+                            //     path: 'settings',
+                            //     element: <SettingsPage />,
+                            //     loader: async () => ({
+                            //         user: await getUserById(3),
+                            //     }),
+                            // },
+                            {
+                                path: 'settings',
+
+                                element: <CollectionsPage />,
+                                loader: async () => ({
+                                    user: await getUserById(3),
+                                }),
+                                loaderMaxAge: 0,
+                            },
+                            {
+                                path: 'leit',
+                                element: <SignCollectionPage />,
+                                loader: async ({ search }) => ({
+                                    signCollection:
+                                        await searchPagedCollectionById({
+                                            collectionId:
+                                                Number(search.id) ?? 1,
+                                            page: Number(search.page) ?? 1,
+                                            searchValue:
+                                                String(search.query) ?? '',
+                                        }),
+                                    user: await getUserById(3),
+                                }),
+                                loaderMaxAge: 0,
+                            },
+                            {
+                                // Passing no route is equivalent to passing `path: '*'`
+                                element: <NotFound />,
+                            },
+                        ]}
                     >
-                        <DarkModeSwitch setCurrentTheme={setCurrentTheme} />
-                        {/* <ReactLocationDevtools /> */}
-                    </div>
-                </Router>
-                <SignWikiCredits />
-            </ThemeContext.Provider>
-        </QueryClientProvider>
+                        <Outlet />
+                        <AppNavBar type="footer" />
+                        <div
+                            className="dark-mode-switch-container"
+                            style={{
+                                position: 'fixed',
+                                top: 'env(safe-area-inset-top)',
+                                right: '0',
+                                padding: '1rem',
+                                zIndex: 9999,
+                            }}
+                        >
+                            <DarkModeSwitch setCurrentTheme={setCurrentTheme} />
+                            {/* <ReactLocationDevtools /> */}
+                        </div>
+                    </Router>
+                    <SignWikiCredits />
+                </ThemeContext.Provider>
+            </QueryClientProvider>
+        </Suspense>
     )
 }
 

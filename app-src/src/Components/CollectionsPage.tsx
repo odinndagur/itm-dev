@@ -69,10 +69,10 @@ export function CollectionsPage() {
     })
 
     if (isLoading) {
-        return ''
+        return <div></div>
     }
     if (isError) {
-        return 'Error.'
+        return <div> 'Error.'</div>
     }
     return (
         <>

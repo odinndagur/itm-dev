@@ -12,19 +12,11 @@ import { AddSignToCollection } from './AddSignToCollection'
 import {
     Link,
     useSearch,
-    MakeGenerics,
     useNavigate,
     useMatch,
 } from '@tanstack/react-location'
 import './SignCollectionPage.css'
-import {
-    useQuery,
-    useMutation,
-    useQueryClient,
-    QueryClient,
-    QueryClientProvider,
-} from '@tanstack/react-query'
-import { AppNavBar } from './AppNavBar'
+import { useQuery } from '@tanstack/react-query'
 import { Header } from './Header'
 import { SignCollectionGenerics, SignGenerics } from './Generics'
 
@@ -45,7 +37,6 @@ export function SignCollectionPage() {
     const [page, setPage] = useState(1)
     const scrollRef = useRef<HTMLDivElement>(null)
     const params = new URLSearchParams(window.location.search)
-    const [scroll, setScroll] = useState(0)
     useEffect(() => {
         setTimeout(() => {
             const scrollTarget = Number(search.scroll) ?? 0

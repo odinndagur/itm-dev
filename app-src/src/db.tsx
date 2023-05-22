@@ -93,10 +93,10 @@ const getSignByIdJson = async (id: number) => {
         GROUP BY sign.id
     `
     const signs = await query(stmt)
-    // console.log(signs)
-    // console.log(signs[0])
-    // console.log(signs[0].sign_json)
-    // console.log(JSON.parse(signs[0].sign_json))
+    // DB_CONSOLE_LOGS && console.log(signs)
+    // DB_CONSOLE_LOGS && console.log(signs[0])
+    // DB_CONSOLE_LOGS && console.log(signs[0].sign_json)
+    // DB_CONSOLE_LOGS && console.log(JSON.parse(signs[0].sign_json))
     let sign: {
         id: string
         phrase: string
@@ -623,13 +623,13 @@ const searchPagedCollectionById = async ({
 
 const getRandomSign = async () => {
     const res = await query('select count(*) as sign_count from sign')
-    // console.log(res)
+    // DB_CONSOLE_LOGS && console.log(res)
     const count = parseInt(res[0].sign_count)
-    // console.log(count)
+    // DB_CONSOLE_LOGS && console.log(count)
     const index = Math.floor(Math.random() * count)
-    // console.log(index)
+    // DB_CONSOLE_LOGS && console.log(index)
     const signs = await query(`select * from sign  limit 1 offset ${index}`)
-    console.log(signs[0])
+    DB_CONSOLE_LOGS && console.log(signs[0])
     return signs[0].id
 }
 
