@@ -2,7 +2,6 @@
 import { useState, useEffect, FormEvent } from 'react'
 import { ThemeContext } from './Components/ThemeContext'
 import SignPage from './Components/SignPage'
-import { AllSignsPage } from './Components/AllSignsPage'
 import HomePage from './Components/Home'
 import {
     query,
@@ -37,14 +36,12 @@ import {
 import { AppNavBar } from './Components/AppNavBar'
 import { Place } from '@mui/icons-material'
 import { Handform } from './Components/Handform'
-import { SettingsPage } from './Components/SettingsPage'
 import { DarkModeSwitch } from './Components/DarkModeSwitch'
 import { NotFound } from './Components/NotFound'
 import SignWikiCredits from './Components/SignWikiCredits'
 import { CollectionsPage } from './Components/CollectionsPage'
 import { RandomSign } from './Components/RandomSign'
 import { SignCollectionPage } from './Components/SignCollectionPage'
-import { HeadlessUITest } from './Components/HeadlessUITest'
 
 const reactLocation = new ReactLocation()
 
@@ -146,6 +143,15 @@ function App() {
                         {
                             path: 'random',
                             element: <RandomSign />,
+                            // element: async () =>
+                            //     getRandomSign().then((signId) => (
+                            //         <Navigate
+                            //             to={`/signs/${signId}`}
+                            //             key={signId}
+                            //         />
+                            //     )),
+                            // loaderMaxAge: 0,
+
                             loader: async () => ({
                                 sign: await getSignByIdJson(
                                     await getRandomSign()
@@ -157,15 +163,17 @@ function App() {
                             children: [
                                 {
                                     path: '/',
-                                    element: <AllSignsPage />,
+                                    element: <SignCollectionPage />,
                                     loader: async ({ search }) => ({
-                                        signs: await searchPagedCollectionById({
-                                            searchValue: search.query ?? '',
-                                            collectionId:
-                                                search.collection ?? 1,
-                                            page: search.page ?? 1,
-                                        }),
+                                        signCollection:
+                                            await searchPagedCollectionById({
+                                                collectionId: search.id ?? 1,
+                                                page: search.page ?? 1,
+                                                searchValue: search.query ?? '',
+                                            }),
+                                        user: await getUserById(3),
                                     }),
+                                    loaderMaxAge: 0,
                                 },
                                 {
                                     path: 'phrase',
@@ -236,18 +244,18 @@ function App() {
                         },
                         {
                             path: 'leit',
-                            element: <AllSignsPage />,
+                            element: <SignCollectionPage />,
                             loader: async ({ search }) => ({
-                                signs: await searchPagedCollectionById({
-                                    searchValue: search.query ?? '',
-                                    collectionId: search.collection ?? 1,
-                                    page: search.page ?? 1,
-                                }),
+                                signCollection: await searchPagedCollectionById(
+                                    {
+                                        collectionId: search.id ?? 1,
+                                        page: search.page ?? 1,
+                                        searchValue: search.query ?? '',
+                                    }
+                                ),
+                                user: await getUserById(3),
                             }),
-                        },
-                        {
-                            path: 'headlessuitest',
-                            element: <HeadlessUITest />,
+                            loaderMaxAge: 0,
                         },
                         {
                             // Passing no route is equivalent to passing `path: '*'`

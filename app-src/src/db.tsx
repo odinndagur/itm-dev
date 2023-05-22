@@ -629,7 +629,7 @@ const getRandomSign = async () => {
     const index = Math.floor(Math.random() * count)
     // console.log(index)
     const signs = await query(`select * from sign  limit 1 offset ${index}`)
-    // console.log(signs)
+    console.log(signs[0])
     return signs[0].id
 }
 
