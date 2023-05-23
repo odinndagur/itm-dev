@@ -1,6 +1,6 @@
 import YouTube from 'react-youtube'
 import './SignPlayer.css'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const isSafari =
     navigator.vendor &&
@@ -10,25 +10,40 @@ const isSafari =
     navigator.userAgent.indexOf('FxiOS') == -1
 
 export function SignPlayer(props: any) {
-    const playVideo = () => {
-        if (target) {
-            target.playVideo()
-        } else {
-            setTimeout(() => {
-                playVideo()
-            }, 50)
-        }
-    }
+    // const playVideo = () => {
+    //     if (target) {
+    //         target.playVideo()
+    //     } else {
+    //         setTimeout(() => {
+    //             playVideo()
+    //         }, 50)
+    //     }
+    // }
 
     const [playerReady, setPlayerReady] = useState(false)
     const [playerReadyCount, setPlayerReadyCount] = useState(0)
     const [showThumbnail, setShowThumbnail] = useState(true)
     const [target, setTarget] = useState()
 
+    const playerRef = useRef()
+
     const hiResUrl = `https://i.ytimg.com/vi/${props.videoId}/maxresdefault.jpg`
     const mdResUrl = `https://i.ytimg.com/vi/${props.videoId}/mqdefault.jpg`
     const altUrl = `https://img.youtube.com/vi/${props.videoId}/hqdefault.jpg`
     const [thumbnailUrl, setThumbnailUrl] = useState(hiResUrl)
+
+    const playVideo = () => {
+        if (isSafari) {
+            target.playVideo()
+            setShowThumbnail(false)
+        } else {
+            setShowThumbnail(false)
+            target.playVideo()
+        }
+        // playerRef?.focus()
+        // document.getElementById(target.g).focus()
+        // console.log(target)
+    }
 
     // src={`https://i.ytimg.com/vi/${props.videoId}/maxresdefault.jpg`}
     // src={`https://img.youtube.com/vi/${props.videoId}/maxresdefault.jpg`}
@@ -68,6 +83,7 @@ export function SignPlayer(props: any) {
             >
                 <div className="video-responsive" style={{}}>
                     <YouTube
+                        ref={playerRef}
                         // className="video-responsive"
                         iframeClassName="video-responsive"
                         {...props}
@@ -96,15 +112,7 @@ export function SignPlayer(props: any) {
                             }
                             // console.log('naturalwidth', ev.target.naturalHeight)
                         }}
-                        onClick={() => {
-                            if (isSafari) {
-                                target.playVideo()
-                                setShowThumbnail(false)
-                            } else {
-                                setShowThumbnail(false)
-                                target.playVideo()
-                            }
-                        }}
+                        onClick={playVideo}
                         style={{
                             objectFit: 'cover',
                             width: '100%',
@@ -112,6 +120,27 @@ export function SignPlayer(props: any) {
                             display: showThumbnail ? undefined : 'none',
                         }}
                     />
+                    {showThumbnail && playerReadyCount > 1 && (
+                        <span
+                            style={{
+                                position: 'absolute',
+                                left: '50%',
+                                top: '50%',
+                                transform: 'translate(-50%,-50%)',
+                                msTransform: 'translate(-50%,-50%)',
+                                textAlign: 'center',
+                                fontSize: '8em',
+                                color: 'rgba(255,255,255,0.7)',
+                                cursor: 'pointer',
+                            }}
+                            tabIndex={0}
+                            className="material-icons"
+                            onClick={playVideo}
+                        >
+                            {/* play_arrow */}
+                            play_circle
+                        </span>
+                    )}
                 </div>
             </div>
         </>

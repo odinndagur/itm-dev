@@ -22,9 +22,25 @@ const addSignToCollection = async ({ signId, collectionId }) => {
     )
     getSignByIdJson(signId).then((sign) => {
         sign.videos.map((video) => {
-            fetch(`https://i.ytimg.com/vi/${video.video_id}/maxresdefault.jpg`)
+            try {
+                fetch(
+                    `https://i.ytimg.com/vi/${video.video_id}/maxresdefault.jpg`,
+                    { mode: 'no-cors' }
+                )
+                fetch(
+                    `https://i.ytimg.com/vi/${video.video_id}/hqdefault.jpg`,
+                    { mode: 'no-cors' }
+                )
+            } catch (error) {}
         })
     })
+    const checkSuccess = await query(
+        `select * from sign_collection where sign_id = ${signId} and collection_id = ${collectionId}`
+    )
+    if (checkSuccess.length) {
+        return { status: 'OK' }
+    }
+    return { status: 'ERROR' }
 }
 
 //@ts-ignore
@@ -719,7 +735,7 @@ const searchPagedCollectionByIdRefactor = async ({
         totalPages = Math.ceil(totalSignCount / limit)
         console.log({ offset, tempCount, totalSignCount, totalPages })
         stmt = `
-        select *, levenshtein(sign.phrase,"${searchValue}") as levenshtein, sign.phrase as levenshtein_sign_phrase from (
+        select *, levenshtein(sign.phrase,"${searchValue}") as levenshtein, sign.phrase as levenshtein_sign_phrase, "${searchValue}" as levenshtein_search_value from (
             ${selectClause}
             ${fromClause}
             ${likeWhereClause}

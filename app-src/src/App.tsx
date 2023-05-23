@@ -9,6 +9,7 @@ import {
     searchPagedCollectionById,
     getUserById,
     getRandomSign,
+    searchPagedCollectionByIdRefactor,
 } from './db'
 // import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import {
@@ -160,7 +161,7 @@ function App() {
                                             search: MyLocationGenerics['Search']
                                         }) => ({
                                             signCollection:
-                                                await searchPagedCollectionById(
+                                                await searchPagedCollectionByIdRefactor(
                                                     {
                                                         collectionId:
                                                             search.id ?? 1,

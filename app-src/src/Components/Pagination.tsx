@@ -75,7 +75,12 @@ export function Pagination({
                         ...
                     </a> */}
                     {showLastLink && (
-                        <a onClick={() => updatePage(totalPages)} className="">
+                        <a
+                            onClick={() => updatePage(totalPages)}
+                            className={
+                                currentPage == totalPages ? 'active' : ''
+                            }
+                        >
                             {totalPages}
                         </a>
                     )}

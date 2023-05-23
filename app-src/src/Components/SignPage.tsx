@@ -96,6 +96,19 @@ function SignPage() {
         },
     } = useMatch<SignGenerics>()
 
+    const shareSign = () => {
+        if (navigator.share) {
+            navigator
+                .share({
+                    title: sign?.phrase,
+                    text: `${sign.phrase} á ${window.location.href}`,
+                    url: window.location,
+                })
+                .then(() => console.log('Successful share'))
+                .catch((error) => console.log('Error sharing', error))
+        }
+    }
+
     const navigate = useNavigate()
     const search = useSearch<MyLocationGenerics>()
     // const [scroll, setScroll] = useState(0)
@@ -137,33 +150,46 @@ function SignPage() {
     return (
         <div className="sign" id={sign.id} key={sign.id}>
             <Header />
-            {search.lastSearch ? (
-                <Link
-                    className="temp-card"
-                    style={{ width: 'fit-content' }}
-                    to={'/collection'}
-                    search={{
-                        ...search.lastSearch,
-                        id: search.lastSearch.id ?? 1,
-                    }}
-                >
-                    &lt; Til baka í leit{' '}
-                    {search.lastSearch.query && (
-                        <i>(„{search.lastSearch.query}“)</i>
-                    )}
-                </Link>
-            ) : (
-                <Link
-                    className="temp-card"
-                    style={{ width: 'fit-content' }}
-                    to={'/collection'}
-                    search={{
-                        id: 1,
-                    }}
-                >
-                    &lt; Öll tákn{' '}
-                </Link>
-            )}
+
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                {search.lastSearch ? (
+                    <Link
+                        className="temp-card"
+                        style={{ width: 'fit-content' }}
+                        to={'/collection'}
+                        search={{
+                            ...search.lastSearch,
+                            id: search.lastSearch.id ?? 1,
+                        }}
+                    >
+                        &lt; Til baka í leit{' '}
+                        {search.lastSearch.query && (
+                            <i>(„{search.lastSearch.query}“)</i>
+                        )}
+                    </Link>
+                ) : (
+                    <Link
+                        className="temp-card"
+                        style={{ width: 'fit-content' }}
+                        to={'/collection'}
+                        search={{
+                            id: 1,
+                        }}
+                    >
+                        &lt; Öll tákn{' '}
+                    </Link>
+                )}
+                {navigator.share && (
+                    <div
+                        className="temp-card"
+                        style={{ width: 'fit-content', cursor: 'pointer' }}
+                        to={'/collection'}
+                        onClick={shareSign}
+                    >
+                        <span className="material-icons">send</span>
+                    </div>
+                )}
+            </div>
             {/* <Link
                 className="temp-card"
                 style={{ width: 'fit-content' }}
@@ -202,9 +228,9 @@ function SignPage() {
                         title={sign.phrase}
                     />
                 </div>
-                <div className="sign-info">
+                <div className="sign-info properties">
                     {sign.efnisflokkar && (
-                        <div className="sign-info-item">
+                        <div className="sign-info-item property">
                             <h3>Efnisflokkar</h3>
                             {sign.efnisflokkar.map((efnisflokkur) => {
                                 return (
@@ -220,7 +246,7 @@ function SignPage() {
                         </div>
                     )}
                     {sign.ordflokkur && (
-                        <div className="sign-info-item">
+                        <div className="sign-info-item property">
                             <h3>Orðflokkur</h3>
                             <div>
                                 <Link to={`/ordflokkar/${sign.ordflokkur}`}>
@@ -230,7 +256,7 @@ function SignPage() {
                         </div>
                     )}
                     {sign.myndunarstadur && (
-                        <div className="sign-info-item">
+                        <div className="sign-info-item property">
                             <h3>Myndunarstaður</h3>
                             <div>
                                 <Link
@@ -242,7 +268,7 @@ function SignPage() {
                         </div>
                     )}
                     {sign.handform && (
-                        <div className="sign-info-item">
+                        <div className="sign-info-item property">
                             <Link to={`/handform/${sign.handform}`}>
                                 <h3>Handform</h3>
                                 <img
@@ -254,13 +280,13 @@ function SignPage() {
                         </div>
                     )}
                     {sign.munnhreyfing && (
-                        <div className="sign-info-item">
+                        <div className="sign-info-item property">
                             <h3>Munnhreyfing</h3>
                             <div>{sign.munnhreyfing}</div>
                         </div>
                     )}
                     {sign.description && (
-                        <div className="sign-info-item">
+                        <div className="sign-info-item property">
                             <h3>Lýsing</h3>
                             <div>
                                 {/* {sign.description} */}

@@ -57,7 +57,8 @@ export function SignCollectionItem({
                     </i>
                 </div>
                 {/* <p>{sign.levenshtein}</p>
-                <p>{sign.levenshtein_sign_phrase}</p> */}
+                <p>{sign.levenshtein_sign_phrase}</p>
+                <p>{sign.levenshtein_search_value}</p> */}
                 {/* </div> */}
             </Link>
             <div>

@@ -78,11 +78,17 @@ export function AddSignToCollection({
                                         }}
                                         value={collection.id}
                                         onClick={() => {
+                                            setIcon('rotate_right')
                                             addSignToCollection({
                                                 signId: id,
                                                 collectionId: collection.id,
+                                            }).then((res) => {
+                                                if (res.status == 'OK') {
+                                                    setIcon('check')
+                                                } else {
+                                                    setIcon('error')
+                                                }
                                             })
-                                            setIcon('check')
                                         }}
                                     >
                                         {({ selected }) => (

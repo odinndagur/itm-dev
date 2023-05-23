@@ -45,7 +45,20 @@ function optimalStringAlignmentDistance(s1: string, s2: string) {
     }
 
     // Return the edit distance
-    return dp[s1.length][s2.length]
+
+    const commonPrefix = commonPrefixLength(s1, s2)
+    const minLength = Math.min(s1.length, s2.length)
+    const containsEntireWord = s1
+        .toLocaleLowerCase()
+        .includes(s2.toLocaleLowerCase())
+        ? minLength
+        : 0
+    // return containsEntireWord
+    return (
+        dp[s1.length][s2.length] -
+        containsEntireWord / 2 -
+        commonPrefix * minLength
+    )
 }
 
 // This code is contributed by lokeshpotta20.
@@ -231,6 +244,8 @@ const levenshteinDistance = (str1 = '', str2 = '') => {
 }
 
 const commonPrefixLength = (str1 = '', str2 = '') => {
+    str1 = str1.toLocaleLowerCase()
+    str2 = str2.toLocaleLowerCase()
     let i = 0
     while (i < str1.length && i < str2.length && str1[i] === str2[i]) {
         i += 1
