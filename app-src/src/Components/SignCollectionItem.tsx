@@ -30,9 +30,9 @@ export function SignCollectionItem({
                 draggable
                 to={`/itm-dev/signs/${sign.sign_id}`}
                 search={(search) => ({
-                    // lastSearch: {
-                    //     ...search,
-                    // },
+                    lastSearch: {
+                        ...search,
+                    },
                     scroll: 0,
                 })}
                 style={{
