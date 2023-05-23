@@ -21,6 +21,7 @@ export function SignCollectionItem({
                 // backgroundColor: 'red',
                 display: 'flex',
                 justifyContent: 'space-between',
+                padding: '0 1rem',
                 alignItems: 'center',
                 boxShadow: 'var(--card-box-shadow)',
                 borderRadius: '10px',

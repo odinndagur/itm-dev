@@ -37,11 +37,8 @@
     /* background-color: aqua; */
 }
 @media screen and (max-width: 899px) {
-    .sign-info {
-    }
-
     .properties {
-        width: 900%;
+        /* width: 900%; */
         margin: auto;
     }
 

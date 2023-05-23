@@ -150,47 +150,49 @@ function SignPage() {
     return (
         <div className="sign" id={sign.id} key={sign.id}>
             <Header />
-
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                {search.lastSearch ? (
-                    <Link
-                        className="temp-card"
-                        style={{ width: 'fit-content' }}
-                        to={'/collection'}
-                        search={{
-                            ...search.lastSearch,
-                            id: search.lastSearch.id ?? 1,
-                        }}
-                    >
-                        &lt; Til baka í leit{' '}
-                        {search.lastSearch.query && (
-                            <i>(„{search.lastSearch.query}“)</i>
-                        )}
-                    </Link>
-                ) : (
-                    <Link
-                        className="temp-card"
-                        style={{ width: 'fit-content' }}
-                        to={'/collection'}
-                        search={{
-                            id: 1,
-                        }}
-                    >
-                        &lt; Öll tákn{' '}
-                    </Link>
-                )}
-                {navigator.share && (
-                    <div
-                        className="temp-card"
-                        style={{ width: 'fit-content', cursor: 'pointer' }}
-                        to={'/collection'}
-                        onClick={shareSign}
-                    >
-                        <span className="material-icons">send</span>
-                    </div>
-                )}
-            </div>
-            {/* <Link
+            <div className="card" style={{}}>
+                <div
+                    style={{ display: 'flex', justifyContent: 'space-between' }}
+                >
+                    {search.lastSearch ? (
+                        <Link
+                            className="temp-card"
+                            style={{ width: 'fit-content' }}
+                            to={'/collection'}
+                            search={{
+                                ...search.lastSearch,
+                                id: search.lastSearch.id ?? 1,
+                            }}
+                        >
+                            &lt; Til baka í leit{' '}
+                            {search.lastSearch.query && (
+                                <i>(„{search.lastSearch.query}“)</i>
+                            )}
+                        </Link>
+                    ) : (
+                        <Link
+                            className="temp-card"
+                            style={{ width: 'fit-content' }}
+                            to={'/collection'}
+                            search={{
+                                id: 1,
+                            }}
+                        >
+                            &lt; Öll tákn{' '}
+                        </Link>
+                    )}
+                    {navigator.share && (
+                        <div
+                            className="temp-card"
+                            style={{ width: 'fit-content', cursor: 'pointer' }}
+                            to={'/collection'}
+                            onClick={shareSign}
+                        >
+                            <span className="material-icons">send</span>
+                        </div>
+                    )}
+                </div>
+                {/* <Link
                 className="temp-card"
                 style={{ width: 'fit-content' }}
                 to={'/signs'}
@@ -201,178 +203,191 @@ function SignPage() {
                     <i>(„{search.lastSearch.query}“)</i>
                 )}
             </Link> */}
-            <div className="card">
-                <div style={{ maxWidth: 'max(80%,400px)', margin: 'auto' }}>
+                <div className="">
                     <div
                         style={{
-                            display: 'flex',
-                            zIndex: 50,
+                            maxWidth: 'max(80%,400px)',
                             margin: 'auto',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            gap: '1rem',
                         }}
                     >
-                        <Link>
-                            <h2 className="sign-phrase">{sign.phrase}</h2>
-                        </Link>
-                        <AddSignToCollection
-                            id={sign.id}
-                            collections={user.collections}
-                            zIndex={500}
+                        <div
+                            style={{
+                                display: 'flex',
+                                zIndex: 50,
+                                margin: 'auto',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                gap: '1rem',
+                            }}
+                        >
+                            <Link>
+                                <h2 className="sign-phrase">{sign.phrase}</h2>
+                            </Link>
+                            <AddSignToCollection
+                                id={sign.id}
+                                collections={user.collections}
+                                zIndex={500}
+                            />
+                        </div>
+                        <SignPlayer
+                            iframeClassName="video-responsive"
+                            videoId={sign.videos[0]}
+                            title={sign.phrase}
                         />
                     </div>
-                    <SignPlayer
-                        iframeClassName="video-responsive"
-                        videoId={sign.videos[0]}
-                        title={sign.phrase}
-                    />
-                </div>
-                <div className="sign-info properties">
-                    {sign.efnisflokkar && (
-                        <div className="sign-info-item property">
-                            <h3>Efnisflokkar</h3>
-                            {sign.efnisflokkar.map((efnisflokkur) => {
-                                return (
-                                    <div key={efnisflokkur}>
-                                        <Link
-                                            to={`/efnisflokkar/${efnisflokkur}`}
-                                        >
-                                            {efnisflokkur}
-                                        </Link>
-                                    </div>
-                                )
-                            })}
-                        </div>
-                    )}
-                    {sign.ordflokkur && (
-                        <div className="sign-info-item property">
-                            <h3>Orðflokkur</h3>
-                            <div>
-                                <Link to={`/ordflokkar/${sign.ordflokkur}`}>
-                                    {sign.ordflokkur}
+                    <div className="sign-info properties" style={{}}>
+                        {sign.efnisflokkar && (
+                            <div className="sign-info-item property">
+                                <h3>Efnisflokkar</h3>
+                                {sign.efnisflokkar.map((efnisflokkur) => {
+                                    return (
+                                        <div key={efnisflokkur}>
+                                            <Link
+                                                to={`/efnisflokkar/${efnisflokkur}`}
+                                            >
+                                                {efnisflokkur}
+                                            </Link>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        )}
+                        {sign.ordflokkur && (
+                            <div className="sign-info-item property">
+                                <h3>Orðflokkur</h3>
+                                <div>
+                                    <Link to={`/ordflokkar/${sign.ordflokkur}`}>
+                                        {sign.ordflokkur}
+                                    </Link>
+                                </div>
+                            </div>
+                        )}
+                        {sign.myndunarstadur && (
+                            <div className="sign-info-item property">
+                                <h3>Myndunarstaður</h3>
+                                <div>
+                                    <Link
+                                        to={`/myndunarstadir/${sign.myndunarstadur}`}
+                                    >
+                                        {sign.myndunarstadur}
+                                    </Link>
+                                </div>
+                            </div>
+                        )}
+                        {sign.handform && (
+                            <div className="sign-info-item property">
+                                <Link to={`/handform/${sign.handform}`}>
+                                    <h3>Handform</h3>
+                                    <img
+                                        className="handform-img"
+                                        src={`/itm-dev/assets/itm-images/handform/${sign.handform}.png`}
+                                    />
+                                    <div>{sign.handform}</div>
                                 </Link>
                             </div>
-                        </div>
-                    )}
-                    {sign.myndunarstadur && (
-                        <div className="sign-info-item property">
-                            <h3>Myndunarstaður</h3>
-                            <div>
-                                <Link
-                                    to={`/myndunarstadir/${sign.myndunarstadur}`}
-                                >
-                                    {sign.myndunarstadur}
-                                </Link>
+                        )}
+                        {sign.munnhreyfing && (
+                            <div className="sign-info-item property">
+                                <h3>Munnhreyfing</h3>
+                                <div>{sign.munnhreyfing}</div>
                             </div>
-                        </div>
-                    )}
-                    {sign.handform && (
-                        <div className="sign-info-item property">
-                            <Link to={`/handform/${sign.handform}`}>
-                                <h3>Handform</h3>
-                                <img
-                                    className="handform-img"
-                                    src={`/itm-dev/assets/itm-images/handform/${sign.handform}.png`}
-                                />
-                                <div>{sign.handform}</div>
-                            </Link>
-                        </div>
-                    )}
-                    {sign.munnhreyfing && (
-                        <div className="sign-info-item property">
-                            <h3>Munnhreyfing</h3>
-                            <div>{sign.munnhreyfing}</div>
-                        </div>
-                    )}
-                    {sign.description && (
-                        <div className="sign-info-item property">
-                            <h3>Lýsing</h3>
-                            <div>
-                                {/* {sign.description} */}
-                                {/* {process_description(sign.description)} */}
-                                {process_description(sign.description)
-                                    ? process_description(sign.description).map(
-                                          (part, idx) => {
+                        )}
+                        {sign.description && (
+                            <div className="sign-info-item property">
+                                <h3>Lýsing</h3>
+                                <div>
+                                    {/* {sign.description} */}
+                                    {/* {process_description(sign.description)} */}
+                                    {process_description(sign.description)
+                                        ? process_description(
+                                              sign.description
+                                          ).map((part, idx) => {
                                               return (
                                                   <span key={idx}>{part}</span>
                                               )
-                                          }
-                                      )
-                                    : sign.description}
+                                          })
+                                        : sign.description}
+                                </div>
                             </div>
-                        </div>
-                    )}
+                        )}
+                    </div>
+                    <div className="center pad" style={{}}>
+                        <i>
+                            <a
+                                href={`https://is.signwiki.org/index.php?curid=${sign.id}`}
+                            >
+                                „{sign.phrase}“ á SignWiki
+                            </a>
+                        </i>
+                    </div>
                 </div>
-                <div className="center pad">
-                    <i>
-                        <a
-                            href={`https://is.signwiki.org/index.php?curid=${sign.id}`}
-                        >
-                            „{sign.phrase}“ á SignWiki
-                        </a>
-                    </i>
-                </div>
-            </div>
-            {(sign.islenska || sign.taknmal) && (
-                <div className="card">
-                    <h2 className="center pad">Fleiri dæmi</h2>
-                    <div className="alternate-videos">
-                        {sign.videos.slice(1).map((id) => {
-                            return (
-                                id && (
-                                    <div className="alternate-video" key={id}>
-                                        <SignPlayer
-                                            videoId={id}
-                                            title={sign.phrase}
-                                        />
-                                    </div>
+                {(sign.islenska || sign.taknmal) && (
+                    <div className="">
+                        <h2 className="center pad">Fleiri dæmi</h2>
+                        <div className="alternate-videos">
+                            {sign.videos.slice(1).map((id) => {
+                                return (
+                                    id && (
+                                        <div
+                                            className="alternate-video"
+                                            key={id}
+                                        >
+                                            <SignPlayer
+                                                videoId={id}
+                                                title={sign.phrase}
+                                            />
+                                        </div>
+                                    )
                                 )
-                            )
-                        })}
-                    </div>
-                    <div className="sign-info">
-                        {sign.islenska && (
-                            <div className="sign-info-item pad">
-                                <h3>Íslenska</h3>
-                                <div>{sign.islenska}</div>
-                            </div>
-                        )}
-                        {sign.taknmal && (
-                            <div className="sign-info-item pad">
-                                <h3>Táknmál</h3>
-                                <div>{sign.taknmal}</div>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            )}
-
-            {sign.related_signs && (
-                <div className="sign-info-item">
-                    <div className="flexcol related-signs card">
-                        <div>
-                            <h3>Tengd tákn</h3>
+                            })}
                         </div>
-                        {sign.related_signs.map((related_sign) => {
-                            return (
-                                <Link
-                                    key={related_sign.id}
-                                    to={`/signs/${related_sign.id}`}
-                                    search={(old) => ({ ...old, scroll: 0 })}
-                                >
-                                    <div
-                                        className="pad"
-                                        style={{ fontSize: '1.3rem' }}
-                                    >
-                                        {related_sign.phrase}
-                                    </div>
-                                </Link>
-                            )
-                        })}
+                        <div className="sign-info">
+                            {sign.islenska && (
+                                <div className="sign-info-item pad">
+                                    <h3>Íslenska</h3>
+                                    <div>{sign.islenska}</div>
+                                </div>
+                            )}
+                            {sign.taknmal && (
+                                <div className="sign-info-item pad">
+                                    <h3>Táknmál</h3>
+                                    <div>{sign.taknmal}</div>
+                                </div>
+                            )}
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
+            </div>
+            <div>
+                {sign.related_signs && (
+                    <div className="sign-info-item card">
+                        <div className="flexcol related-signs">
+                            <div>
+                                <h3>Tengd tákn</h3>
+                            </div>
+                            {sign.related_signs.map((related_sign) => {
+                                return (
+                                    <Link
+                                        key={related_sign.id}
+                                        to={`/signs/${related_sign.id}`}
+                                        search={(old) => ({
+                                            ...old,
+                                            scroll: 0,
+                                        })}
+                                    >
+                                        <div
+                                            className="pad"
+                                            style={{ fontSize: '1.3rem' }}
+                                        >
+                                            {related_sign.phrase}
+                                        </div>
+                                    </Link>
+                                )
+                            })}
+                        </div>
+                    </div>
+                )}
+            </div>
         </div>
     )
 }
