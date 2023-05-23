@@ -621,14 +621,153 @@ const searchPagedCollectionById = async ({
     }
 }
 
+const searchPagedCollectionByIdRefactor = async ({
+    searchValue,
+    collectionId,
+    page,
+}: {
+    searchValue: string
+    collectionId: number | string
+    page: number | string
+}) => {
+    const limit = 100
+    const offset = (Number(page) - 1) * limit
+    let stmt = ''
+    let totalSignCount = 0
+    let totalPages = 0
+
+    if (searchValue[0] == '*') {
+        searchValue = searchValue.substring(1)
+    } else if (searchValue[searchValue.length - 1] == '*') {
+        searchValue = searchValue.substring(0, searchValue.length - 1)
+    }
+
+    const selectClause = `
+        select distinct sign.id as sign_id,
+        sign.phrase as phrase,
+        sign_video.video_id as youtube_id,
+        sign_fts.related_signs as related_signs,
+        collection.name as collection_name,
+        group_concat(multiCollection.id) as collections
+        `
+
+    const fromClause = `
+        from sign
+        join sign_fts
+        on sign.id = sign_fts.id
+        left join sign_collection
+        on sign.id = sign_collection.sign_id
+        left join collection
+        on collection.id = sign_collection.collection_id
+        left join collection as multiCollection
+        on multiCollection.id = sign_collection.collection_id
+        LEFT JOIN sign_video
+        ON sign.id = sign_video.sign_id
+        `
+
+    if (!searchValue) {
+        const tempCount = await query(`
+            select count(*) as sign_count from sign
+            join sign_fts
+            on sign.id = sign_fts.id
+            left join sign_collection on sign.id = sign_collection.sign_id
+            left join collection
+            on collection.id = sign_collection.collection_id
+            where collection.id = ${collectionId}
+        `)
+        totalSignCount = tempCount[0].sign_count
+        totalPages = Math.ceil(totalSignCount / limit)
+        console.log({ offset, tempCount, totalSignCount, totalPages })
+        const orderBy =
+            collectionId == 1 ? 'sign.phrase asc' : 'sign_collection.date_added'
+        stmt = `
+            ${selectClause}
+            ${fromClause}
+            where collection.id = ${collectionId}
+            group by sign.id
+            order by ${orderBy}
+            limit ${limit}
+            offset ${offset}`
+    } else {
+        const orderBy =
+            collectionId == 1
+                ? `levenshtein(sign.phrase,"${searchValue}") asc`
+                : 'sign_collection.date_added'
+
+        const likeWhereClause = `
+        WHERE sign.phrase LIKE "%${searchValue}%"
+        AND collection.id = ${collectionId}
+        `
+        const ftsWhereClause = `
+        WHERE sign_fts MATCH "${searchValue}*"
+        AND collection.id = ${collectionId}
+        `
+        const tempCount = await query(`
+            select count(*) as sign_count from (
+                ${selectClause}
+                ${fromClause}
+                ${likeWhereClause}
+                GROUP BY sign_collection.sign_id
+                UNION
+                ${selectClause}
+                ${fromClause}
+                ${ftsWhereClause}
+                GROUP BY sign_collection.sign_id
+                ) as sign
+        `)
+        totalSignCount = tempCount[0].sign_count
+        totalPages = Math.ceil(totalSignCount / limit)
+        console.log({ offset, tempCount, totalSignCount, totalPages })
+        stmt = `
+        select *, levenshtein(sign.phrase,"${searchValue}") as levenshtein, sign.phrase as levenshtein_sign_phrase from (
+            ${selectClause}
+            ${fromClause}
+            ${likeWhereClause}
+            GROUP BY sign_collection.sign_id
+            UNION
+            ${selectClause}
+            ${fromClause}
+            ${ftsWhereClause}
+            GROUP BY sign_collection.sign_id
+            ) as sign
+            ORDER BY ${orderBy}
+            LIMIT ${limit}
+            OFFSET ${offset}
+        `
+    }
+
+    DB_CONSOLE_LOGS && console.log(stmt)
+    let result: {
+        id: number
+        phrase: string
+        youtube_id: string
+        related_signs: string
+        collections: string
+        collection_id?: number
+        collection_name?: string
+        in_collection?: boolean
+    }[] = await query(stmt)
+    DB_CONSOLE_LOGS && console.log(result)
+    const collection_name = result[0]?.collection_name
+    return {
+        signs: result,
+        totalPages,
+        totalSignCount,
+        offset,
+        limit,
+        collection_name,
+    }
+}
+
 const getRandomSign = async () => {
-    const res = await query('select count(*) as sign_count from sign')
-    // DB_CONSOLE_LOGS && console.log(res)
-    const count = parseInt(res[0].sign_count)
-    // DB_CONSOLE_LOGS && console.log(count)
-    const index = Math.floor(Math.random() * count)
-    // DB_CONSOLE_LOGS && console.log(index)
-    const signs = await query(`select * from sign  limit 1 offset ${index}`)
+    // const res = await query('select count(*) as sign_count from sign')
+    // // DB_CONSOLE_LOGS && console.log(res)
+    // const count = parseInt(res[0].sign_count)
+    // // DB_CONSOLE_LOGS && console.log(count)
+    // const index = Math.floor(Math.random() * count)
+    // // DB_CONSOLE_LOGS && console.log(index)
+    // const signs = await query(`select * from sign limit 1 offset ${index}`)
+    const signs = await query(`select * from sign order by random() limit 1`)
     DB_CONSOLE_LOGS && console.log(signs[0])
     return signs[0].id
 }
@@ -649,4 +788,5 @@ export {
     getRandomSign,
     createCollection,
     deleteCollection,
+    searchPagedCollectionByIdRefactor,
 }

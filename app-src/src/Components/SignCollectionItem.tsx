@@ -56,6 +56,8 @@ export function SignCollectionItem({
                             : sign.related_signs}
                     </i>
                 </div>
+                {/* <p>{sign.levenshtein}</p>
+                <p>{sign.levenshtein_sign_phrase}</p> */}
                 {/* </div> */}
             </Link>
             <div>

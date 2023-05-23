@@ -7,6 +7,7 @@ import {
     getSignByIdJson,
     getUserById,
     searchPagedCollectionById,
+    searchPagedCollectionByIdRefactor,
 } from '../db'
 import { AddSignToCollection } from './AddSignToCollection'
 import {
@@ -106,7 +107,7 @@ export function SignCollectionPage() {
     const { data, isPlaceholderData, isLoading, isError } = useQuery({
         queryKey: ['signs', searchValue, page, 'collectionId: ' + search.id],
         queryFn: () =>
-            searchPagedCollectionById({
+            searchPagedCollectionByIdRefactor({
                 searchValue: searchValue ?? '',
                 collectionId: search.id ?? 1,
                 page: search.page ?? 1,

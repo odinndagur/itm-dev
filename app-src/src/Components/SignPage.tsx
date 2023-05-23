@@ -8,7 +8,6 @@ import {
     useSearch,
     Navigate,
 } from '@tanstack/react-location'
-import { YoutubeEmbed } from './YoutubeEmbed'
 import YouTube from 'react-youtube'
 import './signpage.css'
 import { useEffect } from 'react'
@@ -297,10 +296,6 @@ function SignPage() {
                             return (
                                 id && (
                                     <div className="alternate-video" key={id}>
-                                        {/* <YoutubeEmbed
-                                        embedId={id}
-                                        title={sign.phrase}
-                                    /> */}
                                         <SignPlayer
                                             videoId={id}
                                             title={sign.phrase}
