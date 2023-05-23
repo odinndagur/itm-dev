@@ -47,6 +47,7 @@ export function SelectCollection({ currentCollection, collections }) {
                                 navigate({
                                     search: (search) => ({
                                         ...search,
+                                        query: '',
                                         id: collection.id,
                                         scroll: 0,
                                         page: 1,
