@@ -18,16 +18,20 @@ export function SignCollectionItem({
             style={{
                 margin: 'auto',
                 // width: '100vw',
-                // height: 'max-content',
+                // backgroundColor: 'red',
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
+                boxShadow: 'var(--card-box-shadow)',
+                borderRadius: '10px',
+                // boxSizing: 'border-box',
             }}
-            className="card"
+            className=""
             key={sign.sign_id}
         >
             <Link
                 draggable
+                className=""
                 to={`/itm-dev/signs/${sign.sign_id}`}
                 search={(search) => ({
                     lastSearch: {
@@ -37,7 +41,9 @@ export function SignCollectionItem({
                 })}
                 style={{
                     // border: '1px solid red',
-                    minHeight: '2rem',
+                    // minHeight: '2rem',
+                    height: '100%',
+                    padding: '1rem',
                     flexGrow: 1,
                 }}
             >

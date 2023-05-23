@@ -22,6 +22,10 @@ export function AddSignToCollection({
                                 borderRadius: '10px',
                                 backgroundColor: 'var(--secondary-color)',
                             }}
+                            onClick={(ev) => {
+                                // ev.stopPropagation()
+                                // return null
+                            }}
                         >
                             <span className="material-icons">{icon}</span>
                         </Listbox.Button>
