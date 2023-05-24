@@ -17,10 +17,11 @@ export function AddSignToCollection({
                 <Listbox value={'nett'}>
                     <div className="">
                         <Listbox.Button
-                            className=""
+                            className="button-17"
                             style={{
-                                borderRadius: '10px',
+                                // borderRadius: '10px',
                                 backgroundColor: 'var(--secondary-color)',
+                                maxWidth: '2rem',
                             }}
                             onClick={(ev) => {
                                 // ev.stopPropagation()
@@ -39,7 +40,7 @@ export function AddSignToCollection({
                                 position: 'absolute',
                                 width: 'fit-content',
                                 transform: 'translateX(-100%)',
-                                // zIndex: 900000,
+                                zIndex: 9999,
 
                                 // flexDirection: 'column',
                                 // alignSelf: 'center',

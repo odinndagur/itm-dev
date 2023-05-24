@@ -1,3 +1,4 @@
+import { OrderBy } from './OrderBy'
 import { SelectPage } from './SelectPage'
 
 export function Pagination({
@@ -38,6 +39,23 @@ export function Pagination({
     // < 1 2 3 4 5 6 ... 121 >
     return (
         <>
+            <div
+                className=""
+                style={{
+                    padding: '0rem 1rem',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                }}
+            >
+                <div>
+                    Sýni tákn {totalSignCount > 0 ? offset + 1 : 0}-
+                    {offset + signCountOnPage} af {totalSignCount}.
+                </div>
+                <div>
+                    <OrderBy />
+                </div>
+            </div>
             {totalPages > 1 && (
                 <div className="pagination">
                     <a
@@ -93,10 +111,6 @@ export function Pagination({
                     </a>
                 </div>
             )}
-            <div className="center" style={{ padding: '0.5rem 0' }}>
-                Sýni tákn {totalSignCount > 0 ? offset + 1 : 0}-
-                {offset + signCountOnPage} af {totalSignCount}.
-            </div>
         </>
     )
 }

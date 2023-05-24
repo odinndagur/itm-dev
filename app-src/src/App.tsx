@@ -115,13 +115,18 @@ function App() {
                                             search: MyLocationGenerics['Search']
                                         }) => ({
                                             signCollection:
-                                                await searchPagedCollectionById(
+                                                await searchPagedCollectionByIdRefactor(
                                                     {
                                                         collectionId:
                                                             search.id ?? 1,
                                                         page: search.page ?? 1,
                                                         searchValue:
                                                             search.query ?? '',
+                                                        orderBy:
+                                                            search.orderBy ?? {
+                                                                value: 'az',
+                                                                order: 'asc',
+                                                            },
                                                     }
                                                 ),
                                             user: await getUserById(3),
@@ -168,6 +173,11 @@ function App() {
                                                         page: search.page ?? 1,
                                                         searchValue:
                                                             search.query ?? '',
+                                                        orderBy:
+                                                            search.orderBy ?? {
+                                                                value: 'az',
+                                                                order: 'asc',
+                                                            },
                                                     }
                                                 ),
                                             user: await getUserById(3),

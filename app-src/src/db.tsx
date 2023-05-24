@@ -641,16 +641,23 @@ const searchPagedCollectionByIdRefactor = async ({
     searchValue,
     collectionId,
     page,
+    orderBy = { value: 'az', order: 'asc' },
 }: {
     searchValue: string
     collectionId: number | string
     page: number | string
+    orderBy: {
+        value: string
+        order: string
+    }
 }) => {
     const limit = 100
     const offset = (Number(page) - 1) * limit
     let stmt = ''
     let totalSignCount = 0
     let totalPages = 0
+
+    console.log(orderBy)
 
     if (searchValue[0] == '*') {
         searchValue = searchValue.substring(1)
@@ -664,7 +671,8 @@ const searchPagedCollectionByIdRefactor = async ({
         sign_video.video_id as youtube_id,
         sign_fts.related_signs as related_signs,
         collection.name as collection_name,
-        group_concat(multiCollection.id) as collections
+        group_concat(multiCollection.id) as collections,
+        sign_collection.date_added as date_added
         `
 
     const fromClause = `
@@ -694,21 +702,29 @@ const searchPagedCollectionByIdRefactor = async ({
         totalSignCount = tempCount[0].sign_count
         totalPages = Math.ceil(totalSignCount / limit)
         console.log({ offset, tempCount, totalSignCount, totalPages })
-        const orderBy =
-            collectionId == 1 ? 'sign.phrase asc' : 'sign_collection.date_added'
+        // const orderBy =
+        //     collectionId == 1 ? 'sign.phrase asc' : 'sign_collection.date_added'
+        const orderByClause = `${
+            orderBy.value == 'az' ? 'sign.phrase' : 'date_added'
+        } ${orderBy.order}`
         stmt = `
             ${selectClause}
             ${fromClause}
             where collection.id = ${collectionId}
             group by sign.id
-            order by ${orderBy}
+            order by ${orderByClause}
             limit ${limit}
             offset ${offset}`
     } else {
-        const orderBy =
-            collectionId == 1
-                ? `levenshtein(sign.phrase,"${searchValue}") asc`
-                : 'sign_collection.date_added'
+        // const orderByClause =
+        //     collectionId == 1
+        //         ? `levenshtein(sign.phrase,"${searchValue}") asc`
+        //         : 'date_added'
+        const orderByClause = `${
+            orderBy.value == 'az'
+                ? 'levenshtein(sign.phrase,"' + searchValue + '")'
+                : 'date_added'
+        } ${orderBy.order}`
 
         const likeWhereClause = `
         WHERE sign.phrase LIKE "%${searchValue}%"
@@ -746,7 +762,7 @@ const searchPagedCollectionByIdRefactor = async ({
             ${ftsWhereClause}
             GROUP BY sign_collection.sign_id
             ) as sign
-            ORDER BY ${orderBy}
+            ORDER BY ${orderByClause}
             LIMIT ${limit}
             OFFSET ${offset}
         `

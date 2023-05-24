@@ -7,6 +7,10 @@ export type MyLocationGenerics = MakeGenerics<{
         scroll?: number
         lastSearch?: { page?: number; query?: string; scroll?: number }
         id?: number
+        orderBy?: {
+            value: string
+            order: string
+        }
     }
 }>
 

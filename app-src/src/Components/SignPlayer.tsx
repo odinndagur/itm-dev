@@ -55,7 +55,7 @@ export function SignPlayer(props: any) {
         height: '480',
         playerVars: {
             // https://developers.google.com/youtube/player_parameters
-            autoplay: isSafari ? 0 : 1,
+            // autoplay: isSafari ? 0 : 1,
             modestbranding: 1,
             mute: 1,
             rel: 0,

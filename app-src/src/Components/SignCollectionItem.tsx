@@ -24,7 +24,7 @@ export function SignCollectionItem({
                 padding: '0 1rem',
                 alignItems: 'center',
                 boxShadow: 'var(--card-box-shadow)',
-                borderRadius: '10px',
+                borderRadius: '3px',
                 // boxSizing: 'border-box',
             }}
             className=""

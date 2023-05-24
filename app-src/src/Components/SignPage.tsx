@@ -201,7 +201,7 @@ function SignPage() {
                     <i>(„{search.lastSearch.query}“)</i>
                 )}
             </Link> */}
-            <div className="">
+            <div className="card">
                 <div style={{ maxWidth: 'max(80%,400px)', margin: 'auto' }}>
                     <div
                         style={{
