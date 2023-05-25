@@ -11,7 +11,6 @@ import {
     getRandomSign,
     searchPagedCollectionByIdRefactor,
 } from './db'
-// import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import {
     ReactLocation,
     Router,
@@ -23,7 +22,6 @@ import PlaceholderScreen from './Components/PlaceholderScreen'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AppNavBar } from './Components/AppNavBar'
-import { Place } from '@mui/icons-material'
 import { Handform } from './Components/Handform'
 import { DarkModeSwitch } from './Components/DarkModeSwitch'
 import { NotFound } from './Components/NotFound'
@@ -49,7 +47,6 @@ function App() {
     const [currentTheme, setCurrentTheme] = useState(
         window.localStorage.getItem('theme_mode') ?? 'light'
     )
-    const [user, setUser] = useState(3)
     useEffect(() => {
         const intervalID = setInterval(() => {
             console.log('callback yo')
@@ -84,12 +81,29 @@ function App() {
                         routes={[
                             {
                                 path: '/',
-                                element: (
-                                    <Navigate
-                                        to={'/collection'}
-                                        search={{ id: 1 }}
-                                    />
-                                ),
+                                element: <SignCollectionPage />,
+
+                                loader: async ({
+                                    search,
+                                }: {
+                                    search: MyLocationGenerics['Search']
+                                }) => ({
+                                    signCollection:
+                                        await searchPagedCollectionByIdRefactor(
+                                            {
+                                                collectionId: search.id ?? 1,
+                                                page: search.page ?? 1,
+                                                searchValue: search.query ?? '',
+                                                orderBy: search.orderBy ?? {
+                                                    value: 'az',
+                                                    order: 'asc',
+                                                },
+                                            }
+                                        ),
+                                    user: await getUserById(3),
+                                }),
+                                loaderMaxAge: 0,
+
                                 // loader: async ({ search }) => ({
                                 //     signs: await searchPagedCollectionById({
                                 //         searchValue: search.query ?? '',

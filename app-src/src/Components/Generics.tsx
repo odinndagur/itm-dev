@@ -5,11 +5,11 @@ export type MyLocationGenerics = MakeGenerics<{
         page?: number
         query?: string
         scroll?: number
-        lastSearch?: { page?: number; query?: string; scroll?: number }
+        lastSearch?: MyLocationGenerics
         id?: number
         orderBy?: {
-            value: string
-            order: string
+            value: 'az' | 'date'
+            order: 'asc' | 'desc'
         }
     }
 }>
@@ -39,7 +39,7 @@ export type SignCollectionGenerics = MakeGenerics<{
     LoaderData: {
         signCollection?: {
             signs: {
-                sign_id: number
+                id: number
                 phrase: string
                 youtube_id: string
                 related_signs: string
