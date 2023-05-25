@@ -146,14 +146,42 @@ export function SignCollectionPage() {
     return (
         <>
             <Header>
-                <SelectCollection
-                    currentCollection={
-                        user?.collections?.find(
-                            (collection) => collection.id == search.id
-                        )?.name
-                    }
-                    collections={user?.collections}
-                />
+                <div
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        padding: '0 1rem',
+                    }}
+                >
+                    <div style={{ flexBasis: '100%' }}></div>
+                    <div style={{ flexBasis: '100%' }}>
+                        <SelectCollection
+                            currentCollection={
+                                user?.collections?.find(
+                                    (collection) => collection.id == search.id
+                                )?.name
+                            }
+                            collections={user?.collections}
+                        />
+                    </div>
+                    <div style={{ flexBasis: '100%' }}>
+                        {search.id != 1 && (
+                            <span
+                                style={{
+                                    float: 'right',
+                                    // padding: '0 1rem',
+                                    fontSize: '1.3rem',
+                                    fontStyle: editing ? 'italic' : undefined,
+                                    cursor: 'pointer',
+                                }}
+                                onClick={() => setEditing(!editing)}
+                            >
+                                Breyta
+                            </span>
+                        )}
+                    </div>
+                </div>
                 <div className="search">
                     <input
                         onChange={(event) => handleSearch(event.target.value)}
@@ -166,20 +194,6 @@ export function SignCollectionPage() {
 
             {data && (
                 <div className="signlist" ref={scrollRef}>
-                    {search.id != 1 && (
-                        <b
-                            style={{
-                                float: 'right',
-                                padding: '0 1rem',
-                                fontSize: '1.3rem',
-                                fontStyle: editing ? 'italic' : undefined,
-                                cursor: 'pointer',
-                            }}
-                            onClick={() => setEditing(!editing)}
-                        >
-                            Breyta
-                        </b>
-                    )}
                     <Pagination
                         key={search.page}
                         offset={data.offset}

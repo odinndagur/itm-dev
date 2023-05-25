@@ -39,6 +39,7 @@ export function OrderBy() {
                     search={(old) => ({
                         ...old,
                         orderBy: setOrderBy('date'),
+                        page: 1,
                     })}
                     style={{
                         cursor: 'pointer',
@@ -99,6 +100,7 @@ export function OrderBy() {
                 search={(old) => ({
                     ...old,
                     orderBy: setOrderBy('az'),
+                    page: 1,
                 })}
                 style={{
                     cursor: 'pointer',

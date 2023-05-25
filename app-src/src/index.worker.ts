@@ -17,6 +17,8 @@ function intersect(a: string, b: string) {
 // Javascript function to calculate optimal string alignment distance
 function optimalStringAlignmentDistance(s1: string, s2: string) {
     // Create a table to store the results of subproblems
+    s1 = s1.toLocaleLowerCase()
+    s2 = s2.toLocaleLowerCase()
     if (intersect(s1, s2).length == 0) {
         return Infinity
     }
@@ -48,11 +50,7 @@ function optimalStringAlignmentDistance(s1: string, s2: string) {
 
     const commonPrefix = commonPrefixLength(s1, s2)
     const minLength = Math.min(s1.length, s2.length)
-    const containsEntireWord = s1
-        .toLocaleLowerCase()
-        .includes(s2.toLocaleLowerCase())
-        ? minLength
-        : 0
+    const containsEntireWord = s1.includes(s2) ? minLength : 0
     // return containsEntireWord
     return (
         dp[s1.length][s2.length] -
