@@ -12,6 +12,7 @@ type OrderByGenerics = MakeGenerics<{
     }
 }>
 export function OrderBy() {
+    const fontSize = '1.5rem'
     const searchParams = useSearch<OrderByGenerics>()
     const orderBy = searchParams.orderBy ?? {
         value: 'az',
@@ -32,58 +33,67 @@ export function OrderBy() {
     }
     return (
         <div style={{ display: 'flex' }}>
-            <Link
-                // onClick={() => setOrderBy('date')}
-                search={(old) => ({
-                    ...old,
-                    orderBy: setOrderBy('date'),
-                })}
-                style={{
-                    cursor: 'pointer',
-                    display: 'flex',
-                    // alignContent: 'center',
-                    // justifyContent: 'center',
-                    alignItems: 'center',
-                    // justifyItems: 'center',
-                }}
-            >
-                <div
-                    className="material-icons"
+            {searchParams.id != 1 && (
+                <Link
+                    // onClick={() => setOrderBy('date')}
+                    search={(old) => ({
+                        ...old,
+                        orderBy: setOrderBy('date'),
+                    })}
                     style={{
-                        fontSize: '2rem',
-                        padding: '0.5rem 0.5rem',
-                        color: orderBy.value == 'date' ? 'black' : 'gray',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        // alignContent: 'center',
+                        // justifyContent: 'center',
+                        alignItems: 'center',
+                        // justifyItems: 'center',
                     }}
                 >
-                    calendar_month
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <span
+                    <div
                         className="material-icons"
                         style={{
+                            fontSize: fontSize,
+                            padding: '0.5rem 0.5rem',
                             color:
-                                orderBy.value == 'date' &&
-                                orderBy.order == 'asc'
-                                    ? 'black'
+                                orderBy.value == 'date'
+                                    ? 'var(--main-text-color)'
                                     : 'gray',
                         }}
                     >
-                        keyboard_arrow_up
-                    </span>
-                    <span
-                        className="material-icons"
-                        style={{
-                            color:
-                                orderBy.value == 'date' &&
-                                orderBy.order == 'desc'
-                                    ? 'black'
-                                    : 'gray',
-                        }}
-                    >
-                        keyboard_arrow_down
-                    </span>
-                </div>
-            </Link>
+                        calendar_month
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <span
+                            className="material-icons"
+                            style={{
+                                fontSize: fontSize,
+
+                                color:
+                                    orderBy.value == 'date' &&
+                                    orderBy.order == 'asc'
+                                        ? 'var(--main-text-color)'
+                                        : 'gray',
+                            }}
+                        >
+                            keyboard_arrow_up
+                        </span>
+                        <span
+                            className="material-icons"
+                            style={{
+                                fontSize: fontSize,
+
+                                color:
+                                    orderBy.value == 'date' &&
+                                    orderBy.order == 'desc'
+                                        ? 'var(--main-text-color)'
+                                        : 'gray',
+                            }}
+                        >
+                            keyboard_arrow_down
+                        </span>
+                    </div>
+                </Link>
+            )}
 
             <Link
                 search={(old) => ({
@@ -102,9 +112,12 @@ export function OrderBy() {
                 <div
                     className="material-icons"
                     style={{
-                        fontSize: '2rem',
+                        fontSize: fontSize,
                         padding: '0.5rem 0.5rem',
-                        color: orderBy.value == 'az' ? 'black' : 'gray',
+                        color:
+                            orderBy.value == 'az'
+                                ? 'var(--main-text-color)'
+                                : 'gray',
                     }}
                 >
                     sort_by_alpha
@@ -113,9 +126,11 @@ export function OrderBy() {
                     <span
                         className="material-icons"
                         style={{
+                            fontSize: fontSize,
+
                             color:
                                 orderBy.value == 'az' && orderBy.order == 'asc'
-                                    ? 'black'
+                                    ? 'var(--main-text-color)'
                                     : 'gray',
                         }}
                     >
@@ -124,9 +139,11 @@ export function OrderBy() {
                     <span
                         className="material-icons"
                         style={{
+                            fontSize: fontSize,
+
                             color:
                                 orderBy.value == 'az' && orderBy.order == 'desc'
-                                    ? 'black'
+                                    ? 'var(--main-text-color)'
                                     : 'gray',
                         }}
                     >
