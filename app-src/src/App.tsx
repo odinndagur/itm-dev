@@ -81,28 +81,12 @@ function App() {
                         routes={[
                             {
                                 path: '/',
-                                element: <SignCollectionPage />,
-
-                                loader: async ({
-                                    search,
-                                }: {
-                                    search: MyLocationGenerics['Search']
-                                }) => ({
-                                    signCollection:
-                                        await searchPagedCollectionByIdRefactor(
-                                            {
-                                                collectionId: search.id ?? 1,
-                                                page: search.page ?? 1,
-                                                searchValue: search.query ?? '',
-                                                orderBy: search.orderBy ?? {
-                                                    value: 'az',
-                                                    order: 'asc',
-                                                },
-                                            }
-                                        ),
-                                    user: await getUserById(3),
-                                }),
-                                loaderMaxAge: 0,
+                                element: (
+                                    <Navigate
+                                        to={'collection'}
+                                        search={{ id: 1 }}
+                                    />
+                                ),
 
                                 // loader: async ({ search }) => ({
                                 //     signs: await searchPagedCollectionById({
