@@ -5,14 +5,15 @@ import { query } from "../db";
 export function RawSql(){
     const [sqlString, setSqlString] = useState('')
     const [results, setResults] = useState([])
-    function submitSql(){
+    function submitSql(ev){
+        ev.preventDefault()
         query(sqlString).then(res => {
             setResults(res)
         })
     }
     return <div>
         <Header>
-            <form onSubmit={submitSql}>
+            <form onSubmit={ev => submitSql(ev)}>
             <input onChange={ev => setSqlString(ev.target.value)}></input>
 <button type="submit">Senda</button>
             </form>
