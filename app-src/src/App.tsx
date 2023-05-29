@@ -30,6 +30,7 @@ import { CollectionsPage } from './Components/CollectionsPage'
 import { RandomSign } from './Components/RandomSign'
 import { SignCollectionPage } from './Components/SignCollectionPage'
 import { MyLocationGenerics } from './Components/Generics'
+import { RawSql } from './Components/RawSql'
 
 const reactLocation = new ReactLocation()
 
@@ -268,6 +269,9 @@ function App() {
                                     user: await getUserById(3),
                                 }),
                                 loaderMaxAge: 0,
+                            },
+                            {
+path:'sql',element:<RawSql/>
                             },
                             {
                                 // Passing no route is equivalent to passing `path: '*'`
