@@ -143,7 +143,6 @@ export function SignFilter() {
                     Handform
                     <select
                         style={{ width: '100%', float: 'right' }}
-                        value={'lol'}
                         className="sign-info-item card"
                         multiple
                         onChange={(ev) =>
