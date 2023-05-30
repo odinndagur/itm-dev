@@ -9,6 +9,7 @@ import { Header } from './Header'
 import { FormEvent, useState } from 'react'
 import { createCollection, deleteCollection, getUserById } from '../db'
 import { useQuery } from '@tanstack/react-query'
+import './CollectionsPage.css'
 type UserGenerics = MakeGenerics<{
     LoaderData: {
         user?: {
@@ -148,6 +149,48 @@ export function CollectionsPage() {
                                             <div>{collection.name}</div>
                                             {/* <div>{collection[key]}</div> */}
                                         </Link>
+                                        <dialog
+                                            onClick={(ev) => {
+                                                const dialog =
+                                                    document.getElementById(
+                                                        `delete-collection-${collection.id}-modal`
+                                                    )
+                                                if (ev.target === dialog) {
+                                                    dialog.close()
+                                                }
+                                            }}
+                                            className="delete-collection-modal"
+                                            style={{ borderRadius: '10px' }}
+                                            id={`delete-collection-${collection.id}-modal`}
+                                        >
+                                            <h3>
+                                                Viltu eyða „{collection.name}“?
+                                            </h3>
+                                            <div
+                                                style={{
+                                                    display: 'flex',
+                                                    justifyContent:
+                                                        'space-evenly',
+                                                }}
+                                            >
+                                                <button
+                                                    className="material-icons"
+                                                    style={{ color: 'red' }}
+                                                    onClick={() =>
+                                                        handleDeleteCollection(
+                                                            collection.id
+                                                        )
+                                                    }
+                                                >
+                                                    delete
+                                                </button>
+                                                <form method="dialog">
+                                                    <button className="material-icons">
+                                                        undo
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </dialog>
                                         <button
                                             style={{
                                                 display: 'flex',
@@ -156,9 +199,11 @@ export function CollectionsPage() {
                                                 borderRadius: '10px',
                                             }}
                                             onClick={() =>
-                                                handleDeleteCollection(
-                                                    collection.id
-                                                )
+                                                document
+                                                    .getElementById(
+                                                        `delete-collection-${collection.id}-modal`
+                                                    )
+                                                    .showModal()
                                             }
                                         >
                                             <span
