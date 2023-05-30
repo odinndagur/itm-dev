@@ -383,7 +383,7 @@ async function run() {
         db.exec(
             'INSERT INTO sign_collection(sign_id,collection_id) SELECT sign.id, 1 FROM sign'
         )
-        db.exec('INSERT INTO user(name, id) VALUES("User",3);')
+        db.exec('INSERT INTO user(name, id) VALUES("Ég",3);')
         db.exec(
             'INSERT INTO collection(id,user_id,name) VALUES(3,3,"Mín tákn");'
         )

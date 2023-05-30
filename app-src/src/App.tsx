@@ -271,7 +271,8 @@ function App() {
                                 loaderMaxAge: 0,
                             },
                             {
-path:'sql',element:<RawSql/>
+                                path: 'sql',
+                                element: <RawSql />,
                             },
                             {
                                 // Passing no route is equivalent to passing `path: '*'`
