@@ -185,6 +185,7 @@ export function SignCollectionPage() {
                     </div>
                 </div>
                 <SignFilter />
+
                 <div className="search">
                     <input
                         onChange={(event) => handleSearch(event.target.value)}

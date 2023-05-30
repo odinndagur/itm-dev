@@ -1,4 +1,4 @@
-import { useNavigate, useSearch } from '@tanstack/react-location'
+import { Link, useNavigate, useSearch } from '@tanstack/react-location'
 import { useQuery } from '@tanstack/react-query'
 import { listHandforms, listSignDetails } from '../db'
 import { ChangeEvent, useEffect, useState } from 'react'
@@ -112,9 +112,19 @@ export function SignFilter() {
     }
     return (
         <div>
-            <button onClick={() => setShowFilters((show) => !show)}>
-                Síur
-            </button>
+            <div
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                }}
+            >
+                <button onClick={() => setShowFilters((show) => !show)}>
+                    Síur
+                </button>
+                <Link search={(old) => ({ ...old, signDetails: null })}>
+                    <span className="material-icons">clear</span>
+                </Link>
+            </div>
             <div
                 className="sign-info"
                 style={{ display: showFilters ? null : 'none' }}

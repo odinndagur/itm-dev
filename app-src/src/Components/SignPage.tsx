@@ -269,13 +269,14 @@ function SignPage() {
                     )}
                     {sign.handform && (
                         <div className="sign-info-item property">
+                            <h3>Handform</h3>
                             <Link to={`/handform/${sign.handform}`}>
-                                <h3>Handform</h3>
-                                <img
+                                {sign.handform}
+
+                                {/* <img
                                     className="handform-img"
                                     src={`/itm-dev/assets/itm-images/handform/${sign.handform}.png`}
-                                />
-                                <div>{sign.handform}</div>
+                                /> */}
                             </Link>
                         </div>
                     )}
