@@ -78,6 +78,7 @@ export function SignFilter() {
             navigate({
                 search: (old) => ({
                     ...old,
+                    page: 1,
                     signDetails: {
                         ...old.signDetails,
                         handform: currentOptions,
@@ -117,10 +118,15 @@ export function SignFilter() {
                 style={{
                     display: 'flex',
                     justifyContent: 'center',
+                    alignItems: 'center',
                     // alignContent: 'center',
                 }}
             >
                 <button
+                    style={{
+                        padding: '0.5rem 1rem',
+                        borderRadius: '10px',
+                    }}
                     onClick={() =>
                         document.getElementById('filter-modal')!.showModal()
                     }

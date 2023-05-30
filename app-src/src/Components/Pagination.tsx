@@ -41,6 +41,7 @@ export function Pagination({
     return (
         <>
             <div
+                key={currentPage}
                 className=""
                 style={{
                     padding: '0rem 1rem',
