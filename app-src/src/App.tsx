@@ -10,6 +10,7 @@ import {
     getUserById,
     getRandomSign,
     searchPagedCollectionByIdRefactor,
+    listHandforms,
 } from './db'
 import {
     ReactLocation,
@@ -129,6 +130,7 @@ function App() {
                                                     }
                                                 ),
                                             user: await getUserById(3),
+                                            handforms: await listHandforms(),
                                         }),
                                         loaderMaxAge: 0,
                                     },

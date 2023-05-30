@@ -1,5 +1,4 @@
-const DB_CONSOLE_LOGS = import.meta.env.BASE_URL.includes('development')
-
+const DB_CONSOLE_LOGS = true
 const query = async (query: string) => {
     DB_CONSOLE_LOGS && console.log(query)
     const result = await window.promiseWorker.postMessage({
@@ -642,6 +641,7 @@ const searchPagedCollectionByIdRefactor = async ({
     collectionId,
     page,
     orderBy = { value: 'az', order: 'asc' },
+    signDetails,
 }: {
     searchValue: string
     collectionId: number | string
@@ -650,12 +650,29 @@ const searchPagedCollectionByIdRefactor = async ({
         value: string
         order: string
     }
+    signDetails?: {
+        handform?: string[]
+        myndunarstadur?: string[]
+        ordflokkur?: string[]
+        efnisflokkur?: string[]
+    }
 }) => {
     const limit = 100
     const offset = (Number(page) - 1) * limit
     let stmt = ''
     let totalSignCount = 0
     let totalPages = 0
+
+    let signDetailsClause = ' AND '
+    if (signDetails) {
+        Object.keys(signDetails).forEach((key, idx) => {
+            signDetailsClause += `${key} in ("${signDetails[key].join(
+                '", "'
+            )}")${idx < Object.keys(signDetails).length - 1 ? ' AND ' : ''}`
+        })
+        signDetailsClause += '\n'
+        console.log(signDetailsClause)
+    }
 
     console.log(orderBy)
 
@@ -672,7 +689,11 @@ const searchPagedCollectionByIdRefactor = async ({
         sign_fts.related_signs as related_signs,
         collection.name as collection_name,
         group_concat(multiCollection.id) as collections,
-        sign_collection.date_added as date_added
+        sign_collection.date_added as date_added,
+        sign.myndunarstadur as myndunarstadur,
+        sign.ordflokkur as ordflokkur,
+        sign.handform as handform,
+        efnisflokkur.text as efnisflokkur
         `
 
     const fromClause = `
@@ -687,17 +708,26 @@ const searchPagedCollectionByIdRefactor = async ({
         on multiCollection.id = sign_collection.collection_id
         LEFT JOIN sign_video
         ON sign.id = sign_video.sign_id
+        LEFT JOIN sign_efnisflokkur
+        ON sign.id = sign_efnisflokkur.sign_id
+        LEFT JOIN efnisflokkur
+        ON efnisflokkur.id = sign_efnisflokkur.efnisflokkur_id
         `
 
     if (!searchValue) {
         const tempCount = await query(`
-            select count(*) as sign_count from sign
+            select count(*) as sign_count, efnisflokkur.text as efnisflokkur from sign
             join sign_fts
             on sign.id = sign_fts.id
             left join sign_collection on sign.id = sign_collection.sign_id
             left join collection
             on collection.id = sign_collection.collection_id
+            LEFT JOIN sign_efnisflokkur
+            ON sign.id = sign_efnisflokkur.sign_id
+            LEFT JOIN efnisflokkur
+            ON efnisflokkur.id = sign_efnisflokkur.efnisflokkur_id
             where collection.id = ${collectionId}
+            ${signDetails ? signDetailsClause : ''}
         `)
         totalSignCount = tempCount[0].sign_count
         totalPages = Math.ceil(totalSignCount / limit)
@@ -711,6 +741,7 @@ const searchPagedCollectionByIdRefactor = async ({
             ${selectClause}
             ${fromClause}
             where collection.id = ${collectionId}
+            ${signDetails ? signDetailsClause : ''}
             group by sign.id
             order by ${orderByClause}
             limit ${limit}
@@ -729,10 +760,12 @@ const searchPagedCollectionByIdRefactor = async ({
         const likeWhereClause = `
         WHERE sign.phrase LIKE "%${searchValue}%"
         AND collection.id = ${collectionId}
+        ${signDetails ? signDetailsClause : ''}
         `
         const ftsWhereClause = `
         WHERE sign_fts MATCH "${searchValue}*"
         AND collection.id = ${collectionId}
+        ${signDetails ? signDetailsClause : ''}
         `
         const tempCount = await query(`
             select count(*) as sign_count from (
@@ -804,6 +837,41 @@ const getRandomSign = async () => {
     return signs[0].id
 }
 
+const listHandforms = async () => {
+    const handforms = await query(
+        `select distinct handform from sign order by handform`
+    )
+    DB_CONSOLE_LOGS && console.log(handforms)
+    return handforms.map((hf) => {
+        if (hf.handform != '') {
+            return hf.handform
+        }
+    })
+}
+
+const listSignDetails = async () => {
+    const handform = await query(
+        `select distinct handform from sign where handform is not null order by handform`
+    )
+    const myndunarstadur = await query(
+        `select distinct myndunarstadur from sign where myndunarstadur is not null order by myndunarstadur`
+    )
+    const ordflokkur = await query(
+        `select distinct ordflokkur from sign where ordflokkur is not null order by ordflokkur`
+    )
+    const efnisflokkur = await query(
+        `select distinct text from efnisflokkur where text is not null and text is not "" order by text`
+    )
+    console.log(efnisflokkur)
+
+    return {
+        handform: handform.map((hf) => hf.handform),
+        myndunarstadur: myndunarstadur.map((ms) => ms.myndunarstadur),
+        ordflokkur: ordflokkur.map((ordfl) => ordfl.ordflokkur),
+        efnisflokkur: efnisflokkur.map((efnisfl) => efnisfl.text),
+    }
+}
+
 export {
     query,
     getSignById,
@@ -821,4 +889,6 @@ export {
     createCollection,
     deleteCollection,
     searchPagedCollectionByIdRefactor,
+    listHandforms,
+    listSignDetails,
 }

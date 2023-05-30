@@ -24,11 +24,12 @@ import { SignCollectionGenerics, SignGenerics } from './Generics'
 import { MyLocationGenerics } from './Generics'
 import { SignCollectionItem } from './SignCollectionItem'
 import { SelectCollection } from './SelectCollection'
+import { SignFilter } from './SignFilter'
 
 export function SignCollectionPage() {
     const queryClient = useQueryClient()
     const {
-        data: { signCollection, user },
+        data: { signCollection, user, handforms },
     } = useMatch<SignCollectionGenerics & SignGenerics>()
     const [editing, setEditing] = useState(false)
     useEffect(() => {
@@ -128,6 +129,7 @@ export function SignCollectionPage() {
                 collectionId: search.id ?? 1,
                 page: search.page ?? 1,
                 orderBy: search.orderBy ?? { order: 'asc', value: 'az' },
+                signDetails: search.signDetails,
             }),
 
         staleTime: 0,
@@ -182,6 +184,7 @@ export function SignCollectionPage() {
                         )}
                     </div>
                 </div>
+                <SignFilter />
                 <div className="search">
                     <input
                         onChange={(event) => handleSearch(event.target.value)}
