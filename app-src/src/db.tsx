@@ -1,4 +1,4 @@
-const DB_CONSOLE_LOGS = true
+const DB_CONSOLE_LOGS = import.meta.env.BASE_URL.includes('development')
 
 const query = async (query: string) => {
     DB_CONSOLE_LOGS && console.log(query)
