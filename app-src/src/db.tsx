@@ -86,7 +86,8 @@ const getSignByIdJson = async (id: number) => {
             'islenska',sign.islenska,
             'taknmal',sign.taknmal,
             'description',sign.description,
-            'munnhreyfing', sign.munnhreyfing
+            'munnhreyfing', sign.munnhreyfing,
+            'handform', sign.handform
         ) as sign_json
         FROM sign
         LEFT JOIN sign_video
@@ -663,12 +664,25 @@ const searchPagedCollectionByIdRefactor = async ({
     let totalSignCount = 0
     let totalPages = 0
 
-    let signDetailsClause = ' AND '
-    if (signDetails) {
+    const useSignDetails =
+        signDetails &&
+        Object.keys(signDetails).some((key) => {
+            return (
+                signDetails[key] != null &&
+                signDetails[key] != undefined &&
+                signDetails[key] != ''
+            )
+        })
+
+    let signDetailsClause = ''
+    if (useSignDetails && signDetails) {
         Object.keys(signDetails).forEach((key, idx) => {
-            signDetailsClause += `${key} in ("${signDetails[key].join(
-                '", "'
-            )}")${idx < Object.keys(signDetails).length - 1 ? ' AND ' : ''}`
+            if (signDetails[key] != '') {
+                signDetailsClause += ' AND '
+                signDetailsClause += `${key} in ("${signDetails[key].join(
+                    '", "'
+                )}")`
+            }
         })
         signDetailsClause += '\n'
         console.log(signDetailsClause)
@@ -727,7 +741,7 @@ const searchPagedCollectionByIdRefactor = async ({
             LEFT JOIN efnisflokkur
             ON efnisflokkur.id = sign_efnisflokkur.efnisflokkur_id
             where collection.id = ${collectionId}
-            ${signDetails ? signDetailsClause : ''}
+            ${useSignDetails ? signDetailsClause : ''}
         `)
         totalSignCount = tempCount[0].sign_count
         totalPages = Math.ceil(totalSignCount / limit)
@@ -741,7 +755,7 @@ const searchPagedCollectionByIdRefactor = async ({
             ${selectClause}
             ${fromClause}
             where collection.id = ${collectionId}
-            ${signDetails ? signDetailsClause : ''}
+            ${useSignDetails ? signDetailsClause : ''}
             group by sign.id
             order by ${orderByClause}
             limit ${limit}

@@ -79,7 +79,6 @@ export function SignPlayer(props: any) {
             <div
                 className="video-container"
                 // style={{ visibility: playerReady ? undefined : 'hidden' }}
-                key={playerReady ? 'playerReady' : 'playerNotReady'}
             >
                 <div className="video-responsive" style={{}}>
                     <YouTube
@@ -97,6 +96,7 @@ export function SignPlayer(props: any) {
                         style={{
                             visibility: showThumbnail ? 'hidden' : undefined,
                         }}
+                        key={playerReady ? 'playerReady' : 'playerNotReady'}
                     />
                     <img
                         src={thumbnailUrl}
@@ -120,25 +120,50 @@ export function SignPlayer(props: any) {
                             display: showThumbnail ? undefined : 'none',
                         }}
                     />
-                    {showThumbnail && playerReadyCount > 1 && (
+                    {showThumbnail && (
                         <span
                             style={{
-                                position: 'absolute',
-                                left: '50%',
-                                top: '50%',
-                                transform: 'translate(-50%,-50%)',
-                                msTransform: 'translate(-50%,-50%)',
-                                textAlign: 'center',
-                                fontSize: '8em',
-                                color: 'rgba(255,255,255,0.7)',
-                                cursor: 'pointer',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                height: '100%',
+                                width: '100%',
                             }}
-                            tabIndex={0}
-                            className="material-icons"
-                            onClick={playVideo}
                         >
-                            {/* play_arrow */}
-                            play_circle
+                            <span
+                                style={{
+                                    position: 'absolute',
+                                    left: '50%',
+                                    top: '50%',
+                                    transform: 'translate(-50%,-50%)',
+                                    msTransform: 'translate(-50%,-50%)',
+                                    textAlign: 'center',
+                                    fontSize: '8em',
+                                    color: `rgba(255,255,255,${
+                                        playerReadyCount > 1 ? '0.7' : '0.3'
+                                    })`,
+                                    cursor: 'pointer',
+                                }}
+                                tabIndex={0}
+                                className="material-icons"
+                                onClick={playVideo}
+                            >
+                                play_circle
+                            </span>
+                            <span
+                                className="spin"
+                                style={{
+                                    display:
+                                        playerReadyCount > 1
+                                            ? 'none'
+                                            : undefined,
+                                    position: 'absolute',
+                                    textAlign: 'center',
+                                    fontSize: '8em',
+                                    color: 'rgba(255,255,255,0.7)',
+                                    cursor: 'pointer',
+                                }}
+                            ></span>
                         </span>
                     )}
                 </div>
