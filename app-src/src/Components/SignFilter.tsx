@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { listHandforms, listSignDetails } from '../db'
 import { ChangeEvent, useEffect, useState } from 'react'
 import './signpage.css'
+import './SignFilter.css'
 
 export function SignFilter() {
     const [showFilters, setShowFilters] = useState(false)
@@ -119,30 +120,35 @@ export function SignFilter() {
                     // alignContent: 'center',
                 }}
             >
-                <button onClick={() => setShowFilters((show) => !show)}>
+                <button
+                    onClick={() =>
+                        document.getElementById('filter-modal')!.showModal()
+                    }
+                >
                     Síur
                 </button>
                 <Link search={(old) => ({ ...old, signDetails: null })}>
                     <span className="material-icons">clear</span>
                 </Link>
             </div>
-            <div
-                className="sign-info"
-                style={{
-                    display: showFilters ? undefined : 'none',
-                    position: 'absolute',
-                    margin: 'auto',
-                    width: '90%',
-                    transform: 'translate(-50%,0%)',
-                    backgroundColor: 'var(--background-color)',
-                    zIndex: 999,
+            <dialog
+                onClick={(ev) => {
+                    const dialog = document.getElementById('filter-modal')
+                    if (ev.target == dialog) {
+                        dialog.close()
+                    }
                 }}
+                id="filter-modal"
+                // className="sign-info"
             >
-                {/* <div>{JSON.stringify(signDetails)}</div> */}
-                <label htmlFor="">
-                    Handform
+                <form method="dialog">
+                    <button className="material-icons">arrow_back</button>
+                </form>
+                <div className="sign-info">
+                    {/* <div>{JSON.stringify(signDetails)}</div> */}
+                    {/* <label htmlFor=""> */}
+                    {/* Handform */}
                     <select
-                        style={{ width: '100%', float: 'right' }}
                         className="sign-info-item card"
                         multiple
                         onChange={(ev) =>
@@ -163,11 +169,10 @@ export function SignFilter() {
                             )
                         })}
                     </select>
-                </label>
-                <label htmlFor="">
-                    Orðflokkur
+                    {/* </label> */}
+                    {/* <label htmlFor=""> */}
+                    {/* Orðflokkur */}
                     <select
-                        style={{ width: '100%', float: 'right' }}
                         className="sign-info-item card"
                         multiple
                         onChange={(ev) =>
@@ -186,11 +191,10 @@ export function SignFilter() {
                             )
                         })}
                     </select>
-                </label>
-                <label htmlFor="">
-                    Efnisflokkur
+                    {/* </label> */}
+                    {/* <label htmlFor=""> */}
+                    {/* Efnisflokkur */}
                     <select
-                        style={{ width: '100%', float: 'right' }}
                         className="sign-info-item card"
                         multiple
                         onChange={(ev) =>
@@ -209,11 +213,10 @@ export function SignFilter() {
                             )
                         })}
                     </select>
-                </label>
-                <label htmlFor="">
-                    Myndunarstaður
+                    {/* </label> */}
+                    {/* <label htmlFor=""> */}
+                    {/* Myndunarstaður */}
                     <select
-                        style={{ width: '100%', float: 'right' }}
                         className="sign-info-item card"
                         multiple
                         onChange={(ev) =>
@@ -232,8 +235,9 @@ export function SignFilter() {
                             )
                         })}
                     </select>
-                </label>
-            </div>
+                    {/* </label> */}
+                </div>
+            </dialog>
         </div>
     )
 }
