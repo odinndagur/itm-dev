@@ -116,6 +116,7 @@ export function SignFilter() {
                 style={{
                     display: 'flex',
                     justifyContent: 'center',
+                    // alignContent: 'center',
                 }}
             >
                 <button onClick={() => setShowFilters((show) => !show)}>
@@ -127,82 +128,112 @@ export function SignFilter() {
             </div>
             <div
                 className="sign-info"
-                style={{ display: showFilters ? null : 'none' }}
+                style={{
+                    display: showFilters ? undefined : 'none',
+                    position: 'absolute',
+                    margin: 'auto',
+                    width: '90%',
+                    transform: 'translate(-50%,0%)',
+                    backgroundColor: 'var(--background-color)',
+                    zIndex: 999,
+                }}
             >
                 {/* <div>{JSON.stringify(signDetails)}</div> */}
-                <select
-                    className="sign-info-item card"
-                    multiple
-                    onChange={(ev) => changeDetail(ev, { kind: 'handform' })}
-                    // onChange={(ev) => changeHandform(ev)}
-                >
-                    <option value="Handform" disabled>
-                        Handform
-                    </option>
+                <label htmlFor="">
+                    Handform
+                    <select
+                        style={{ width: '100%', float: 'right' }}
+                        value={'lol'}
+                        className="sign-info-item card"
+                        multiple
+                        onChange={(ev) =>
+                            changeDetail(ev, { kind: 'handform' })
+                        }
+                        defaultValue={'lol'}
+                        // onChange={(ev) => changeHandform(ev)}
+                    >
+                        <option value="Handform" disabled>
+                            Handform
+                        </option>
 
-                    {signDetails?.handform?.map((hf) => {
-                        return (
-                            <option key={hf} value={hf}>
-                                {hf}
-                            </option>
-                        )
-                    })}
-                </select>
-                <select
-                    className="sign-info-item card"
-                    multiple
-                    onChange={(ev) => changeDetail(ev, { kind: 'ordflokkur' })}
-                >
-                    <option value="Orðflokkur" disabled>
-                        Orðflokkur
-                    </option>
+                        {signDetails?.handform?.map((hf) => {
+                            return (
+                                <option key={hf} value={hf}>
+                                    {hf}
+                                </option>
+                            )
+                        })}
+                    </select>
+                </label>
+                <label htmlFor="">
+                    Orðflokkur
+                    <select
+                        style={{ width: '100%', float: 'right' }}
+                        className="sign-info-item card"
+                        multiple
+                        onChange={(ev) =>
+                            changeDetail(ev, { kind: 'ordflokkur' })
+                        }
+                    >
+                        <option value="Orðflokkur" disabled>
+                            Orðflokkur
+                        </option>
 
-                    {signDetails?.ordflokkur?.map((ordfl) => {
-                        return (
-                            <option key={ordfl} value={ordfl}>
-                                {ordfl}
-                            </option>
-                        )
-                    })}
-                </select>
-                <select
-                    className="sign-info-item card"
-                    multiple
-                    onChange={(ev) =>
-                        changeDetail(ev, { kind: 'efnisflokkur' })
-                    }
-                >
-                    <option value="Efnisflokkur" disabled>
-                        Efnisflokkur
-                    </option>
+                        {signDetails?.ordflokkur?.map((ordfl) => {
+                            return (
+                                <option key={ordfl} value={ordfl}>
+                                    {ordfl}
+                                </option>
+                            )
+                        })}
+                    </select>
+                </label>
+                <label htmlFor="">
+                    Efnisflokkur
+                    <select
+                        style={{ width: '100%', float: 'right' }}
+                        className="sign-info-item card"
+                        multiple
+                        onChange={(ev) =>
+                            changeDetail(ev, { kind: 'efnisflokkur' })
+                        }
+                    >
+                        <option value="Efnisflokkur" disabled>
+                            Efnisflokkur
+                        </option>
 
-                    {signDetails?.efnisflokkur?.map((efnisfl) => {
-                        return (
-                            <option key={efnisfl} value={efnisfl}>
-                                {efnisfl}
-                            </option>
-                        )
-                    })}
-                </select>
-                <select
-                    className="sign-info-item card"
-                    multiple
-                    onChange={(ev) =>
-                        changeDetail(ev, { kind: 'myndunarstadur' })
-                    }
-                >
-                    <option value="Myndunarstaður" disabled>
-                        Myndunarstaður
-                    </option>
+                        {signDetails?.efnisflokkur?.map((efnisfl) => {
+                            return (
+                                <option key={efnisfl} value={efnisfl}>
+                                    {efnisfl}
+                                </option>
+                            )
+                        })}
+                    </select>
+                </label>
+                <label htmlFor="">
+                    Myndunarstaður
+                    <select
+                        style={{ width: '100%', float: 'right' }}
+                        className="sign-info-item card"
+                        multiple
+                        onChange={(ev) =>
+                            changeDetail(ev, { kind: 'myndunarstadur' })
+                        }
+                    >
+                        <option value="Myndunarstaður" disabled>
+                            Myndunarstaður
+                        </option>
 
-                    {signDetails?.myndunarstadur?.map((mf) => {
-                        return (
-                            <option key={mf} value={mf}>
-                                {mf}
-                            </option>
-                        )
-                    })}
-                </select>
+                        {signDetails?.myndunarstadur?.map((mf) => {
+                            return (
+                                <option key={mf} value={mf}>
+                                    {mf}
+                                </option>
+                            )
+                        })}
+                    </select>
+                </label>
             </div>
         </div>
     )

@@ -184,13 +184,21 @@ export function SignCollectionPage() {
                         )}
                     </div>
                 </div>
-                <SignFilter />
 
-                <div className="search">
+                <div
+                    className="search"
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        gap: '1rem',
+                    }}
+                >
                     <input
                         onChange={(event) => handleSearch(event.target.value)}
                         type="search"
                         placeholder="Leita að tákni"
+                        // style={{ height: '100%' }}
                         // ref={inputRef}
                     />
                 </div>
