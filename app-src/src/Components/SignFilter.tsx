@@ -133,9 +133,6 @@ export function SignFilter() {
                 >
                     Síur
                 </button>
-                <Link search={(old) => ({ ...old, signDetails: null })}>
-                    <span className="material-icons">clear</span>
-                </Link>
             </div>
             <dialog
                 onClick={(ev) => {
@@ -147,9 +144,22 @@ export function SignFilter() {
                 id="filter-modal"
                 // className="sign-info"
             >
-                <form method="dialog">
-                    <button className="material-icons">arrow_back</button>
-                </form>
+                <div
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        alignContent: 'center',
+                    }}
+                >
+                    <form method="dialog">
+                        <button className="material-icons">arrow_back</button>
+                    </form>
+                    <Link search={(old) => ({ ...old, signDetails: null })}>
+                        <span>Hreinsa síur</span>
+                        <span className="material-icons">clear</span>
+                    </Link>
+                </div>
                 <div className="sign-info">
                     {/* <div>{JSON.stringify(signDetails)}</div> */}
                     {/* <label htmlFor=""> */}
