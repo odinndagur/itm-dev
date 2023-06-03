@@ -23,10 +23,10 @@ export function SignFilter() {
     const search = useSearch()
 
     const filtersWithAccents = {
-        handform: 'handform',
-        ordflokkur: 'orðflokkur',
-        efnisflokkur: 'efnisflokkur',
-        myndunarstadur: 'myndunarstaður',
+        handform: 'Handform',
+        ordflokkur: 'Orðflokkur',
+        efnisflokkur: 'Efnisflokkur',
+        myndunarstadur: 'Myndunarstaður',
     }
 
     const filtersDetailText = Object.keys(filtersWithAccents)
@@ -165,21 +165,23 @@ export function SignFilter() {
                     }}
                 >
                     <form method="dialog">
-                        <button className="material-icons">arrow_back</button>
+                        <button className="material-icons">clear</button>
                     </form>
-                    <Link
-                        onClick={() => {}}
-                        search={(old) => ({
-                            ...old,
-                            handform: undefined,
-                            ordflokkur: undefined,
-                            efnisflokkur: undefined,
-                            myndunarstadur: undefined,
-                        })}
-                    >
-                        <span>Hreinsa síur</span>
-                        <span className="material-icons">clear</span>
-                    </Link>
+                    {filtersDetailText && (
+                        <Link
+                            onClick={() => {}}
+                            search={(old) => ({
+                                ...old,
+                                handform: undefined,
+                                ordflokkur: undefined,
+                                efnisflokkur: undefined,
+                                myndunarstadur: undefined,
+                            })}
+                        >
+                            <span>Hreinsa allar síur</span>
+                            <span className="material-icons">delete</span>
+                        </Link>
+                    )}
                 </div>
 
                 <div className="sign-info">
@@ -187,16 +189,25 @@ export function SignFilter() {
                     <br />
                     <label htmlFor="">
                         <b>Handform</b>
-                        <Link
-                            search={(old) => ({ ...old, handform: undefined })}
-                            className="material-icons"
-                        >
-                            delete
-                        </Link>
-                        <br />
-                        <div style={{ maxWidth: '100%' }}>
-                            {search.handform && search.handform.join(', ')}
-                        </div>
+                        {search.handform?.length && (
+                            <Link
+                                search={(old) => ({
+                                    ...old,
+                                    handform: undefined,
+                                })}
+                                className="material-icons"
+                            >
+                                delete
+                            </Link>
+                        )}
+                        {search.handform && (
+                            <>
+                                <br />
+                                <div style={{ maxWidth: '100%' }}>
+                                    {search.handform.join(', ')}
+                                </div>
+                            </>
+                        )}
                         <br />
                         <br />
                         <select
@@ -230,8 +241,25 @@ export function SignFilter() {
 
                     <label htmlFor="">
                         <b>Orðflokkur</b>
-                        <br />
-                        {search.ordflokkur && search.ordflokkur.join(', ')}
+                        {search.ordflokkur?.length && (
+                            <Link
+                                search={(old) => ({
+                                    ...old,
+                                    ordflokkur: undefined,
+                                })}
+                                className="material-icons"
+                            >
+                                delete
+                            </Link>
+                        )}
+                        {search.ordflokkur && (
+                            <>
+                                <br />
+                                <div style={{ maxWidth: '100%' }}>
+                                    {search.ordflokkur.join(', ')}
+                                </div>
+                            </>
+                        )}
                         <br />
                         <br />
                         <select
@@ -264,8 +292,25 @@ export function SignFilter() {
                     <br />
                     <label htmlFor="">
                         <b>Efnisflokkur</b>
-                        <br />
-                        {search.efnisflokkur && search.efnisflokkur.join(', ')}
+                        {search.efnisflokkur?.length && (
+                            <Link
+                                search={(old) => ({
+                                    ...old,
+                                    efnisflokkur: undefined,
+                                })}
+                                className="material-icons"
+                            >
+                                delete
+                            </Link>
+                        )}
+                        {search.efnisflokkur && (
+                            <>
+                                <br />
+                                <div style={{ maxWidth: '100%' }}>
+                                    {search.efnisflokkur.join(', ')}
+                                </div>
+                            </>
+                        )}{' '}
                         <br />
                         <br />
                         <select
@@ -298,9 +343,25 @@ export function SignFilter() {
                     <label htmlFor="">
                         <br />
                         <b>Myndunarstaður</b>
-                        <br />
-                        {search.myndunarstadur &&
-                            search.myndunarstadur.join(', ')}
+                        {search.myndunarstadur?.length && (
+                            <Link
+                                search={(old) => ({
+                                    ...old,
+                                    myndunarstadur: undefined,
+                                })}
+                                className="material-icons"
+                            >
+                                delete
+                            </Link>
+                        )}
+                        {search.myndunarstadur && (
+                            <>
+                                <br />
+                                <div style={{ maxWidth: '100%' }}>
+                                    {search.myndunarstadur.join(', ')}
+                                </div>
+                            </>
+                        )}{' '}
                         <br />
                         <br />
                         <select

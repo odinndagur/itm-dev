@@ -1,4 +1,4 @@
-const DB_CONSOLE_LOGS = true
+const DB_CONSOLE_LOGS = false
 const query = async (query: string) => {
     DB_CONSOLE_LOGS && console.log(query)
     const result = await window.promiseWorker.postMessage({
@@ -892,7 +892,7 @@ const listSignDetails = async () => {
     const efnisflokkur = await query(
         `select distinct text from efnisflokkur where text is not null and text is not "" order by text`
     )
-    console.log(efnisflokkur)
+    DB_CONSOLE_LOGS && console.log(efnisflokkur)
 
     return {
         handform: handform.map((hf) => hf.handform),

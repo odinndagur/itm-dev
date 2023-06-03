@@ -128,7 +128,10 @@ function App() {
                                                             },
                                                     }
                                                 ),
-                                            user: await getUserById(3),
+                                            user: await queryClient.fetchQuery({
+                                                queryFn: () => getUserById(3),
+                                                queryKey: ['user'],
+                                            }),
                                             handforms: await listHandforms(),
                                         }),
                                         loaderMaxAge: 0,
