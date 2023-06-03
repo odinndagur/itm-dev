@@ -221,7 +221,7 @@ export function SignCollectionPage() {
                     {data.signs.map((sign) => {
                         return (
                             <SignCollectionItem
-                                key={sign.id}
+                                key={sign.sign_id}
                                 sign={sign}
                                 user={user}
                                 currentCollection={search.id}

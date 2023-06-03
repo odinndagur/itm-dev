@@ -4,6 +4,7 @@ import { listHandforms, listSignDetails } from '../db'
 import { ChangeEvent, useEffect, useState } from 'react'
 import './signpage.css'
 import './SignFilter.css'
+import { MyLocationGenerics } from './Generics'
 
 export function SignFilter() {
     const [showFilters, setShowFilters] = useState(false)
@@ -19,6 +20,21 @@ export function SignFilter() {
     }, [])
 
     const navigate = useNavigate()
+    const search = useSearch()
+
+    const filtersWithAccents = {
+        handform: 'handform',
+        ordflokkur: 'orðflokkur',
+        efnisflokkur: 'efnisflokkur',
+        myndunarstadur: 'myndunarstaður',
+    }
+
+    const filtersDetailText = Object.keys(filtersWithAccents)
+        .map((key) => {
+            return search[key]?.length ? filtersWithAccents[key] : undefined
+        })
+        .filter((val) => val?.length)
+        .join(', ')
 
     function changeDetail(
         ev: ChangeEvent<HTMLSelectElement>,
@@ -38,7 +54,7 @@ export function SignFilter() {
             })
             .filter((temp) => temp != null && temp != '')
         if (!currentOptions) {
-            navigate({ search: (old) => ({ ...old, signDetails: null }) })
+            navigate({ search: (old) => ({ ...old }) })
             return
         }
         if (kind == 'ordflokkur') {
@@ -127,7 +143,7 @@ export function SignFilter() {
                         document.getElementById('filter-modal')!.showModal()
                     }
                 >
-                    Síur
+                    Síur <i>{filtersDetailText}</i>
                 </button>
             </div>
             <dialog
@@ -151,25 +167,46 @@ export function SignFilter() {
                     <form method="dialog">
                         <button className="material-icons">arrow_back</button>
                     </form>
-                    <Link search={(old) => ({ ...old, signDetails: null })}>
+                    <Link
+                        onClick={() => {}}
+                        search={(old) => ({
+                            ...old,
+                            handform: undefined,
+                            ordflokkur: undefined,
+                            efnisflokkur: undefined,
+                            myndunarstadur: undefined,
+                        })}
+                    >
                         <span>Hreinsa síur</span>
                         <span className="material-icons">clear</span>
                     </Link>
                 </div>
+
                 <div className="sign-info">
                     {/* <div>{JSON.stringify(signDetails)}</div> */}
                     <br />
                     <label htmlFor="">
-                        Handform
+                        <b>Handform</b>
+                        <Link
+                            search={(old) => ({ ...old, handform: undefined })}
+                            className="material-icons"
+                        >
+                            delete
+                        </Link>
+                        <br />
+                        <div style={{ maxWidth: '100%' }}>
+                            {search.handform && search.handform.join(', ')}
+                        </div>
                         <br />
                         <br />
                         <select
                             className="sign-info-item"
                             multiple
+                            value={search.handform ?? []}
                             onChange={(ev) =>
                                 changeDetail(ev, { kind: 'handform' })
                             }
-                            defaultValue={'lol'}
+                            // defaultValue={'lol'}
                             // onChange={(ev) => changeHandform(ev)}
                         >
                             <option value="Handform" disabled>
@@ -178,7 +215,11 @@ export function SignFilter() {
 
                             {signDetails?.handform?.map((hf) => {
                                 return (
-                                    <option key={hf} value={hf}>
+                                    <option
+                                        // selected={search.handform?.includes(hf)}
+                                        key={hf}
+                                        value={hf}
+                                    >
                                         {hf}
                                     </option>
                                 )
@@ -188,12 +229,15 @@ export function SignFilter() {
                     <br />
 
                     <label htmlFor="">
-                        Orðflokkur
+                        <b>Orðflokkur</b>
+                        <br />
+                        {search.ordflokkur && search.ordflokkur.join(', ')}
                         <br />
                         <br />
                         <select
                             className="sign-info-item"
                             multiple
+                            value={search.ordflokkur ?? []}
                             onChange={(ev) =>
                                 changeDetail(ev, { kind: 'ordflokkur' })
                             }
@@ -204,7 +248,13 @@ export function SignFilter() {
 
                             {signDetails?.ordflokkur?.map((ordfl) => {
                                 return (
-                                    <option key={ordfl} value={ordfl}>
+                                    <option
+                                        // selected={search.ordflokkur?.includes(
+                                        //     ordfl
+                                        // )}
+                                        key={ordfl}
+                                        value={ordfl}
+                                    >
                                         {ordfl}
                                     </option>
                                 )
@@ -213,12 +263,15 @@ export function SignFilter() {
                     </label>
                     <br />
                     <label htmlFor="">
-                        Efnisflokkur
+                        <b>Efnisflokkur</b>
+                        <br />
+                        {search.efnisflokkur && search.efnisflokkur.join(', ')}
                         <br />
                         <br />
                         <select
                             className="sign-info-item"
                             multiple
+                            value={search.efnisflokkur ?? []}
                             onChange={(ev) =>
                                 changeDetail(ev, { kind: 'efnisflokkur' })
                             }
@@ -229,7 +282,13 @@ export function SignFilter() {
 
                             {signDetails?.efnisflokkur?.map((efnisfl) => {
                                 return (
-                                    <option key={efnisfl} value={efnisfl}>
+                                    <option
+                                        // selected={search.efnisflokkur?.includes(
+                                        //     efnisfl
+                                        // )}
+                                        key={efnisfl}
+                                        value={efnisfl}
+                                    >
                                         {efnisfl}
                                     </option>
                                 )
@@ -238,12 +297,16 @@ export function SignFilter() {
                     </label>
                     <label htmlFor="">
                         <br />
-                        Myndunarstaður
+                        <b>Myndunarstaður</b>
+                        <br />
+                        {search.myndunarstadur &&
+                            search.myndunarstadur.join(', ')}
                         <br />
                         <br />
                         <select
                             className="sign-info-item"
                             multiple
+                            value={search.myndunarstadur ?? []}
                             onChange={(ev) =>
                                 changeDetail(ev, { kind: 'myndunarstadur' })
                             }
@@ -254,7 +317,13 @@ export function SignFilter() {
 
                             {signDetails?.myndunarstadur?.map((mf) => {
                                 return (
-                                    <option key={mf} value={mf}>
+                                    <option
+                                        // selected={search.myndunarstadur?.includes(
+                                        //     mf
+                                        // )}
+                                        key={mf}
+                                        value={mf}
+                                    >
                                         {mf}
                                     </option>
                                 )

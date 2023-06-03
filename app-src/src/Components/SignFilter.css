@@ -4,6 +4,7 @@
 
 #filter-modal {
     border-radius: 10px;
+    width: min(500px, 95%);
 }
 
 #filter-modal select option::placeholder {

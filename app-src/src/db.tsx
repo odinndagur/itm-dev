@@ -762,6 +762,7 @@ const searchPagedCollectionByIdRefactor = async ({
         //     collectionId == 1 ? 'sign.phrase asc' : 'sign_collection.date_added'
         const orderByClause = `${
             orderBy.value == 'az' ? 'sign.phrase' : 'date_added'
+            // orderBy.value == 'az' ? 'localizedOrder(sign.phrase)' : 'date_added'
         } ${orderBy.order}`
         stmt = `
             ${selectClause}
@@ -829,7 +830,7 @@ const searchPagedCollectionByIdRefactor = async ({
 
     DB_CONSOLE_LOGS && console.log(stmt)
     let result: {
-        id: number
+        sign_id: number
         phrase: string
         youtube_id: string
         related_signs: string
@@ -837,9 +838,10 @@ const searchPagedCollectionByIdRefactor = async ({
         collection_id?: number
         collection_name?: string
         in_collection?: boolean
+        sign_count?: number
     }[] = await query(stmt)
     DB_CONSOLE_LOGS && console.log(result)
-    totalSignCount = result[0].sign_count
+    totalSignCount = (result.length && result[0].sign_count) || 0
     totalPages = Math.ceil(totalSignCount / limit)
     const collection_name = result[0]?.collection_name
     return {

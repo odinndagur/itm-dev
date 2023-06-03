@@ -327,6 +327,12 @@ async function run() {
         optimalStringAlignmentDistance(a, b)
     )
 
+    // function toAscii(a: string) {
+    //     return a
+    // }
+
+    // db.create_function('to_ascii', (a: string) => toAscii(a))
+
     const currentVersion = 4
     let initDB = false
     try {
