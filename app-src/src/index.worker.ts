@@ -404,6 +404,9 @@ async function run() {
                 return db.query(message.query)
             case 'exec':
                 db.exec(message.query)
+                break
+            case 'export':
+                return db.export()
         }
     })
 }

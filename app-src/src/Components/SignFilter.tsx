@@ -135,6 +135,7 @@ export function SignFilter() {
                 }}
             >
                 <button
+                    className="button-17"
                     style={{
                         padding: '0.5rem 1rem',
                         borderRadius: '10px',
@@ -165,13 +166,16 @@ export function SignFilter() {
                     }}
                 >
                     <form method="dialog">
-                        <button className="material-icons">clear</button>
+                        <button className="button-17">
+                            <span className="material-icons">clear</span>
+                        </button>
                     </form>
                     {filtersDetailText && (
                         <Link
                             onClick={() => {}}
                             search={(old) => ({
                                 ...old,
+                                page: 1,
                                 handform: undefined,
                                 ordflokkur: undefined,
                                 efnisflokkur: undefined,
@@ -193,6 +197,7 @@ export function SignFilter() {
                             <Link
                                 search={(old) => ({
                                     ...old,
+                                    page: 1,
                                     handform: undefined,
                                 })}
                                 className="material-icons"
@@ -245,6 +250,7 @@ export function SignFilter() {
                             <Link
                                 search={(old) => ({
                                     ...old,
+                                    page: 1,
                                     ordflokkur: undefined,
                                 })}
                                 className="material-icons"
@@ -296,6 +302,7 @@ export function SignFilter() {
                             <Link
                                 search={(old) => ({
                                     ...old,
+                                    page: 1,
                                     efnisflokkur: undefined,
                                 })}
                                 className="material-icons"
@@ -347,6 +354,7 @@ export function SignFilter() {
                             <Link
                                 search={(old) => ({
                                     ...old,
+                                    page: 1,
                                     myndunarstadur: undefined,
                                 })}
                                 className="material-icons"

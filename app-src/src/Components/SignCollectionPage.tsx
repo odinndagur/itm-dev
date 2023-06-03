@@ -125,7 +125,7 @@ export function SignCollectionPage() {
         ],
         queryFn: () =>
             searchPagedCollectionByIdRefactor({
-                searchValue: searchValue ?? '',
+                searchValue: search.query ?? '',
                 collectionId: search.id ?? 1,
                 page: search.page ?? 1,
                 orderBy: search.orderBy ?? { order: 'asc', value: 'az' },

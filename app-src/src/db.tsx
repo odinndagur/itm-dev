@@ -14,6 +14,14 @@ const exec = async (query: string) => {
     window.promiseWorker.postMessage({ type: 'exec', query: query })
 }
 
+const exportDB = async () => {
+    const exportedDB: Uint8Array = await window.promiseWorker.postMessage({
+        type: 'export',
+    })
+    console.log(exportedDB)
+    return exportedDB
+}
+
 //@ts-ignore
 const addSignToCollection = async ({ signId, collectionId }) => {
     exec(
@@ -822,6 +830,7 @@ const searchPagedCollectionByIdRefactor = async ({
             ${ftsWhereClause}
             GROUP BY sign_collection.sign_id
             ) as sign
+            GROUP BY sign.sign_id
             ORDER BY ${orderByClause}
             LIMIT ${limit}
             OFFSET ${offset}
@@ -921,4 +930,5 @@ export {
     searchPagedCollectionByIdRefactor,
     listHandforms,
     listSignDetails,
+    exportDB,
 }

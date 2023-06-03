@@ -7,7 +7,12 @@ import {
 } from '@tanstack/react-location'
 import { Header } from './Header'
 import { FormEvent, useState } from 'react'
-import { createCollection, deleteCollection, getUserById } from '../db'
+import {
+    createCollection,
+    deleteCollection,
+    exportDB,
+    getUserById,
+} from '../db'
 import { useQuery } from '@tanstack/react-query'
 import './CollectionsPage.css'
 type UserGenerics = MakeGenerics<{
@@ -80,7 +85,6 @@ export function CollectionsPage() {
             <Header></Header>
             <div className="" style={{ padding: '1rem' }} key={collectionsKey}>
                 {/* <div style={{ display: 'flex' }}> */}
-
                 <h1 style={{ flexGrow: 1 }} contentEditable={editingName}>
                     {data?.name}
                 </h1>
@@ -111,7 +115,6 @@ export function CollectionsPage() {
                         </span>
                     </button> */}
                 {/* </div> */}
-
                 <ul className="" style={{ padding: 0 }}>
                     {data?.collections
                         ?.filter((collection) => collection.id != 1)
@@ -174,24 +177,31 @@ export function CollectionsPage() {
                                                 }}
                                             >
                                                 <button
-                                                    className="material-icons"
-                                                    style={{ color: 'red' }}
+                                                    className="button-17"
                                                     onClick={() =>
                                                         handleDeleteCollection(
                                                             collection.id
                                                         )
                                                     }
                                                 >
-                                                    delete
+                                                    <span
+                                                        className="material-icons"
+                                                        style={{ color: 'red' }}
+                                                    >
+                                                        delete
+                                                    </span>
                                                 </button>
                                                 <form method="dialog">
-                                                    <button className="material-icons">
-                                                        undo
+                                                    <button className="button-17">
+                                                        <span className="material-icons">
+                                                            undo
+                                                        </span>
                                                     </button>
                                                 </form>
                                             </div>
                                         </dialog>
                                         <button
+                                            className="button-17"
                                             style={{
                                                 display: 'flex',
                                                 alignContent: 'center',
@@ -271,6 +281,7 @@ export function CollectionsPage() {
                         />
                     </label>
                     <button
+                        className="button-17"
                         type="submit"
                         style={{
                             borderRadius: '10px',
@@ -282,6 +293,26 @@ export function CollectionsPage() {
                         Staðfesta
                     </button>
                 </form>
+                <button
+                    className="button-17"
+                    onClick={() => {
+                        exportDB().then((db) => {
+                            const link = document.createElement('a')
+                            link.style.display = 'none'
+                            document.body.appendChild(link)
+
+                            const blob = new Blob([db], { type: 'text/plain' })
+                            const objectURL = URL.createObjectURL(blob)
+
+                            link.href = objectURL
+                            link.href = URL.createObjectURL(blob)
+                            link.download = 'db.sqlite3'
+                            link.click()
+                        })
+                    }}
+                >
+                    Vista mín gögn sem sqlite3 gagnasafn.
+                </button>
             </div>
         </>
     )
