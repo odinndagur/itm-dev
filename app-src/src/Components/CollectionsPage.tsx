@@ -12,6 +12,7 @@ import {
     deleteCollection,
     exportDB,
     getUserById,
+    query,
 } from '../db'
 import { useQuery } from '@tanstack/react-query'
 import './CollectionsPage.css'
@@ -66,9 +67,9 @@ export function CollectionsPage() {
     const {
         data: { user },
     } = useMatch<UserGenerics>()
-
+    const queryKey = ['collections', collectionsKey ?? null, collectionsKey]
     const { data, isPlaceholderData, isLoading, isError } = useQuery({
-        queryKey: ['collections', collectionsKey ?? null, collectionsKey],
+        queryKey: queryKey,
         queryFn: () => getUserById(user!.id),
         keepPreviousData: true,
         staleTime: 0,
@@ -88,6 +89,41 @@ export function CollectionsPage() {
                 <h1 style={{ flexGrow: 1 }} contentEditable={editingName}>
                     {data?.name}
                 </h1>
+                {/* <button
+                    className="button-17"
+                    onClick={() =>
+                        document.getElementById('edit-user-modal').showModal()
+                    }
+                >
+                    breyta
+                </button>
+                <dialog
+                    onClick={(ev) => {
+                        const dialog =
+                            document.getElementById('edit-user-modal')
+                        if (ev.target === dialog) {
+                            dialog.close()
+                        }
+                    }}
+                    id="edit-user-modal"
+                >
+                    <form method="dialog">
+                        <button className="material-icons">clear</button>
+                    </form>
+                    <form
+                        onSubmit={(ev) => {
+                            // ev.preventDefault()
+                            query(
+                                `UPDATE user SET name = ${ev.currentTarget.name.value} WHERE id = 3`
+                            )
+                        }}
+                    >
+                        <input type="text" placeholder={data.name} id="name" />
+                        <button className="button-17" type="submit">
+                            Breyta nafni
+                        </button>
+                    </form>
+                </dialog> */}
                 {/* <button
                         style={{
                             display: 'flex',
