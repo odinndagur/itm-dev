@@ -139,12 +139,14 @@ export function SignFilter() {
                     style={{
                         padding: '0.5rem 1rem',
                         borderRadius: '10px',
+                        height: '2rem',
                     }}
                     onClick={() =>
                         document.getElementById('filter-modal')!.showModal()
                     }
                 >
-                    Síur {filtersDetailText && <i>({filtersDetailText})</i>}
+                    Síur
+                    {filtersDetailText && <i> ({filtersDetailText})</i>}
                 </button>
             </div>
             <dialog
