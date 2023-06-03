@@ -129,7 +129,10 @@ export function SignCollectionPage() {
                 collectionId: search.id ?? 1,
                 page: search.page ?? 1,
                 orderBy: search.orderBy ?? { order: 'asc', value: 'az' },
-                signDetails: search.signDetails,
+                handform: search.handform,
+                ordflokkur: search.ordflokkur,
+                efnisflokkur: search.efnisflokkur,
+                myndunarstadur: search.myndunarstadur,
             }),
 
         staleTime: 0,

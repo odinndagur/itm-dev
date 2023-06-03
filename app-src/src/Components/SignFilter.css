@@ -5,3 +5,12 @@
 #filter-modal {
     border-radius: 10px;
 }
+
+#filter-modal select option::placeholder {
+    display: none;
+}
+
+#filter-modal select {
+    width: 100%;
+    padding: 1rem;
+}

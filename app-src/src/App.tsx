@@ -108,7 +108,6 @@ function App() {
                                     {
                                         //search: (search) => 'id' in search,
                                         element: <SignCollectionPage />,
-
                                         loader: async ({
                                             search,
                                         }: {

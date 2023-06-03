@@ -45,10 +45,9 @@ export function SignFilter() {
             navigate({
                 search: (old) => ({
                     ...old,
-                    signDetails: {
-                        ...old.signDetails,
-                        ordflokkur: currentOptions,
-                    },
+                    ordflokkur: currentOptions.length
+                        ? currentOptions
+                        : undefined,
                 }),
             })
         }
@@ -56,10 +55,9 @@ export function SignFilter() {
             navigate({
                 search: (old) => ({
                     ...old,
-                    signDetails: {
-                        ...old.signDetails,
-                        efnisflokkur: currentOptions,
-                    },
+                    efnisflokkur: currentOptions.length
+                        ? currentOptions
+                        : undefined,
                 }),
             })
         }
@@ -67,10 +65,9 @@ export function SignFilter() {
             navigate({
                 search: (old) => ({
                     ...old,
-                    signDetails: {
-                        ...old.signDetails,
-                        myndunarstadur: currentOptions,
-                    },
+                    myndunarstadur: currentOptions.length
+                        ? currentOptions
+                        : undefined,
                 }),
             })
         }
@@ -78,11 +75,10 @@ export function SignFilter() {
             navigate({
                 search: (old) => ({
                     ...old,
-                    page: 1,
-                    signDetails: {
-                        ...old.signDetails,
-                        handform: currentOptions,
-                    },
+                    // page: 1,
+                    handform: currentOptions.length
+                        ? currentOptions
+                        : undefined,
                 }),
             })
         }
@@ -162,96 +158,109 @@ export function SignFilter() {
                 </div>
                 <div className="sign-info">
                     {/* <div>{JSON.stringify(signDetails)}</div> */}
-                    {/* <label htmlFor=""> */}
-                    {/* Handform */}
-                    <select
-                        className="sign-info-item card"
-                        multiple
-                        onChange={(ev) =>
-                            changeDetail(ev, { kind: 'handform' })
-                        }
-                        defaultValue={'lol'}
-                        // onChange={(ev) => changeHandform(ev)}
-                    >
-                        <option value="Handform" disabled>
-                            Handform
-                        </option>
+                    <br />
+                    <label htmlFor="">
+                        Handform
+                        <br />
+                        <br />
+                        <select
+                            className="sign-info-item"
+                            multiple
+                            onChange={(ev) =>
+                                changeDetail(ev, { kind: 'handform' })
+                            }
+                            defaultValue={'lol'}
+                            // onChange={(ev) => changeHandform(ev)}
+                        >
+                            <option value="Handform" disabled>
+                                Handform
+                            </option>
 
-                        {signDetails?.handform?.map((hf) => {
-                            return (
-                                <option key={hf} value={hf}>
-                                    {hf}
-                                </option>
-                            )
-                        })}
-                    </select>
-                    {/* </label> */}
-                    {/* <label htmlFor=""> */}
-                    {/* Orðflokkur */}
-                    <select
-                        className="sign-info-item card"
-                        multiple
-                        onChange={(ev) =>
-                            changeDetail(ev, { kind: 'ordflokkur' })
-                        }
-                    >
-                        <option value="Orðflokkur" disabled>
-                            Orðflokkur
-                        </option>
+                            {signDetails?.handform?.map((hf) => {
+                                return (
+                                    <option key={hf} value={hf}>
+                                        {hf}
+                                    </option>
+                                )
+                            })}
+                        </select>
+                    </label>
+                    <br />
 
-                        {signDetails?.ordflokkur?.map((ordfl) => {
-                            return (
-                                <option key={ordfl} value={ordfl}>
-                                    {ordfl}
-                                </option>
-                            )
-                        })}
-                    </select>
-                    {/* </label> */}
-                    {/* <label htmlFor=""> */}
-                    {/* Efnisflokkur */}
-                    <select
-                        className="sign-info-item card"
-                        multiple
-                        onChange={(ev) =>
-                            changeDetail(ev, { kind: 'efnisflokkur' })
-                        }
-                    >
-                        <option value="Efnisflokkur" disabled>
-                            Efnisflokkur
-                        </option>
+                    <label htmlFor="">
+                        Orðflokkur
+                        <br />
+                        <br />
+                        <select
+                            className="sign-info-item"
+                            multiple
+                            onChange={(ev) =>
+                                changeDetail(ev, { kind: 'ordflokkur' })
+                            }
+                        >
+                            <option value="Orðflokkur" disabled>
+                                Orðflokkur
+                            </option>
 
-                        {signDetails?.efnisflokkur?.map((efnisfl) => {
-                            return (
-                                <option key={efnisfl} value={efnisfl}>
-                                    {efnisfl}
-                                </option>
-                            )
-                        })}
-                    </select>
-                    {/* </label> */}
-                    {/* <label htmlFor=""> */}
-                    {/* Myndunarstaður */}
-                    <select
-                        className="sign-info-item card"
-                        multiple
-                        onChange={(ev) =>
-                            changeDetail(ev, { kind: 'myndunarstadur' })
-                        }
-                    >
-                        <option value="Myndunarstaður" disabled>
-                            Myndunarstaður
-                        </option>
+                            {signDetails?.ordflokkur?.map((ordfl) => {
+                                return (
+                                    <option key={ordfl} value={ordfl}>
+                                        {ordfl}
+                                    </option>
+                                )
+                            })}
+                        </select>
+                    </label>
+                    <br />
+                    <label htmlFor="">
+                        Efnisflokkur
+                        <br />
+                        <br />
+                        <select
+                            className="sign-info-item"
+                            multiple
+                            onChange={(ev) =>
+                                changeDetail(ev, { kind: 'efnisflokkur' })
+                            }
+                        >
+                            <option value="Efnisflokkur" disabled>
+                                Efnisflokkur
+                            </option>
 
-                        {signDetails?.myndunarstadur?.map((mf) => {
-                            return (
-                                <option key={mf} value={mf}>
-                                    {mf}
-                                </option>
-                            )
-                        })}
-                    </select>
-                    {/* </label> */}
+                            {signDetails?.efnisflokkur?.map((efnisfl) => {
+                                return (
+                                    <option key={efnisfl} value={efnisfl}>
+                                        {efnisfl}
+                                    </option>
+                                )
+                            })}
+                        </select>
+                    </label>
+                    <label htmlFor="">
+                        <br />
+                        Myndunarstaður
+                        <br />
+                        <br />
+                        <select
+                            className="sign-info-item"
+                            multiple
+                            onChange={(ev) =>
+                                changeDetail(ev, { kind: 'myndunarstadur' })
+                            }
+                        >
+                            <option value="Myndunarstaður" disabled>
+                                Myndunarstaður
+                            </option>
+
+                            {signDetails?.myndunarstadur?.map((mf) => {
+                                return (
+                                    <option key={mf} value={mf}>
+                                        {mf}
+                                    </option>
+                                )
+                            })}
+                        </select>
+                    </label>
                 </div>
             </dialog>
         </div>

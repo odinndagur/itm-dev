@@ -646,7 +646,10 @@ const searchPagedCollectionByIdRefactor = async ({
     collectionId,
     page,
     orderBy = { value: 'az', order: 'asc' },
-    signDetails,
+    handform,
+    myndunarstadur,
+    ordflokkur,
+    efnisflokkur,
 }: {
     searchValue: string
     collectionId: number | string
@@ -655,18 +658,22 @@ const searchPagedCollectionByIdRefactor = async ({
         value: string
         order: string
     }
-    signDetails?: {
-        handform?: string[]
-        myndunarstadur?: string[]
-        ordflokkur?: string[]
-        efnisflokkur?: string[]
-    }
+    handform?: string[]
+    myndunarstadur?: string[]
+    ordflokkur?: string[]
+    efnisflokkur?: string[]
 }) => {
     const limit = 100
     const offset = (Number(page) - 1) * limit
     let stmt = ''
     let totalSignCount = 0
     let totalPages = 0
+    const signDetails = {
+        handform: handform?.length ? handform : [],
+        myndunarstadur: myndunarstadur?.length ? myndunarstadur : [],
+        ordflokkur: ordflokkur?.length ? ordflokkur : [],
+        efnisflokkur: efnisflokkur?.length ? efnisflokkur : [],
+    }
 
     const useSignDetails =
         signDetails &&
@@ -712,7 +719,7 @@ const searchPagedCollectionByIdRefactor = async ({
         sign.ordflokkur as ordflokkur,
         sign.handform as handform,
         efnisflokkur.text as efnisflokkur,
-        count(*) over() as sign_count
+        count(sign.id) over() as sign_count
         `
 
     const fromClause = `
