@@ -235,14 +235,17 @@ export function SignCollectionPage() {
                             />
                         )
                     })}
-                    <Pagination
-                        offset={data.offset}
-                        totalPages={data.totalPages}
-                        totalSignCount={data.totalSignCount}
-                        updatePage={updatePage}
-                        limit={data.limit}
-                        currentPage={page}
-                    />
+                    {data.totalSignCount > 40 &&
+                        page != data.totalPages - 1 && (
+                            <Pagination
+                                offset={data.offset}
+                                totalPages={data.totalPages}
+                                totalSignCount={data.totalSignCount}
+                                updatePage={updatePage}
+                                limit={data.limit}
+                                currentPage={page}
+                            />
+                        )}
                 </div>
             )}
         </>

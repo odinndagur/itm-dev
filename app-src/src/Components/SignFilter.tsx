@@ -143,7 +143,7 @@ export function SignFilter() {
                         document.getElementById('filter-modal')!.showModal()
                     }
                 >
-                    Síur <i>{filtersDetailText}</i>
+                    Síur {filtersDetailText && <i>({filtersDetailText})</i>}
                 </button>
             </div>
             <dialog
