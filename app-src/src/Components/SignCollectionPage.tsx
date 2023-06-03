@@ -201,6 +201,7 @@ export function SignCollectionPage() {
                         onChange={(event) => handleSearch(event.target.value)}
                         type="search"
                         placeholder="Leita að tákni"
+                        value={searchValue}
                         // style={{ height: '100%' }}
                         // ref={inputRef}
                     />
