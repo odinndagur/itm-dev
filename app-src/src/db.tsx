@@ -28,16 +28,15 @@ const addSignToCollection = async ({ signId, collectionId }) => {
         `insert into sign_collection(sign_id, collection_id) values(${signId},${collectionId})`
     )
     getSignByIdJson(signId).then((sign) => {
+        console.log({ sign })
         sign.videos.map((video) => {
             try {
-                fetch(
-                    `https://i.ytimg.com/vi/${video.video_id}/maxresdefault.jpg`,
-                    { mode: 'no-cors' }
-                )
-                fetch(
-                    `https://i.ytimg.com/vi/${video.video_id}/hqdefault.jpg`,
-                    { mode: 'no-cors' }
-                )
+                fetch(`https://i.ytimg.com/vi/${video}/maxresdefault.jpg`, {
+                    mode: 'no-cors',
+                })
+                fetch(`https://i.ytimg.com/vi/${video}/hqdefault.jpg`, {
+                    mode: 'no-cors',
+                })
             } catch (error) {}
         })
     })
