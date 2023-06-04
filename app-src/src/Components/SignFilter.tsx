@@ -146,7 +146,12 @@ export function SignFilter() {
                     }
                 >
                     Síur
-                    {filtersDetailText && <i> ({filtersDetailText})</i>}
+                    {filtersDetailText && (
+                        <i className="sign-filter-details">
+                            {' '}
+                            ({filtersDetailText})
+                        </i>
+                    )}
                 </button>
             </div>
             <dialog

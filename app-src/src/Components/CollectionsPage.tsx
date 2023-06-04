@@ -14,7 +14,7 @@ import {
     getUserById,
     query,
 } from '../db'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import './CollectionsPage.css'
 type UserGenerics = MakeGenerics<{
     LoaderData: {
@@ -75,6 +75,8 @@ export function CollectionsPage() {
         staleTime: 0,
     })
 
+    const queryClient = useQueryClient()
+
     if (isLoading) {
         return <div></div>
     }
@@ -86,44 +88,63 @@ export function CollectionsPage() {
             <Header></Header>
             <div className="" style={{ padding: '1rem' }} key={collectionsKey}>
                 {/* <div style={{ display: 'flex' }}> */}
-                <h1 style={{ flexGrow: 1 }} contentEditable={editingName}>
-                    {data?.name}
-                </h1>
-                {/* <button
-                    className="button-17"
-                    onClick={() =>
-                        document.getElementById('edit-user-modal').showModal()
-                    }
-                >
-                    breyta
-                </button>
-                <dialog
-                    onClick={(ev) => {
-                        const dialog =
-                            document.getElementById('edit-user-modal')
-                        if (ev.target === dialog) {
-                            dialog.close()
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <h1 style={{ flexGrow: 1 }} contentEditable={editingName}>
+                        {data?.name}
+                    </h1>
+                    <button
+                        className="button-17"
+                        onClick={() =>
+                            document
+                                .getElementById('edit-user-modal')
+                                .showModal()
                         }
-                    }}
-                    id="edit-user-modal"
-                >
-                    <form method="dialog">
-                        <button className="material-icons">clear</button>
-                    </form>
-                    <form
-                        onSubmit={(ev) => {
-                            // ev.preventDefault()
-                            query(
-                                `UPDATE user SET name = ${ev.currentTarget.name.value} WHERE id = 3`
-                            )
-                        }}
                     >
-                        <input type="text" placeholder={data.name} id="name" />
-                        <button className="button-17" type="submit">
-                            Breyta nafni
-                        </button>
-                    </form>
-                </dialog> */}
+                        Breyta
+                    </button>
+                    <dialog
+                        onClick={(ev) => {
+                            const dialog =
+                                document.getElementById('edit-user-modal')
+                            if (ev.target === dialog) {
+                                dialog.close()
+                            }
+                        }}
+                        id="edit-user-modal"
+                    >
+                        <form method="dialog">
+                            <button className="material-icons">clear</button>
+                        </form>
+                        <form
+                            onSubmit={(ev) => {
+                                ev.preventDefault()
+                                // console.log(ev.currentTarget.name.value)
+                                query(
+                                    `UPDATE user SET name = "${ev.currentTarget.name.value}" WHERE id = 3`
+                                )
+                                queryClient.invalidateQueries({
+                                    queryKey: queryKey,
+                                })
+                                const dialog =
+                                    document.getElementById('edit-user-modal')
+                                dialog.close()
+                            }}
+                        >
+                            <input
+                                type="text"
+                                placeholder={data.name}
+                                id="name"
+                            />
+                            <button
+                                className="button-17"
+                                style={{ margin: '0.5rem', padding: '0.5rem' }}
+                                type="submit"
+                            >
+                                Breyta nafni
+                            </button>
+                        </form>
+                    </dialog>
+                </div>
                 {/* <button
                         style={{
                             display: 'flex',
@@ -254,9 +275,11 @@ export function CollectionsPage() {
                                         >
                                             <span
                                                 className="material-icons"
-                                                style={{
-                                                    color: 'var(--accent-color)',
-                                                }}
+                                                style={
+                                                    {
+                                                        // color: 'var(--accent-color)',
+                                                    }
+                                                }
                                             >
                                                 delete
                                             </span>

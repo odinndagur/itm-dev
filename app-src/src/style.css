@@ -90,7 +90,10 @@ button {
     background-color: var(--secondary-color);
     color: var(--main-text-color);
 }
-
+dialog button {
+    background-color: var(--background-color);
+    color: var(--main-text-color);
+}
 ul li {
     list-style: none;
 }
@@ -201,13 +204,13 @@ header {
 .button-17 {
     align-items: center;
     appearance: none;
-    background-color: #fff;
+    background-color: var(--background-color);
     border-radius: 24px;
     border-style: none;
     box-shadow: rgba(0, 0, 0, 0.2) 0 3px 5px -1px,
         rgba(0, 0, 0, 0.14) 0 6px 10px 0, rgba(0, 0, 0, 0.12) 0 1px 18px 0;
     box-sizing: border-box;
-    color: #3c4043;
+    color: var(--main-text-color);
     cursor: pointer;
     display: inline-flex;
     fill: currentcolor;
@@ -235,8 +238,8 @@ header {
 }
 
 .button-17:hover {
-    background: #f6f9fe;
-    color: #174ea6;
+    background: var(--accent-color);
+    /* color: var(--secondary-color); */
 }
 
 .button-17:active {
@@ -247,7 +250,7 @@ header {
 
 .button-17:focus {
     outline: none;
-    border: 2px solid #4285f4;
+    border: 2px solid var(--accent-color);
 }
 
 .button-17:not(:disabled) {

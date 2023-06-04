@@ -1,4 +1,4 @@
-const DB_CONSOLE_LOGS = false
+const DB_CONSOLE_LOGS = true
 const query = async (query: string) => {
     DB_CONSOLE_LOGS && console.log(query)
     const result = await window.promiseWorker.postMessage({
@@ -726,7 +726,7 @@ const searchPagedCollectionByIdRefactor = async ({
         sign.ordflokkur as ordflokkur,
         sign.handform as handform,
         efnisflokkur.text as efnisflokkur,
-        count(sign.id) over() as sign_count
+        count(*) over() as sign_count
         `
 
     const fromClause = `
@@ -818,7 +818,7 @@ const searchPagedCollectionByIdRefactor = async ({
         // totalPages = Math.ceil(totalSignCount / limit)
         // console.log({ offset, tempCount, totalSignCount, totalPages })
         stmt = `
-        select *, levenshtein(sign.phrase,"${searchValue}") as levenshtein, sign.phrase as levenshtein_sign_phrase, "${searchValue}" as levenshtein_search_value from (
+        select *,count(sign.sign_id) over() as sign_count,        levenshtein(sign.phrase,"${searchValue}") as levenshtein, sign.phrase as levenshtein_sign_phrase, "${searchValue}" as levenshtein_search_value from (
             ${selectClause}
             ${fromClause}
             ${likeWhereClause}
@@ -852,6 +852,14 @@ const searchPagedCollectionByIdRefactor = async ({
     totalSignCount = (result.length && result[0].sign_count) || 0
     totalPages = Math.ceil(totalSignCount / limit)
     const collection_name = result[0]?.collection_name
+    console.log({
+        signs: result,
+        totalPages,
+        totalSignCount,
+        offset,
+        limit,
+        collection_name,
+    })
     return {
         signs: result,
         totalPages,
