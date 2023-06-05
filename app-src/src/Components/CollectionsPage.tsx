@@ -329,75 +329,82 @@ export function CollectionsPage() {
                             }
                         })}
                 </ul>
-                <hr />
-                <h2>Sjálfgefin táknasöfn</h2>
-                <ul style={{ padding: 0 }}>
-                    {defaultCollections?.map((collection, idx) => {
-                        return (
-                            <li
-                                key={collection.id}
-                                className=""
-                                style={{
-                                    display: 'flex',
-                                    padding: '1rem',
-                                    justifyContent: 'space-between',
-                                    // boxShadow: 'var(--card-box-shadow)',
-                                    borderBottom:
-                                        idx != defaultCollections.length - 1
-                                            ? '1px dotted gray'
-                                            : undefined,
-                                }}
-                            >
-                                <span
-                                    style={{
-                                        display: 'flex',
-                                        flexGrow: 1,
-                                        justifyContent: 'space-between',
-                                    }}
-                                >
-                                    <div>{collection.name}</div>
-                                    {/* <div>{collection[key]}</div> */}
-                                </span>
-
-                                <button
-                                    className="button-17"
-                                    style={{
-                                        display: 'flex',
-                                        alignContent: 'center',
-                                        justifyContent: 'center',
-                                        borderRadius: '10px',
-                                    }}
-                                    onClick={() => {
-                                        createCollectionFromJson(collection)
-                                        // const deleteCollectionModal =
-                                        //     document.getElementById(
-                                        //         `delete-collection-${collection.id}-modal`
-                                        //     ) as HTMLDialogElement
-                                        // deleteCollectionModal!.showModal()
-                                    }}
-                                >
-                                    <span
-                                        className="material-icons"
-                                        style={
-                                            {
-                                                // color: 'var(--accent-color)',
-                                            }
-                                        }
-                                    >
-                                        bookmark
-                                    </span>
-                                    <span
+                {false && (
+                    <>
+                        <hr />
+                        <h2>Sjálfgefin táknasöfn</h2>
+                        <ul style={{ padding: 0 }}>
+                            {defaultCollections?.map((collection, idx) => {
+                                return (
+                                    <li
+                                        key={collection.id}
+                                        className=""
                                         style={{
-                                            alignSelf: 'center',
+                                            display: 'flex',
+                                            padding: '1rem',
+                                            justifyContent: 'space-between',
+                                            // boxShadow: 'var(--card-box-shadow)',
+                                            borderBottom:
+                                                idx !=
+                                                defaultCollections.length - 1
+                                                    ? '1px dotted gray'
+                                                    : undefined,
                                         }}
                                     >
-                                        Vista
-                                    </span>
-                                </button>
-                            </li>
-                        )
-                    })}
-                </ul>
+                                        <span
+                                            style={{
+                                                display: 'flex',
+                                                flexGrow: 1,
+                                                justifyContent: 'space-between',
+                                            }}
+                                        >
+                                            <div>{collection.name}</div>
+                                            {/* <div>{collection[key]}</div> */}
+                                        </span>
+
+                                        <button
+                                            className="button-17"
+                                            style={{
+                                                display: 'flex',
+                                                alignContent: 'center',
+                                                justifyContent: 'center',
+                                                borderRadius: '10px',
+                                            }}
+                                            onClick={() => {
+                                                createCollectionFromJson(
+                                                    collection
+                                                )
+                                                // const deleteCollectionModal =
+                                                //     document.getElementById(
+                                                //         `delete-collection-${collection.id}-modal`
+                                                //     ) as HTMLDialogElement
+                                                // deleteCollectionModal!.showModal()
+                                            }}
+                                        >
+                                            <span
+                                                className="material-icons"
+                                                style={
+                                                    {
+                                                        // color: 'var(--accent-color)',
+                                                    }
+                                                }
+                                            >
+                                                bookmark
+                                            </span>
+                                            <span
+                                                style={{
+                                                    alignSelf: 'center',
+                                                }}
+                                            >
+                                                Vista
+                                            </span>
+                                        </button>
+                                    </li>
+                                )
+                            })}
+                        </ul>
+                    </>
+                )}
                 <form
                     style={{
                         // borderTop: '2px solid black',

@@ -235,11 +235,11 @@ function SignPage() {
                             {sign.efnisflokkar.map((efnisflokkur) => {
                                 return (
                                     <div key={efnisflokkur}>
-                                        <Link
+                                        {/* <Link
                                             to={`/efnisflokkar/${efnisflokkur}`}
-                                        >
-                                            {efnisflokkur}
-                                        </Link>
+                                        > */}
+                                        {efnisflokkur}
+                                        {/* </Link> */}
                                     </div>
                                 )
                             })}
@@ -249,9 +249,9 @@ function SignPage() {
                         <div className="sign-info-item property">
                             <h3>Orðflokkur</h3>
                             <div>
-                                <Link to={`/ordflokkar/${sign.ordflokkur}`}>
-                                    {sign.ordflokkur}
-                                </Link>
+                                {/* <Link to={`/ordflokkar/${sign.ordflokkur}`}> */}
+                                {sign.ordflokkur}
+                                {/* </Link> */}
                             </div>
                         </div>
                     )}
@@ -259,25 +259,25 @@ function SignPage() {
                         <div className="sign-info-item property">
                             <h3>Myndunarstaður</h3>
                             <div>
-                                <Link
+                                {/* <Link
                                     to={`/myndunarstadir/${sign.myndunarstadur}`}
-                                >
-                                    {sign.myndunarstadur}
-                                </Link>
+                                > */}
+                                {sign.myndunarstadur}
+                                {/* </Link> */}
                             </div>
                         </div>
                     )}
                     {sign.handform && (
                         <div className="sign-info-item property">
                             <h3>Handform</h3>
-                            <Link to={`/handform/${sign.handform}`}>
-                                {sign.handform}
+                            {/* <Link to={`/handform/${sign.handform}`}> */}
+                            {sign.handform}
 
-                                {/* <img
+                            {/* <img
                                     className="handform-img"
                                     src={`/itm-dev/assets/itm-images/handform/${sign.handform}.png`}
                                 /> */}
-                            </Link>
+                            {/* </Link> */}
                         </div>
                     )}
                     {sign.munnhreyfing && (
