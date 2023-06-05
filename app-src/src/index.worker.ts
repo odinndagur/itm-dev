@@ -396,6 +396,20 @@ async function run() {
         db.exec(`pragma user_version = ${currentVersion}`)
     }
 
+    async function listDefaultCollections() {
+        let filepathPrefix = `${import.meta.env.BASE_URL}default-collections/`
+        let collectionFilePath = `${filepathPrefix}dagarnir.txt`
+        let res = []
+        for await (let line of makeTextFileLineIterator(collectionFilePath)) {
+            // console.log(line)
+            res.push(line)
+        }
+        return res
+        // `${filepathPrefix}assets/sign_tables.txt`,
+
+        // for await (let line of makeTextFileLineIterator(filepath)) {
+    }
+
     registerPromiseWorker(async function (
         message: absurdSqlPromiseWorkerMessage
     ) {
@@ -407,6 +421,8 @@ async function run() {
                 break
             case 'export':
                 return db.export()
+            case 'listCollections':
+                return listDefaultCollections()
         }
     })
 }

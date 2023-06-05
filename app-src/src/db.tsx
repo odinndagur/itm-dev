@@ -22,6 +22,13 @@ const exportDB = async () => {
     return exportedDB
 }
 
+const listDefaultCollections = async () => {
+    const defaultCollections = await window.promiseWorker.postMessage({
+        type: 'listCollections',
+    })
+    return defaultCollections
+}
+
 //@ts-ignore
 const addSignToCollection = async ({ signId, collectionId }) => {
     exec(
@@ -818,7 +825,7 @@ const searchPagedCollectionByIdRefactor = async ({
         // totalPages = Math.ceil(totalSignCount / limit)
         // console.log({ offset, tempCount, totalSignCount, totalPages })
         stmt = `
-        select *,count(sign.sign_id) over() as sign_count,        levenshtein(sign.phrase,"${searchValue}") as levenshtein, sign.phrase as levenshtein_sign_phrase, "${searchValue}" as levenshtein_search_value from (
+        select *,count(sign.sign_id) over() as sign_count, levenshtein(sign.phrase,"${searchValue}") as levenshtein, sign.phrase as levenshtein_sign_phrase, "${searchValue}" as levenshtein_search_value from (
             ${selectClause}
             ${fromClause}
             ${likeWhereClause}
@@ -938,4 +945,5 @@ export {
     listHandforms,
     listSignDetails,
     exportDB,
+    listDefaultCollections,
 }

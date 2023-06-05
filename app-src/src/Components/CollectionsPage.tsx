@@ -265,13 +265,13 @@ export function CollectionsPage() {
                                                 justifyContent: 'center',
                                                 borderRadius: '10px',
                                             }}
-                                            onClick={() =>
-                                                document
-                                                    .getElementById(
+                                            onClick={() => {
+                                                const deleteCollectionModal =
+                                                    document.getElementById(
                                                         `delete-collection-${collection.id}-modal`
-                                                    )
-                                                    .showModal()
-                                            }
+                                                    ) as HTMLDialogElement
+                                                deleteCollectionModal!.showModal()
+                                            }}
                                         >
                                             <span
                                                 className="material-icons"

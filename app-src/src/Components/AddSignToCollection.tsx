@@ -18,46 +18,23 @@ export function AddSignToCollection({
     return (
         <div style={{ zIndex: zIndex ?? undefined }}>
             <div className="">
-                <Listbox value={'nett'}>
+                <Listbox>
                     <div className="">
                         <Listbox.Button
-                            className="button-17"
                             style={{
-                                // borderRadius: '10px',
-                                backgroundColor: 'var(--secondary-color)',
                                 maxWidth: '2rem',
-                            }}
-                            onClick={(ev) => {
-                                // ev.stopPropagation()
-                                // return null
                             }}
                         >
                             <span className="material-icons">{icon}</span>
                         </Listbox.Button>
-                        {/* <Transition
-                            leave="transition ease-in duration-100"
-                            leaveFrom="opacity-100"
-                            leaveTo="opacity-0"
-                        > */}
                         <Listbox.Options
                             style={{
                                 position: 'absolute',
                                 width: 'fit-content',
                                 transform: 'translateX(-100%)',
                                 zIndex: 9999,
-
-                                // flexDirection: 'column',
-                                // alignSelf: 'center',
-                                // padding: '0 1rem 0 0',
-                                // marginRight: '1rem',
-                                // maxHeight: '40vh',
-                                // overflowY: 'scroll',
-                                // right: 0,
-                                // backgroundColor: 'var(--background-color)',
-                                // backgroundColor: 'blue',
                                 cursor: 'pointer',
                             }}
-                            // className="absolute max-h-60 overflow-auto rounded-md bg-white divide-y"
                         >
                             {collections
                                 .filter((collection) => collection.id != 1)
@@ -66,10 +43,7 @@ export function AddSignToCollection({
                                         key={collection.id}
                                         style={{
                                             position: 'relative',
-                                            // backgroundColor: 'red',
                                             width: '100%',
-
-                                            // right: '50%',
                                             textAlign: 'center',
                                             backgroundColor:
                                                 'var(--background-color)',
@@ -80,7 +54,6 @@ export function AddSignToCollection({
                                                     ? '1px solid gray'
                                                     : undefined,
                                             padding: '0.8rem 0.8rem',
-                                            // borderRadius: '10px',
                                             outline:
                                                 '1px solid var(--main-text-color)',
                                             boxShadow: 'var(--card-box-shadow)',
@@ -94,69 +67,19 @@ export function AddSignToCollection({
                                             }).then((res) => {
                                                 if (res.status == 'OK') {
                                                     setIcon('check')
+                                                    // setTimeout(() => {
+                                                    //     setIcon('add')
+                                                    // }, 5000)
                                                 } else {
                                                     setIcon('error')
                                                 }
                                             })
                                         }}
                                     >
-                                        {({ selected }) => (
-                                            <>
-                                                <span
-                                                    onClick={() => {
-                                                        addSignToCollection({
-                                                            signId: id,
-                                                            collectionId:
-                                                                collection.id,
-                                                        })
-                                                        setIcon('check')
-                                                    }}
-                                                    className={`block truncate ${
-                                                        selected
-                                                            ? 'font-medium'
-                                                            : 'font-normal'
-                                                    }`}
-                                                    style={
-                                                        {
-                                                            // backgroundColor: 'red',
-                                                        }
-                                                    }
-                                                >
-                                                    {collection.name}
-                                                </span>
-                                            </>
-                                        )}
+                                        {collection.name}
                                     </Listbox.Option>
                                 ))}
-                            <Listbox.Option
-                                style={{
-                                    position: 'relative',
-                                    // backgroundColor: 'red',
-                                    width: '100%',
-
-                                    // right: '50%',
-                                    textAlign: 'center',
-                                    backgroundColor: 'var(--background-color)',
-
-                                    padding: '0.8rem 0.8rem',
-                                    outline: '1px solid var(--main-text-color)',
-                                    boxShadow: 'var(--card-box-shadow)',
-                                }}
-                                value={'lol'}
-                                // onClick={() => {
-                                //     setIcon('rotate_right')
-                                //     addSignToCollection({
-                                //         signId: id,
-                                //         collectionId: collection.id,
-                                //     }).then((res) => {
-                                //         if (res.status == 'OK') {
-                                //             setIcon('check')
-                                //         } else {
-                                //             setIcon('error')
-                                //         }
-                                //     })
-                                // }}
-                            >
+                            {/* <Listbox.Option value={'lol'}>
                                 {({ selected }) => (
                                     <>
                                         <span
@@ -172,9 +95,8 @@ export function AddSignToCollection({
                                         </span>
                                     </>
                                 )}
-                            </Listbox.Option>
+                            </Listbox.Option> */}
                         </Listbox.Options>
-                        {/* </Transition> */}
                     </div>
                 </Listbox>
             </div>
@@ -183,7 +105,7 @@ export function AddSignToCollection({
                 onClick={(ev) => {
                     const dialog = document.getElementById(
                         'new-collection-modal'
-                    )
+                    ) as HTMLDialogElement
                     if (ev.target == dialog) {
                         dialog.close()
                     }

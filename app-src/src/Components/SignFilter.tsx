@@ -140,10 +140,14 @@ export function SignFilter() {
                         padding: '0.5rem 1rem',
                         borderRadius: '10px',
                         height: '2rem',
+                        fontStyle: filtersDetailText && 'italic',
                     }}
-                    onClick={() =>
-                        document.getElementById('filter-modal')!.showModal()
-                    }
+                    onClick={() => {
+                        const filterModal = document.getElementById(
+                            'filter-modal'
+                        ) as HTMLDialogElement
+                        filterModal!.showModal()
+                    }}
                 >
                     Síur
                     {filtersDetailText && (
@@ -156,7 +160,9 @@ export function SignFilter() {
             </div>
             <dialog
                 onClick={(ev) => {
-                    const dialog = document.getElementById('filter-modal')
+                    const dialog = document.getElementById(
+                        'filter-modal'
+                    ) as HTMLDialogElement
                     if (ev.target == dialog) {
                         dialog.close()
                     }
