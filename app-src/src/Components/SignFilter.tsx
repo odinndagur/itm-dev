@@ -179,7 +179,7 @@ export function SignFilter() {
                     }}
                 >
                     <form method="dialog">
-                        <button className="button-17">
+                        <button className="">
                             <span className="material-icons">clear</span>
                         </button>
                     </form>

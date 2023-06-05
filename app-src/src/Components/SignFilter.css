@@ -16,11 +16,6 @@
     padding: 1rem;
 }
 
-#filter-modal button {
-    background-color: var(--background-color);
-    color: var(--main-text-color);
-}
-
 @media screen and (max-width: 600px) {
     .sign-filter-details {
         display: none;

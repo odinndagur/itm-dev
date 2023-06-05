@@ -9,9 +9,11 @@ import { Header } from './Header'
 import { FormEvent, useState } from 'react'
 import {
     createCollection,
+    createCollectionFromJson,
     deleteCollection,
     exportDB,
     getUserById,
+    listDefaultCollections,
     query,
 } from '../db'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -27,6 +29,11 @@ type UserGenerics = MakeGenerics<{
 }>
 
 export function CollectionsPage() {
+    const { data: defaultCollections } = useQuery({
+        queryFn: () => listDefaultCollections(),
+        queryKey: ['default-collections'],
+    })
+
     const [collectionsKey, setCollectionsKey] = useState(0)
     const navigate = useNavigate()
 
@@ -94,18 +101,20 @@ export function CollectionsPage() {
                     </h1>
                     <button
                         className="button-17"
-                        onClick={() =>
-                            document
-                                .getElementById('edit-user-modal')
-                                .showModal()
-                        }
+                        onClick={() => {
+                            const editUserModal = document.getElementById(
+                                'edit-user-modal'
+                            ) as HTMLDialogElement
+                            editUserModal.showModal()
+                        }}
                     >
                         Breyta
                     </button>
                     <dialog
                         onClick={(ev) => {
-                            const dialog =
-                                document.getElementById('edit-user-modal')
+                            const dialog = document.getElementById(
+                                'edit-user-modal'
+                            ) as HTMLDialogElement
                             if (ev.target === dialog) {
                                 dialog.close()
                             }
@@ -319,6 +328,75 @@ export function CollectionsPage() {
                                 /* <div className="card">{collection.name}</div> */
                             }
                         })}
+                </ul>
+                <hr />
+                <h2>Sjálfgefin táknasöfn</h2>
+                <ul style={{ padding: 0 }}>
+                    {defaultCollections?.map((collection, idx) => {
+                        return (
+                            <li
+                                key={collection.id}
+                                className=""
+                                style={{
+                                    display: 'flex',
+                                    padding: '1rem',
+                                    justifyContent: 'space-between',
+                                    // boxShadow: 'var(--card-box-shadow)',
+                                    borderBottom:
+                                        idx != defaultCollections.length - 1
+                                            ? '1px dotted gray'
+                                            : undefined,
+                                }}
+                            >
+                                <span
+                                    style={{
+                                        display: 'flex',
+                                        flexGrow: 1,
+                                        justifyContent: 'space-between',
+                                    }}
+                                >
+                                    <div>{collection.name}</div>
+                                    {/* <div>{collection[key]}</div> */}
+                                </span>
+
+                                <button
+                                    className="button-17"
+                                    style={{
+                                        display: 'flex',
+                                        alignContent: 'center',
+                                        justifyContent: 'center',
+                                        borderRadius: '10px',
+                                    }}
+                                    onClick={() => {
+                                        createCollectionFromJson(collection)
+                                        // const deleteCollectionModal =
+                                        //     document.getElementById(
+                                        //         `delete-collection-${collection.id}-modal`
+                                        //     ) as HTMLDialogElement
+                                        // deleteCollectionModal!.showModal()
+                                    }}
+                                >
+                                    <span
+                                        className="material-icons"
+                                        style={
+                                            {
+                                                // color: 'var(--accent-color)',
+                                            }
+                                        }
+                                    >
+                                        bookmark
+                                    </span>
+                                    <span
+                                        style={{
+                                            alignSelf: 'center',
+                                        }}
+                                    >
+                                        Vista
+                                    </span>
+                                </button>
+                            </li>
+                        )
+                    })}
                 </ul>
                 <form
                     style={{

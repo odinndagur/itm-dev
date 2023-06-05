@@ -397,14 +397,17 @@ async function run() {
     }
 
     async function listDefaultCollections() {
-        let filepathPrefix = `${import.meta.env.BASE_URL}default-collections/`
-        let collectionFilePath = `${filepathPrefix}dagarnir.txt`
-        let res = []
-        for await (let line of makeTextFileLineIterator(collectionFilePath)) {
-            // console.log(line)
-            res.push(line)
-        }
-        return res
+        let filepathPrefix = `${import.meta.env.BASE_URL}`
+        let collectionFilePath = `${filepathPrefix}default-collections.json`
+        const json_response = fetch(collectionFilePath).then((res) =>
+            res.json()
+        )
+        // let res = []
+        // for await (let line of makeTextFileLineIterator(collectionFilePath)) {
+        //     // console.log(line)
+        //     res.push(line)
+        // }
+        return json_response
         // `${filepathPrefix}assets/sign_tables.txt`,
 
         // for await (let line of makeTextFileLineIterator(filepath)) {

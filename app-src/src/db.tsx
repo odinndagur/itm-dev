@@ -29,6 +29,30 @@ const listDefaultCollections = async () => {
     return defaultCollections
 }
 
+const createCollectionFromJson = async (jsonCollection: {
+    name: string
+    signs: string[]
+}) => {
+    exec(
+        `INSERT INTO collection(name,user_id) VALUES("${jsonCollection.name}",3)`
+    )
+    jsonCollection.signs.forEach((sign) => {
+        exec(`INSERT INTO sign_collection(sign_id,collection_id)
+                SELECT sign.id,collection.id
+                FROM sign
+                LEFT JOIN collection
+                WHERE sign.phrase = "${sign}"
+                AND collection.name = "${jsonCollection.name}"
+                `)
+    })
+    const res = await query(`SELECT * FROM sign
+                            JOIN sign_collection ON sign.id = sign_collection.sign_id
+                            JOIN collection ON sign_collection.collection_id = collection.id
+                            WHERE collection.name = "${jsonCollection.name}"
+                            `)
+    console.log(res)
+}
+
 //@ts-ignore
 const addSignToCollection = async ({ signId, collectionId }) => {
     exec(
@@ -946,4 +970,5 @@ export {
     listSignDetails,
     exportDB,
     listDefaultCollections,
+    createCollectionFromJson,
 }

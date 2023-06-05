@@ -109,7 +109,6 @@ export function AppNavBar({ type }: { type: 'footer' | 'header' }) {
                             minBlockSize: '1.3rem',
                             color: 'var(--main-text-color)',
                         }}
-                        className="button-17"
                     >
                         {currentRouteName}
                     </Menu.Button>
